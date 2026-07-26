@@ -1,0 +1,53 @@
+name: Build Website
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build Website
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+    steps:
+      - name: Check Out Repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Set Up pnpm
+        uses: pnpm/action-setup@f40ffcd9367d9f12939873eb1018b921a783ffaa # v4
+        with:
+          version: 11
+
+      - name: Set Up Node
+        uses: actions/setup-node@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check Website
+        run: pnpm check
+
+      - name: Build Website
+        run: pnpm build
+
+      - name: Verify Installer
+        run: cmp install.sh dist/install.sh
+
+      - name: Deploy
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: silitics/actions/deploy-site@6f3994622687233d650ea8fb0f1b6a913b76e839
+        with:
+          domain: tascarrel.dev
+          source-dir: dist
+          s3-access-key: ${{ vars.SILITICS_SITES_ACCESS_KEY }}
+          s3-secret-key: ${{ secrets.SILITICS_SITES_SECRET_KEY }}

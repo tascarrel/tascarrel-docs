@@ -1,0 +1,48 @@
+---
+import { getCollection } from "astro:content";
+import { BaseLayout, Section } from "@silitics/astro-theme";
+import BlogPostList from "../../components/BlogPostList.astro";
+import BlogSidebar from "../../components/BlogSidebar.astro";
+import SiteFooter from "../../layouts/SiteFooter.astro";
+import { brand, headerActions, nav } from "../../site.ts";
+
+const posts = (await getCollection("blog"))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<BaseLayout
+  title="Blog"
+  description="Engineering articles about isolated development environments, coding agents, and the design of Tascarrel."
+  brand={brand}
+  nav={nav}
+  actions={headerActions}
+>
+  <Section background="hero" padding="compact">
+    <div
+      slot="decoration"
+      class="bg-grid-fade absolute inset-0"
+      aria-hidden="true"
+    >
+    </div>
+    <div class="relative mx-auto max-w-3xl text-center">
+      <h1 class="font-display text-4xl font-bold md:text-5xl">Blog</h1>
+      <p class="text-content-muted mt-4 text-lg">
+        Engineering deep-dives and project updates.
+      </p>
+    </div>
+  </Section>
+
+  <div
+    class="mx-auto flex w-full max-w-7xl flex-col gap-10 px-4 pt-8 pb-16 md:pb-24 lg:flex-row lg:px-6"
+  >
+    <aside
+      class="lg:sticky lg:top-20 lg:max-h-[calc(100dvh-6rem)] lg:w-60 lg:shrink-0 lg:self-start lg:overflow-y-auto"
+    >
+      <BlogSidebar currentSlug="" />
+    </aside>
+    <BlogPostList posts={posts} />
+  </div>
+
+  <SiteFooter slot="footer" />
+</BaseLayout>

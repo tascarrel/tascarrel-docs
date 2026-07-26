@@ -1,0 +1,66 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { Badge } from "@silitics/astro-theme";
+import { slugFromEntry, tagHref } from "../lib/blog.ts";
+
+interface Props {
+  posts: CollectionEntry<"blog">[];
+}
+
+const { posts } = Astro.props;
+---
+
+<ul class="flex max-w-3xl flex-1 flex-col gap-6">
+  {
+    posts.map((post) => (
+      <li>
+        <article class="card group relative p-6">
+          <div class="text-content-subtle font-mono text-xs tracking-wider uppercase">
+            <time datetime={post.data.date.toISOString()}>
+              {post.data.date.toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </time>
+          </div>
+          <h2 class="font-display mt-2 text-2xl font-semibold">
+            <a
+              href={`/blog/${slugFromEntry(post)}`}
+              class="text-content group-hover:text-primary stretched-link no-underline transition-colors"
+            >
+              {post.data.title}
+            </a>
+          </h2>
+          {post.data.description && (
+            <p class="text-content-muted mt-2 text-sm leading-relaxed">
+              {post.data.description}
+            </p>
+          )}
+          {post.data.tags && post.data.tags.length > 0 && (
+            <div class="mt-4 flex flex-wrap gap-2">
+              {post.data.tags.map((tag) => (
+                <a href={tagHref(tag)} class="relative z-[2] no-underline">
+                  <Badge>{tag}</Badge>
+                </a>
+              ))}
+            </div>
+          )}
+          <span class="text-primary mt-4 inline-flex text-sm font-medium">
+            Read Post →
+          </span>
+        </article>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .stretched-link::after {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: inherit;
+    content: "";
+  }
+</style>

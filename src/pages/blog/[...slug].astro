@@ -1,0 +1,37 @@
+---
+import { getCollection, render } from "astro:content";
+import { ArticleLayout } from "@silitics/astro-theme";
+import { DocsToc } from "@silitics/astro-docs";
+import BlogSidebar from "../../components/BlogSidebar.astro";
+import SiteFooter from "../../layouts/SiteFooter.astro";
+import { slugFromEntry } from "../../lib/blog.ts";
+import { brand, headerActions, nav } from "../../site.ts";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts
+    .filter((post) => !post.data.draft)
+    .map((post) => ({
+      params: { slug: slugFromEntry(post) },
+      props: { post },
+    }));
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+const slug = slugFromEntry(post);
+---
+
+<ArticleLayout
+  brand={brand}
+  nav={nav}
+  actions={headerActions}
+  frontmatter={post.data}
+  backHref="/blog"
+  backLabel="Back to Blog"
+>
+  <Content />
+  <BlogSidebar slot="sidebar" currentSlug={slug} />
+  <DocsToc slot="toc" headings={headings} />
+  <SiteFooter slot="footer" />
+</ArticleLayout>

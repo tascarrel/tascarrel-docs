@@ -1,0 +1,74 @@
+---
+import { getCollection } from "astro:content";
+import { BaseLayout, Section } from "@silitics/astro-theme";
+import BlogPostList from "../../../components/BlogPostList.astro";
+import BlogSidebar from "../../../components/BlogSidebar.astro";
+import SiteFooter from "../../../layouts/SiteFooter.astro";
+import { tagSlug } from "../../../lib/blog.ts";
+import { brand, headerActions, nav } from "../../../site.ts";
+
+export async function getStaticPaths() {
+  const posts = (await getCollection("blog")).filter(
+    (post) => !post.data.draft,
+  );
+  const tags = new Map<string, { label: string; posts: typeof posts }>();
+
+  for (const post of posts) {
+    for (const tag of post.data.tags ?? []) {
+      const slug = tagSlug(tag);
+      const group = tags.get(slug);
+      if (group) {
+        group.posts.push(post);
+      } else {
+        tags.set(slug, { label: tag, posts: [post] });
+      }
+    }
+  }
+
+  return Array.from(tags, ([tag, props]) => ({
+    params: { tag },
+    props,
+  }));
+}
+
+const { label, posts } = Astro.props;
+posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<BaseLayout
+  title={`Posts Tagged ${label}`}
+  description={`Tascarrel blog posts tagged ${label}.`}
+  brand={brand}
+  nav={nav}
+  actions={headerActions}
+>
+  <Section background="hero" padding="compact">
+    <div
+      slot="decoration"
+      class="bg-grid-fade absolute inset-0"
+      aria-hidden="true"
+    >
+    </div>
+    <div class="relative mx-auto max-w-3xl text-center">
+      <p class="text-content-subtle font-mono text-sm tracking-wider uppercase">
+        Blog Tag
+      </p>
+      <h1 class="font-display mt-3 text-4xl font-bold md:text-5xl">
+        {label}
+      </h1>
+    </div>
+  </Section>
+
+  <div
+    class="mx-auto flex w-full max-w-7xl flex-col gap-10 px-4 pt-8 pb-16 md:pb-24 lg:flex-row lg:px-6"
+  >
+    <aside
+      class="lg:sticky lg:top-20 lg:max-h-[calc(100dvh-6rem)] lg:w-60 lg:shrink-0 lg:self-start lg:overflow-y-auto"
+    >
+      <BlogSidebar currentSlug="" />
+    </aside>
+    <BlogPostList posts={posts} />
+  </div>
+
+  <SiteFooter slot="footer" />
+</BaseLayout>

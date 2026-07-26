@@ -29,7 +29,10 @@ export const brand: Brand = {
   plausible: { domain: "tascarrel.dev" },
 };
 
-export const nav: NavItem[] = [];
+export const nav: NavItem[] = [
+  { label: "Docs", href: "/docs" },
+  { label: "Blog", href: "/blog" },
+];
 
 export const headerActions: NavItem[] = [
   {
@@ -37,11 +40,6 @@ export const headerActions: NavItem[] = [
     href: "https://github.com/tascarrel/tascarrel",
     external: true,
     icon: faGithub,
-  },
-  {
-    label: "Docs",
-    href: "/docs",
-    primary: true,
   },
 ];
 
@@ -64,6 +62,10 @@ export const footerColumns: FooterColumn[] = [
   {
     title: "Project",
     links: [
+      {
+        label: "Blog",
+        href: "/blog",
+      },
       {
         label: "GitHub",
         href: "https://github.com/tascarrel/tascarrel",

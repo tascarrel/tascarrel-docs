@@ -1,0 +1,173 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="1200"
+  height="630"
+  viewBox="0 0 1200 630"
+  role="img"
+  aria-labelledby="title description"
+>
+  <title id="title">Tascarrel social card</title>
+  <desc id="description">
+    Tascarrel workbench with the headline Let Agents Work Safely Without
+    Babysitting and four product highlights.
+  </desc>
+
+  <defs>
+    <radialGradient id="background-glow" cx="27%" cy="45%" r="75%">
+      <stop offset="0" stop-color="#0a1824" />
+      <stop offset="0.52" stop-color="#050d15" />
+      <stop offset="1" stop-color="#02070c" />
+    </radialGradient>
+    <linearGradient id="cyan-text" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0ea5e9" />
+      <stop offset="1" stop-color="#7dd3fc" />
+    </linearGradient>
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path
+        d="M 64 0 L 0 0 0 64"
+        fill="none"
+        stroke="#153044"
+        stroke-width="1"
+        opacity="0.52"
+      />
+    </pattern>
+    <filter id="frame-glow" x="-10%" y="-15%" width="120%" height="130%">
+      <feGaussianBlur stdDeviation="10" result="blur" />
+      <feFlood flood-color="#0ea5e9" flood-opacity="0.12" />
+      <feComposite in2="blur" operator="in" />
+      <feMerge>
+        <feMergeNode />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <style>
+      .display {
+        font-family:
+          "IBM Plex Sans Variable", "IBM Plex Sans", "Inter", "Segoe UI",
+          "Helvetica Neue", Arial, sans-serif;
+      }
+    </style>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#background-glow)" />
+  <rect width="1200" height="630" fill="url(#grid)" opacity="0.78" />
+  <circle
+    cx="252"
+    cy="312"
+    r="270"
+    fill="none"
+    stroke="#10293a"
+    stroke-width="1"
+    opacity="0.45"
+  />
+  <circle
+    cx="252"
+    cy="312"
+    r="205"
+    fill="none"
+    stroke="#10293a"
+    stroke-width="1"
+    opacity="0.28"
+  />
+
+  <g transform="translate(38 84) scale(1.6315789474)">
+    <path
+      d="M19.007 0 38.015 10.981v21.961L19.007 43.923 0 32.942V10.981L19.007 0Z"
+      fill="#0ea5e9"
+    />
+    <path
+      d="M19.007 0 38.015 10.981v21.961L19.007 43.923 0 32.942V10.981L19.007 0Zm0 4.62L4 13.289v17.344l15.007 8.67 15.008-8.67V13.289L19.007 4.62Z"
+      fill="#7dd3fc"
+    />
+    <path
+      d="m26.685 16.024-2.172 2.172a2.05 2.05 0 0 1-2.899 0l-2.172-2.172a2.05 2.05 0 0 1 0-2.9l2.172-2.172a2.05 2.05 0 0 1 2.899 0l2.172 2.172a2.052 2.052 0 0 1 0 2.9ZM19.873 31.545l-.795-2.967a2.05 2.05 0 0 1 1.449-2.511l2.967-.795a2.052 2.052 0 0 1 2.511 1.45l.795 2.967a2.05 2.05 0 0 1-1.449 2.511l-2.967.795a2.05 2.05 0 0 1-2.511-1.45ZM9.961 18.1l2.967.795a2.05 2.05 0 0 1 1.45 2.511l-.795 2.967a2.05 2.05 0 0 1-2.511 1.45l-2.967-.795a2.05 2.05 0 0 1-1.45-2.511l.795-2.967a2.05 2.05 0 0 1 2.511-1.45Z"
+      fill="#fff"
+      stroke="#fff"
+      stroke-width=".5"
+    />
+  </g>
+
+  <g class="display">
+    <text x="114" y="131" fill="#f8fafc" font-size="36" font-weight="700">
+      Tascarrel
+    </text>
+
+    <g transform="translate(0 -10)">
+      <g font-size="46" font-weight="700" letter-spacing="-0.6">
+        <text x="38" y="229" fill="#f8fafc">Let Agents</text>
+        <text x="38" y="279" fill="#f8fafc">Work Safely</text>
+        <text x="38" y="329" fill="url(#cyan-text)">Without</text>
+        <text x="38" y="379" fill="url(#cyan-text)">Babysitting</text>
+      </g>
+
+      <g fill="#e2e8f0" font-size="18" font-weight="400">
+        <g transform="translate(0 419)">
+          <path
+            d="M40 0h15"
+            fill="none"
+            stroke="#0ea5e9"
+            stroke-width="3"
+            stroke-linecap="round"
+          />
+          <text x="72" y="6">Bring Your Subscriptions</text>
+        </g>
+        <g transform="translate(0 459)">
+          <path
+            d="M40 0h15"
+            fill="none"
+            stroke="#0ea5e9"
+            stroke-width="3"
+            stroke-linecap="round"
+          />
+          <text x="72" y="6">Layered VM and Task Isolation</text>
+        </g>
+        <g transform="translate(0 499)">
+          <path
+            d="M40 0h15"
+            fill="none"
+            stroke="#0ea5e9"
+            stroke-width="3"
+            stroke-linecap="round"
+          />
+          <text x="72" y="6">Controlled Network Access</text>
+        </g>
+        <g transform="translate(0 539)">
+          <path
+            d="M40 0h15"
+            fill="none"
+            stroke="#0ea5e9"
+            stroke-width="3"
+            stroke-linecap="round"
+          />
+          <text x="72" y="6">Host-Injected Credentials</text>
+        </g>
+      </g>
+    </g>
+  </g>
+
+  <g filter="url(#frame-glow)">
+    <rect
+      x="400"
+      y="95"
+      width="780"
+      height="440"
+      rx="3"
+      fill="#02070c"
+      stroke="#0ea5e9"
+      stroke-width="1"
+    />
+  </g>
+
+  <!-- render:screenshot:start -->
+  <image
+    x="401"
+    y="96"
+    width="778"
+    height="438"
+    preserveAspectRatio="xMidYMid meet"
+    href="tascarrel-workbench.png"
+    xlink:href="tascarrel-workbench.png"
+  />
+  <!-- render:screenshot:end -->
+</svg>

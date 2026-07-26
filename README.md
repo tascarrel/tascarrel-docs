@@ -27,6 +27,19 @@ The static site is generated in `dist/`. The build also renders the repository
 root `install.sh` as `dist/install.sh`, which makes it available at
 <https://tascarrel.dev/install.sh> when the site is deployed.
 
+## Social Card
+
+Edit `public/img/tascarrel-social-card.svg` to change the social card. The SVG
+keeps the logo and copy as editable vectors and references
+`public/img/tascarrel-workbench.png` for the product screenshot.
+
+```sh
+pnpm render:social-card
+```
+
+This regenerates the PNG used by Open Graph metadata. Development and
+production builds run the renderer automatically.
+
 ## Content Layout
 
 - `src/pages/index.astro` contains the landing page.

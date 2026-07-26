@@ -17,7 +17,12 @@ export const brand: Brand = {
   href: "/",
   tagline:
     "An agentic development workbench where agents work safely without babysitting.",
-  ogImage: "/img/logo.svg",
+  ogImage: {
+    src: "/img/tascarrel-social-card.png",
+    width: 1200,
+    height: 630,
+    alt: "Tascarrel workbench with the headline “Let Agents Work Safely Without Babysitting”",
+  },
   locale: "en",
   themeColor: { dark: "#0b0d12", light: "#fafafa" },
   titleTemplate: "%s — Tascarrel",

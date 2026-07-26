@@ -4,11 +4,14 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "predev": "pnpm render:social-card",
     "dev": "astro dev --host 0.0.0.0 --port 4325",
+    "prebuild": "pnpm render:social-card",
     "build": "astro build",
     "preview": "astro preview --host 127.0.0.1 --port 4325",
     "check": "astro check",
-    "fmt": "prettier --write \"**/*.{ts,md,mdx,js,json,css,astro}\""
+    "fmt": "prettier --write \"**/*.{ts,md,mdx,js,mjs,json,css,astro}\"",
+    "render:social-card": "node scripts/render-social-card.mjs"
   },
   "dependencies": {
     "@astrojs/check": "0.9.9",

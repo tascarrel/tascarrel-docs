@@ -20,6 +20,42 @@ const delegationCapabilities = [
   },
 ];
 
+const multiRepositoryChanges = [
+  {
+    path: "product/web",
+    summary: "Account settings and audit timeline",
+    files: "3 files changed",
+  },
+  {
+    path: "services/api",
+    summary: "Audit event contract and persistence",
+    files: "5 files changed",
+  },
+  {
+    path: "platform/deploy",
+    summary: "Service permissions and rollout config",
+    files: "2 files changed",
+  },
+];
+
+const gitMediationSteps = [
+  {
+    scope: "Agent Task",
+    title: "Prepare the Change",
+    body: "Edit, test, and commit with normal Git tooling inside the isolated task.",
+  },
+  {
+    scope: "Tascarrel Host",
+    title: "Evaluate the Proposal",
+    body: "Turn the push into exact ref updates and apply branch, tag, and approval policy.",
+  },
+  {
+    scope: "Git Upstream",
+    title: "Publish What Is Allowed",
+    body: "Use host-owned credentials and object leases to publish the approved updates.",
+  },
+];
+
 const oversightSteps = [
   {
     title: "Let Agents Keep Working",
@@ -35,7 +71,7 @@ const oversightSteps = [
   },
   {
     title: "Publish Deliberately",
-    body: "Choose which branches agents may publish automatically and which require your approval. Review proposed Git updates before they reach the upstream repository.",
+    body: "Every push passes through Tascarrel's host-mediated transport. Choose which branches may publish automatically and which require your approval.",
   },
 ];
 
@@ -60,7 +96,7 @@ const existingSetupCapabilities = [
 ---
 
 <BaseLayout
-  title="Tascarrel: Let Agents Work Safely Without Babysitting"
+  title="Tascarrel: Real Isolation for Coding Agents, on Your Hardware"
   description="Tascarrel isolates declaratively defined development contexts in VMs, so coding agents can work safely with broad permissions without command-by-command approvals."
   brand={brand}
   nav={nav}
@@ -85,8 +121,8 @@ const existingSetupCapabilities = [
       <h1
         class="font-display mx-auto mt-5 max-w-4xl text-balance text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl"
       >
-        Let Agents Work Safely{" "}
-        <span class="text-gradient">Without Babysitting</span>
+        Real Isolation for Coding Agents,{" "}
+        <span class="text-gradient">on Your Hardware</span>
       </h1>
       <figure class="product-shot mt-10">
         <div class="product-shot-frame">
@@ -105,8 +141,10 @@ const existingSetupCapabilities = [
         aria-label="Core capabilities"
       >
         <li>Bring Your Subscriptions</li>
+        <li>Multi-Repository Workspaces</li>
         <li>Layered VM and Task Isolation</li>
         <li>Controlled Network Access</li>
+        <li>Host-Mediated Git</li>
         <li>Host-Injected Credentials</li>
       </ul>
       <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
@@ -168,6 +206,131 @@ const existingSetupCapabilities = [
   </Section>
 
   <Section background="none" padding="default">
+    <div
+      class="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20"
+    >
+      <div>
+        <p class="text-primary text-xs font-semibold tracking-widest uppercase">
+          Multi-Repository Workspaces
+        </p>
+        <h2
+          class="font-display mt-3 text-balance text-3xl font-bold md:text-4xl"
+        >
+          One Task Can Cross the Whole Product
+        </h2>
+        <p class="text-content-muted mt-5 text-lg leading-relaxed">
+          Give an agent every related repository in one development context. It
+          can trace contracts across codebases, make coordinated changes, and
+          run the complete system without losing the thread between them.
+        </p>
+        <p class="text-content-subtle mt-5 leading-relaxed">
+          Each repository keeps its own Git history and publication policy, so
+          you can inspect and publish the result repository by repository.
+        </p>
+        <div class="mt-8">
+          <Button variant="secondary" href="/docs/guides/configure-a-workspace">
+            Configure a Workspace
+          </Button>
+        </div>
+      </div>
+
+      <figure
+        class="multi-repository-proof"
+        aria-labelledby="multi-repository-proof-title"
+      >
+        <figcaption class="multi-repository-proof-header">
+          <span>
+            <span class="multi-repository-proof-label">Example Task</span>
+            <strong id="multi-repository-proof-title">
+              Add an account audit trail
+            </strong>
+          </span>
+          <span class="multi-repository-proof-status">Ready for Review</span>
+        </figcaption>
+        <div class="multi-repository-proof-body">
+          <p class="multi-repository-proof-overline">
+            Coordinated Changes · 3 Repositories
+          </p>
+          <ol class="multi-repository-change-list">
+            {
+              multiRepositoryChanges.map((repository) => (
+                <li>
+                  <span class="multi-repository-path">
+                    /workspace/{repository.path}
+                  </span>
+                  <span class="multi-repository-summary">
+                    {repository.summary}
+                  </span>
+                  <span class="multi-repository-files">{repository.files}</span>
+                </li>
+              ))
+            }
+          </ol>
+          <div class="multi-repository-proof-result">
+            <span>One isolated task</span>
+            <strong>10 changed files across the product</strong>
+          </div>
+        </div>
+      </figure>
+    </div>
+  </Section>
+
+  <Section background="section" padding="default">
+    <div class="mx-auto max-w-6xl">
+      <div class="mx-auto max-w-3xl text-center">
+        <p class="text-primary text-xs font-semibold tracking-widest uppercase">
+          Host-Mediated Git
+        </p>
+        <h2
+          class="font-display mt-3 text-balance text-3xl font-bold md:text-4xl"
+        >
+          Let Agents Commit. Keep Publish Authority.
+        </h2>
+        <p class="text-content-muted mt-4 text-lg leading-relaxed">
+          The Tascarrel host is the only component that contacts upstream Git.
+          Agents work with familiar Git commands, while fetches and pushes cross
+          a mediated boundary that keeps credentials and publication decisions
+          outside the workspace VM.
+        </p>
+      </div>
+
+      <ol class="git-mediation-flow mt-12">
+        {
+          gitMediationSteps.map((step, index) => (
+            <li>
+              <p class="git-mediation-step">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                {step.scope}
+              </p>
+              <h3 class="font-display mt-3 text-lg font-semibold">
+                {step.title}
+              </h3>
+              <p class="text-content-muted mt-2 text-sm leading-relaxed">
+                {step.body}
+              </p>
+            </li>
+          ))
+        }
+      </ol>
+
+      <div class="git-mediation-assurance">
+        <p>
+          <span>Credential Boundary</span>
+          <strong>
+            Upstream Git credentials never enter the workspace VM.
+          </strong>
+        </p>
+        <Button
+          variant="secondary"
+          href="/blog/how-tascarrel-isolates-coding-agents#proxied-git-operations"
+        >
+          Read How Git Mediation Works
+        </Button>
+      </div>
+    </div>
+  </Section>
+
+  <Section background="none" padding="default">
     <div class="mx-auto max-w-3xl text-center">
       <p class="text-primary text-xs font-semibold tracking-widest uppercase">
         Oversight When It Matters
@@ -181,23 +344,18 @@ const existingSetupCapabilities = [
         needed to review what they produced.
       </p>
     </div>
-    <ol class="oversight-flow mx-auto mt-12 max-w-6xl">
+    <ul class="oversight-flow mx-auto mt-12 max-w-6xl">
       {
-        oversightSteps.map((step, index) => (
+        oversightSteps.map((step) => (
           <li>
-            <p class="text-primary font-mono text-xs font-semibold">
-              {String(index + 1).padStart(2, "0")}
-            </p>
-            <h3 class="font-display mt-3 text-lg font-semibold">
-              {step.title}
-            </h3>
+            <h3 class="font-display text-lg font-semibold">{step.title}</h3>
             <p class="text-content-muted mt-2 text-sm leading-relaxed">
               {step.body}
             </p>
           </li>
         ))
       }
-    </ol>
+    </ul>
   </Section>
 
   <Section background="section" padding="default">
@@ -278,28 +436,16 @@ const existingSetupCapabilities = [
   }
 
   .hero-capabilities li {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
     color: var(--theme-content-muted);
     font-size: 0.875rem;
     font-weight: 600;
     letter-spacing: 0.01em;
+    text-align: center;
   }
 
   .hero-capabilities {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    column-gap: 0.75rem;
-    row-gap: 0.5rem;
-  }
-
-  .hero-capabilities li + li::before {
-    color: var(--theme-primary);
-    font-size: 1rem;
-    content: "·";
+    display: grid;
+    gap: 0.65rem 1.5rem;
   }
 
   .product-shot-frame {
@@ -307,6 +453,188 @@ const existingSetupCapabilities = [
     border: 1px solid oklch(from var(--theme-primary) l c h / 0.5);
     border-radius: var(--radius-lg);
     box-shadow: 0 0 40px var(--theme-glow-primary);
+  }
+
+  .multi-repository-proof {
+    overflow: hidden;
+    border: 1px solid var(--theme-divider);
+    border-radius: var(--radius-lg);
+    background: var(--theme-surface-0);
+    box-shadow: 0 24px 70px
+      color-mix(in oklab, var(--theme-glow-primary) 48%, transparent);
+  }
+
+  .multi-repository-proof-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    border-bottom: 1px solid var(--theme-divider);
+    padding: 1.25rem 1.5rem;
+  }
+
+  .multi-repository-proof-header > span:first-child {
+    display: grid;
+    gap: 0.35rem;
+    min-width: 0;
+  }
+
+  .multi-repository-proof-header strong {
+    font-family: var(--font-display);
+    font-size: 1rem;
+  }
+
+  .multi-repository-proof-label,
+  .multi-repository-proof-overline {
+    color: var(--theme-content-subtle);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .multi-repository-proof-status {
+    flex: none;
+    border: 1px solid
+      color-mix(in oklab, var(--theme-primary) 45%, var(--theme-divider));
+    border-radius: 999px;
+    background: color-mix(
+      in oklab,
+      var(--theme-primary) 10%,
+      var(--theme-surface-0)
+    );
+    padding: 0.3rem 0.55rem;
+    color: var(--theme-primary);
+    font-size: 0.6875rem;
+    font-weight: 700;
+  }
+
+  .multi-repository-proof-body {
+    padding: 1.5rem;
+  }
+
+  .multi-repository-change-list {
+    display: grid;
+    margin-top: 0.75rem;
+  }
+
+  .multi-repository-change-list li {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.35rem 1rem;
+    border-top: 1px solid var(--theme-divider);
+    padding: 1rem 0;
+  }
+
+  .multi-repository-path {
+    min-width: 0;
+    overflow: hidden;
+    color: var(--theme-content);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .multi-repository-summary {
+    color: var(--theme-content-muted);
+    font-size: 0.8125rem;
+  }
+
+  .multi-repository-files {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+    color: var(--theme-content-subtle);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+  }
+
+  .multi-repository-proof-result {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border: 1px solid
+      color-mix(in oklab, var(--theme-primary) 32%, var(--theme-divider));
+    border-radius: calc(var(--radius-lg) * 0.65);
+    background: color-mix(
+      in oklab,
+      var(--theme-primary) 7%,
+      var(--theme-surface-0)
+    );
+    padding: 0.9rem 1rem;
+  }
+
+  .multi-repository-proof-result span {
+    color: var(--theme-content-subtle);
+    font-size: 0.75rem;
+  }
+
+  .multi-repository-proof-result strong {
+    color: var(--theme-content);
+    font-size: 0.8125rem;
+    text-align: right;
+  }
+
+  .git-mediation-flow {
+    display: grid;
+    border: 1px solid var(--theme-divider);
+    border-radius: var(--radius-lg);
+    background: var(--theme-surface-0);
+  }
+
+  .git-mediation-flow li {
+    padding: 1.5rem;
+  }
+
+  .git-mediation-flow li + li {
+    border-top: 1px solid var(--theme-divider);
+  }
+
+  .git-mediation-step {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    color: var(--theme-primary);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .git-mediation-step span {
+    color: var(--theme-content-subtle);
+  }
+
+  .git-mediation-assurance {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-top: 1.5rem;
+    border-left: 2px solid var(--theme-primary);
+    padding: 0.25rem 0 0.25rem 1rem;
+  }
+
+  .git-mediation-assurance p {
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .git-mediation-assurance span {
+    color: var(--theme-content-subtle);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .git-mediation-assurance strong {
+    color: var(--theme-content);
+    font-size: 0.875rem;
   }
 
   .oversight-flow {
@@ -343,9 +671,47 @@ const existingSetupCapabilities = [
       row-gap: 0.25rem;
       line-height: 1.35;
     }
+
+    .multi-repository-proof-header,
+    .multi-repository-proof-result {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .multi-repository-change-list li {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .multi-repository-files {
+      grid-column: 1;
+      grid-row: auto;
+      margin-top: 0.2rem;
+    }
+
+    .multi-repository-proof-result strong {
+      text-align: left;
+    }
+
+    .git-mediation-assurance {
+      align-items: flex-start;
+      flex-direction: column;
+    }
   }
 
   @media (min-width: 768px) {
+    .hero-capabilities {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .git-mediation-flow {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .git-mediation-flow li + li {
+      border-top: 0;
+      border-left: 1px solid var(--theme-divider);
+    }
+
     .oversight-flow {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -356,6 +722,10 @@ const existingSetupCapabilities = [
   }
 
   @media (min-width: 1024px) {
+    .hero-capabilities {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
     .oversight-flow {
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }

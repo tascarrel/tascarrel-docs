@@ -9,8 +9,8 @@
 >
   <title id="title">Tascarrel social card</title>
   <desc id="description">
-    Tascarrel workbench with the headline Let Agents Work Safely Without
-    Babysitting and four product highlights.
+    Tascarrel workbench with the headline Real Isolation for Coding Agents, on
+    Your Hardware and four product highlights.
   </desc>
 
   <defs>
@@ -94,11 +94,11 @@
     </text>
 
     <g transform="translate(0 -10)">
-      <g font-size="46" font-weight="700" letter-spacing="-0.6">
-        <text x="38" y="229" fill="#f8fafc">Let Agents</text>
-        <text x="38" y="279" fill="#f8fafc">Work Safely</text>
-        <text x="38" y="329" fill="url(#cyan-text)">Without</text>
-        <text x="38" y="379" fill="url(#cyan-text)">Babysitting</text>
+      <g font-size="42" font-weight="700" letter-spacing="-0.6">
+        <text x="38" y="229" fill="#f8fafc">Real Isolation</text>
+        <text x="38" y="279" fill="#f8fafc">for Coding Agents,</text>
+        <text x="38" y="329" fill="url(#cyan-text)">on Your</text>
+        <text x="38" y="379" fill="url(#cyan-text)">Hardware</text>
       </g>
 
       <g fill="#e2e8f0" font-size="18" font-weight="400">

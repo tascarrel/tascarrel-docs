@@ -273,11 +273,6 @@ const existingSetupCapabilities = [
 </BaseLayout>
 
 <style>
-  .product-shot {
-    position: relative;
-    isolation: isolate;
-  }
-
   .hero-badge {
     justify-content: center;
   }
@@ -307,27 +302,11 @@ const existingSetupCapabilities = [
     content: "·";
   }
 
-  .product-shot::before {
-    position: absolute;
-    z-index: -1;
-    inset: 8% 4% 2%;
-    border-radius: 2rem;
-    background: color-mix(in srgb, var(--theme-primary) 24%, transparent);
-    filter: blur(4rem);
-    content: "";
-  }
-
   .product-shot-frame {
     overflow: hidden;
-    border: 1px solid
-      color-mix(in srgb, var(--theme-primary) 45%, var(--theme-divider));
-    border-radius: 0.85rem;
-    background: black;
-    box-shadow:
-      0 2rem 5rem -2.5rem
-        color-mix(in srgb, var(--theme-primary) 55%, transparent),
-      0 1.5rem 3rem -2rem rgb(0 0 0 / 80%),
-      inset 0 1px rgb(255 255 255 / 10%);
+    border: 1px solid oklch(from var(--theme-primary) l c h / 0.5);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 0 40px var(--theme-glow-primary);
   }
 
   .oversight-flow {

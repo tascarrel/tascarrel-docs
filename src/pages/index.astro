@@ -1,0 +1,303 @@
+---
+import { BaseLayout, Button, Section } from "@silitics/astro-theme";
+import SiteFooter from "../layouts/SiteFooter.astro";
+import { brand, headerActions, nav } from "../site.ts";
+
+const benefits = [
+  {
+    label: "Clean Environments",
+    title: "Start every task from a known state",
+    body: "Pods begin with the workspace’s projects, tools, and configuration while keeping their own writable filesystem, processes, and network namespace.",
+  },
+  {
+    label: "Safe Autonomy",
+    title: "Constrain the environment, not every command",
+    body: "The workspace VM contains agent tools and processes, so agents can use broad permissions without stopping for command-by-command approvals.",
+  },
+  {
+    label: "Existing Subscriptions",
+    title: "Bring the subscriptions you already use",
+    body: "Sign in to Codex with ChatGPT or connect Claude Code with a Claude setup token. Tasci can instead use an OpenAI-compatible endpoint.",
+  },
+];
+
+const controls = [
+  {
+    title: "Use secretless HTTP authentication",
+    body: "Keep request credentials on the host and add them only to requests for approved destinations, or opt into explicit environment interpolation.",
+  },
+  {
+    title: "Network access stays visible",
+    body: "Control outbound destinations and expose only selected host services or pod ports.",
+  },
+  {
+    title: "Real workloads still fit",
+    body: "Enable managed Docker, rootless Podman, Nix, nested virtualization, shared caches, or declared USB devices per workspace.",
+  },
+];
+---
+
+<BaseLayout
+  title="Tascarrel: Let Agents Work Safely Without Babysitting"
+  description="Tascarrel isolates declaratively defined development contexts in VMs, so coding agents can work safely with broad permissions without command-by-command approvals."
+  brand={brand}
+  nav={nav}
+  actions={headerActions}
+>
+  <Section background="hero" padding="hero">
+    <div
+      slot="decoration"
+      class="bg-grid-fade absolute inset-0"
+      aria-hidden="true"
+    >
+    </div>
+    <div class="relative mx-auto max-w-4xl text-center">
+      <div class="badge badge-primary">Agentic Development Workbench</div>
+      <h1
+        class="font-display mt-5 text-balance text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl"
+      >
+        Let Agents Work Safely{" "}
+        <span class="text-gradient">Without Babysitting</span>
+      </h1>
+      <p
+        class="text-content mx-auto mt-6 max-w-2xl text-lg leading-relaxed md:text-xl"
+      >
+        Define each development context—repositories, tools, resources, and
+        access policies. Tascarrel isolates it in a workspace VM, so agents can
+        use broad permissions inside disposable task pods without stopping for
+        command-by-command approvals.
+      </p>
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-3">
+        <Button href="/docs/getting-started/installation">
+          Install Tascarrel
+        </Button>
+        <Button variant="secondary" href="/docs">Read the Documentation</Button>
+      </div>
+    </div>
+  </Section>
+
+  <Section background="section" padding="default">
+    <div class="mx-auto max-w-2xl text-center">
+      <p class="text-primary text-xs font-semibold tracking-widest uppercase">
+        The Isolation Model
+      </p>
+      <h2 class="font-display mt-3 text-3xl font-bold md:text-4xl">
+        Isolation Makes Autonomy Practical
+      </h2>
+      <p class="text-content-muted mt-4 text-lg">
+        Each development context gets a VM safety boundary; lightweight pods
+        make clean, parallel agent tasks practical without a VM per prompt.
+      </p>
+    </div>
+
+    <div
+      class="architecture-flow mx-auto mt-12 max-w-6xl"
+      aria-label="Tascarrel isolation architecture"
+    >
+      <div class="architecture-step">
+        <p class="architecture-label">Your Machine</p>
+        <h3>Tascarrel Host</h3>
+        <p>
+          Owns repository credentials, secret providers, and the local control
+          plane.
+        </p>
+      </div>
+      <p class="architecture-connector">starts</p>
+      <div class="architecture-step">
+        <p class="architecture-label">Persistent Context</p>
+        <h3>Workspace VM</h3>
+        <p>
+          Isolates the development context from your host and other workspaces.
+        </p>
+      </div>
+      <p class="architecture-connector">creates</p>
+      <div class="architecture-step">
+        <p class="architecture-label">One Task</p>
+        <h3>Disposable Pod</h3>
+        <p>
+          Runs one agent task with separate writable files, processes, and
+          networking.
+        </p>
+      </div>
+    </div>
+
+    <p class="text-content-subtle mx-auto mt-8 max-w-3xl text-center text-sm">
+      The workspace VM is the main safety boundary between agent activity, your
+      host, and other workspaces. Pods provide lightweight task isolation inside
+      a VM, not security boundaries from other pods in that workspace.
+    </p>
+  </Section>
+
+  <Section background="none" padding="default">
+    <div class="mx-auto max-w-2xl text-center">
+      <p class="text-primary text-xs font-semibold tracking-widest uppercase">
+        Built for the Development Loop
+      </p>
+      <h2 class="font-display mt-3 text-3xl font-bold md:text-4xl">
+        Move From Prompt to Reviewed Change
+      </h2>
+      <p class="text-content-muted mt-4 text-lg">
+        Start agents from the web UI, then return when work needs your
+        attention.
+      </p>
+    </div>
+    <div class="mx-auto mt-12 grid max-w-6xl gap-6 md:grid-cols-3">
+      {
+        benefits.map((benefit) => (
+          <div class="card flex flex-col gap-4 p-6">
+            <p class="text-primary text-xs font-semibold tracking-wide uppercase">
+              {benefit.label}
+            </p>
+            <h3 class="font-display text-xl font-semibold">{benefit.title}</h3>
+            <p class="text-content-muted text-sm leading-relaxed">
+              {benefit.body}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section background="section" padding="default">
+    <div
+      class="mx-auto grid max-w-6xl items-start gap-12 lg:grid-cols-[1fr_1.2fr]"
+    >
+      <div>
+        <p class="text-primary text-xs font-semibold tracking-widest uppercase">
+          Host-Mediated Access
+        </p>
+        <h2 class="font-display mt-3 text-3xl font-bold md:text-4xl">
+          Cross the Boundary Deliberately
+        </h2>
+        <p class="text-content-muted mt-5 text-lg leading-relaxed">
+          Safety also depends on controlling what can cross an isolated
+          workspace boundary. Tascarrel makes access to your machine and network
+          explicit and configurable.
+        </p>
+        <div class="mt-8">
+          <Button
+            variant="secondary"
+            href="/docs/getting-started/isolation-model"
+          >
+            Read the Isolation Model
+          </Button>
+        </div>
+      </div>
+      <div class="divide-divider border-divider divide-y border-y">
+        {
+          controls.map((control) => (
+            <div class="py-6 first:pt-0 last:pb-0">
+              <h3 class="font-display text-lg font-semibold">
+                {control.title}
+              </h3>
+              <p class="text-content-muted mt-2 leading-relaxed">
+                {control.body}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </Section>
+
+  <Section background="cta" padding="default">
+    <div class="mx-auto max-w-3xl text-center">
+      <p class="text-primary text-xs font-semibold tracking-widest uppercase">
+        Apple Silicon macOS · x86-64 and AArch64 Linux
+      </p>
+      <h2 class="font-display mt-3 text-3xl font-bold md:text-4xl">
+        Install Tascarrel on Your Machine
+      </h2>
+      <p class="text-content-muted mt-4 text-lg">
+        Install the latest release, then start the app or persistent daemon.
+      </p>
+      <pre
+        class="install-command mx-auto mt-8 max-w-2xl text-left"><code>curl --proto '=https' --tlsv1.2 -fsSL \
+  https://tascarrel.dev/install.sh | sh</code></pre>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <Button href="/docs/getting-started/installation">
+          Installation Guide
+        </Button>
+        <Button
+          variant="secondary"
+          href="https://github.com/tascarrel/tascarrel"
+        >
+          View on GitHub
+        </Button>
+      </div>
+      <p class="text-content-subtle mx-auto mt-8 max-w-xl text-sm">
+        <strong>Tascarrel is still experimental.</strong> Do not entrust it with important
+        or confidential data. Use it only with data you can afford to lose or leak.
+      </p>
+    </div>
+  </Section>
+
+  <SiteFooter slot="footer" />
+</BaseLayout>
+
+<style>
+  .architecture-flow {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(
+        0,
+        1fr
+      );
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .architecture-step {
+    border-top: 2px solid var(--theme-primary);
+    padding: 1.5rem 0;
+  }
+
+  .architecture-step h3 {
+    margin-top: 0.5rem;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .architecture-step > p:last-child {
+    margin-top: 0.75rem;
+    color: var(--theme-content-muted);
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  .architecture-label,
+  .architecture-connector {
+    color: var(--theme-content-subtle);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .architecture-connector {
+    align-self: center;
+  }
+
+  .install-command {
+    overflow-x: auto;
+    border: 1px solid var(--theme-divider);
+    border-radius: 0.65rem;
+    background: var(--theme-surface-0);
+    padding: 1rem 1.25rem;
+    color: var(--theme-content);
+    font-size: 0.875rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 767px) {
+    .architecture-flow {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .architecture-connector {
+      padding: 0.25rem 0 1rem;
+    }
+  }
+</style>

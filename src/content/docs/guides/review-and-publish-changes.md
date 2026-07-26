@@ -1,0 +1,70 @@
+---
+order: 5
+description: Inspect repository changes and publish approved refs through host-mediated Git.
+---
+
+# Review and Publish Changes
+
+Tascarrel keeps upstream Git credentials and shared object caches on the host.
+Configured repositories appear at their declared paths below `/workspace`:
+
+```toml
+[repos."product/api"]
+source = "git@github.com:example/api.git"
+```
+
+## Review the Pod
+
+The **Changes** view shows modified, staged, deleted, and untracked files, along
+with supported text diffs. It also reports commits ahead of or behind the local
+tracking ref; displaying that comparison does not fetch from the network.
+
+Run focused checks in a terminal and review the actual diff rather than relying
+only on an agent summary.
+
+## Set Publication Policy
+
+Git pushes require approval by default. Configure ordered rules when some refs
+need different treatment:
+
+```toml
+[git]
+default-policy = "require-approval"
+
+[[git.branches]]
+pattern = "main"
+policy = "deny"
+
+[[git.branches]]
+pattern = "automation/**"
+policy = "allow"
+
+[[git.tags]]
+pattern = "**"
+policy = "require-approval"
+```
+
+Policies are `allow`, `deny`, or `require-approval`. Patterns match short
+branch or tag names. A single `*` stays within one slash-delimited component;
+`**` crosses components. A repository can replace the workspace policy with
+its own rules.
+
+## Publish the Ref
+
+Run a normal push from a configured checkout:
+
+```console
+git push origin HEAD
+```
+
+The remote transport carries the proposal through the workspace VM to the
+host. An allowed push publishes immediately, a denied push fails, and a push
+requiring approval waits for a decision in **Workspace → Repositories**.
+
+The approval shows exact old and new object IDs. Approve, reject, or postpone
+it after matching the refs to the commits you reviewed. Publication retains the
+old values as leases, so a concurrent upstream change fails closed. Multi-ref
+updates remain atomic.
+
+Ref deletion is not supported. Arbitrary remotes do not gain access to
+host-owned credentials.

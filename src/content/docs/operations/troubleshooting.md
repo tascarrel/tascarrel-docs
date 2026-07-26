@@ -1,0 +1,68 @@
+---
+order: 3
+description: Resolve common installation, VM, network, image, agent, and editor failures.
+---
+
+# Troubleshoot Tascarrel
+
+Start with the smallest check that identifies the failing layer.
+
+## Tascarrel Does Not Start
+
+Run:
+
+```console
+tascarrel doctor
+tascarrel daemon status
+tascarrel daemon logs
+```
+
+On Linux, confirm that the user can access `/dev/kvm`. On macOS, confirm that
+the installed QEMU supports the Hypervisor Framework. If `tascarrel app` reports
+an occupied runtime, stop the installed daemon first.
+
+## A Workspace VM Does Not Start
+
+Inspect daemon logs for QEMU or disk errors. Recheck configured memory and disk
+values, especially after moving configuration between different hosts.
+Configuration validation errors must be corrected before restart.
+
+After a guest startup or runtime-service failure, Tascarrel briefly keeps QEMU
+running so remaining guest diagnostics can reach the daemon log before the VM
+stops.
+
+## An Image Build Fails
+
+Open the Images view and find the first failing Dockerfile, setup step, or setup
+hook. Setup is synchronous, so Tascarrel keeps the previously published image
+and seed when preparation fails.
+
+## A Pod Is Ready but a Tool Is Missing
+
+Check the pod's pinned image generation. An existing pod does not receive a
+newly built image. Create a new pod after the build completes.
+
+A pod can report ready before its managed Docker daemon becomes available.
+Inspect the supervised Docker process before assuming the socket is broken.
+
+## A Network Request Is Denied
+
+Check **DNS Requests** and **TCP Flows**. Local destinations are blocked unless
+`allow-local = true`, even with the default allow action. Hostname policy
+applies only where Tascarrel can inspect HTTP or HTTPS.
+
+## An Agent Cannot Start
+
+Open **Workspace → Settings → Harnesses** and verify authentication. Then inspect
+the agent's supervised process output. Model availability and authentication
+errors can originate from the harness provider rather than Tascarrel.
+
+For Tasci, also check **Settings → Tasci**, the selected endpoint and model, its
+secret reference, and the workspace network policy. Tasci requires an
+OpenAI-compatible Chat Completions endpoint.
+
+## The Web Editor or a Preview Does Not Open
+
+Inspect the code-server or application process, confirm the pod port, and check
+that the route still targets the current pod. Previews and the Code view depend
+on the host service remaining available.

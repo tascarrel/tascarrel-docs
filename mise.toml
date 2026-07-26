@@ -1,0 +1,27 @@
+[tools]
+node = "latest"
+pnpm = "11"
+
+[hooks]
+postinstall = "pnpm install"
+
+[tasks.dev]
+description = "Run the development server."
+run = """
+if command -v envctl >/dev/null 2>&1; then
+  envctl ports publish 4325 --protocol http --label "tascarrel-docs dev"
+fi
+pnpm exec astro dev --host 0.0.0.0 --port 4325
+"""
+
+[tasks.build]
+description = "Build the static site into dist/."
+run = "pnpm build"
+
+[tasks.check]
+description = "Run Astro type and content validation."
+run = "pnpm check"
+
+[tasks.format]
+description = "Format the repository."
+run = "pnpm fmt"

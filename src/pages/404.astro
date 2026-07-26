@@ -1,0 +1,40 @@
+---
+import { BaseLayout, Button, Section } from "@silitics/astro-theme";
+import SiteFooter from "../layouts/SiteFooter.astro";
+import { brand, headerActions, nav } from "../site.ts";
+---
+
+<BaseLayout
+  title="Page Not Found"
+  description="The page you were looking for does not exist."
+  brand={brand}
+  nav={nav}
+  actions={headerActions}
+  noindex
+>
+  <Section background="hero" padding="hero">
+    <div
+      slot="decoration"
+      class="bg-grid-fade absolute inset-0"
+      aria-hidden="true"
+    >
+    </div>
+    <div class="relative mx-auto max-w-2xl text-center">
+      <p class="text-content-subtle font-mono text-sm tracking-wider uppercase">
+        404
+      </p>
+      <h1 class="font-display mt-3 text-4xl font-bold md:text-5xl">
+        Page Not Found
+      </h1>
+      <p class="text-content-muted mx-auto mt-4 max-w-xl text-lg">
+        The page you were looking for moved or never existed.
+      </p>
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <Button href="/">Back to Tascarrel</Button>
+        <Button variant="secondary" href="/docs">Read the Documentation</Button>
+      </div>
+    </div>
+  </Section>
+
+  <SiteFooter slot="footer" />
+</BaseLayout>

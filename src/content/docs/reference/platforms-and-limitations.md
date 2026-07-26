@@ -1,0 +1,47 @@
+---
+order: 4
+description: Check supported hosts and current product limitations.
+---
+
+# Platform Support
+
+Tascarrel is experimental software. The initial release supports:
+
+- Apple Silicon macOS with QEMU's Hypervisor Framework.
+- x86-64 Linux with KVM.
+- AArch64 Linux with KVM.
+
+Intel macOS, 32-bit systems, and hosts without the required virtualization
+accelerator are unsupported. USB forwarding is Linux-host-only.
+
+## Isolation and Availability
+
+One QEMU VM separates each workspace from the host and other workspaces. Pods
+inside a workspace share the guest kernel and are not mutual security
+boundaries. Tascarrel focuses on containment, not availability: hostile code
+can exhaust resources or make its own workspace unusable.
+
+## Network Limits
+
+- Local and private destinations are blocked unless explicitly enabled.
+- Arbitrary external UDP is unavailable except for captured DNS.
+- External IPv6 TCP and UDP are not implemented.
+- HTTP policy and secret injection support HTTP/1.1, including upgrades, but
+  not HTTP/2, QUIC, or `CONNECT`.
+- Nix builds currently perform egress as the workspace VM daemon, so network
+  events are not attributed to the requesting pod.
+
+## Workflow Limits
+
+- Git ref deletion is not supported.
+- Archived chats cannot currently be restored through the interface.
+- Queued prompts do not survive an agent-engine restart.
+- Tasci cannot resume a model conversation after its harness process stops and
+  does not yet support steering or atomic interrupt-and-send.
+- Existing pods do not receive a rebuilt image, refreshed seed, or updated
+  workspace agent inputs.
+- USB attachments last only for the current VM runtime.
+- Incompatible persistent state has no automatic migration or rollback layer.
+
+Check the project release notes before depending on any limitation or interface
+remaining unchanged.

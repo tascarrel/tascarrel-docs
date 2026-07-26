@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tascarrel.dev/sitemap-index.xml

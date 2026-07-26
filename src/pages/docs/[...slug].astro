@@ -1,0 +1,47 @@
+---
+import { getCollection, render } from "astro:content";
+import { DocsLayout, titleize } from "@silitics/astro-docs";
+import SiteFooter from "../../layouts/SiteFooter.astro";
+import { brand, getDocsConfig, headerActions, nav } from "../../site.ts";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("docs");
+  return entries
+    .filter((entry) => !entry.data.draft)
+    .map((entry) => {
+      const pageSlug = entry.id === "index" ? "" : entry.id;
+      return {
+        params: { slug: pageSlug || undefined },
+        props: { entry, pageSlug },
+      };
+    });
+}
+
+const { entry, pageSlug } = Astro.props;
+const docsConfig = await getDocsConfig();
+const { Content, headings } = await render(entry);
+const explicitTitle = entry.data.title;
+const title =
+  explicitTitle ??
+  headings[0]?.text ??
+  (pageSlug ? titleize(pageSlug.split("/").at(-1)!) : "Documentation");
+const editExt = entry.filePath?.endsWith(".mdx") ? "mdx" : "md";
+---
+
+<DocsLayout
+  brand={brand}
+  nav={nav}
+  actions={headerActions}
+  config={docsConfig}
+  versionSlug="latest"
+  pageSlug={pageSlug}
+  title={title}
+  description={entry.data.description}
+  headings={headings}
+  basePath="/docs/"
+  bodyTitle={!!explicitTitle}
+  editExt={editExt}
+>
+  <Content />
+  <SiteFooter slot="footer" />
+</DocsLayout>

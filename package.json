@@ -20,6 +20,7 @@
     "@silitics/astro-theme": "^0.6.0",
     "@tailwindcss/vite": "^4.1.4",
     "astro": "^6.3.1",
+    "sharp": "^0.34.5",
     "tailwindcss": "^4.1.4",
     "typescript": "^5.8.3"
   },

@@ -1,5 +1,7 @@
 ---
+import { Image } from "astro:assets";
 import { BaseLayout, Button, Section } from "@silitics/astro-theme";
+import tascarrelWorkbench from "../assets/tascarrel-workbench.png";
 import SiteFooter from "../layouts/SiteFooter.astro";
 import { brand, headerActions, nav } from "../site.ts";
 
@@ -88,11 +90,9 @@ const existingSetupCapabilities = [
       </h1>
       <figure class="product-shot mt-10">
         <div class="product-shot-frame">
-          <img
-            src="/img/tascarrel-workbench.png"
+          <Image
+            src={tascarrelWorkbench}
             alt="Tascarrel showing workspace and task navigation, a Codex agent session, and a live application preview side by side"
-            width="3837"
-            height="2160"
             loading="eager"
             decoding="async"
             fetchpriority="high"

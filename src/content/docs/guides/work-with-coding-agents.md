@@ -24,7 +24,7 @@ per-action confirmation. The workspace VM and its declared access policies
 limit what an agent can reach on the host and network.
 
 That safety boundary makes autonomy practical. Agents keep working without
-permission prompts while the web UI tracks their activity and surfaces
+permission prompts while the UI tracks their activity and surfaces
 decisions, failures, and completed turns. You give up some moment-to-moment
 control, but you can leave agents working and return when attention is needed
 to review changes before publishing.

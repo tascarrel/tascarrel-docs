@@ -12,7 +12,7 @@ virtual machine isolated from your host and other workspaces. Within that
 [safety boundary](/docs/getting-started/isolation-model), agents can use broad
 permissions in disposable task pods instead of stopping for command-by-command
 approvals. Each pod has its own writable files, processes, and network namespace,
-so agents working in parallel do not trip over one another. The web UI keeps you
+so agents working in parallel do not trip over one another. The UI keeps you
 on top of their sessions, shows what needs your attention, and lets you review
 changes before publishing them through Git.
 
@@ -30,7 +30,7 @@ Start with the practical path:
 
 1. [Install Tascarrel](/docs/getting-started/installation) prepares the host.
 2. [Run Your First Task](/docs/getting-started/quickstart) covers the complete
-   workflow and web UI.
+   workflow and UI.
 3. [Choose the Right Boundary](/docs/getting-started/choose-the-right-boundary)
    explains when to create a workspace or a pod.
 

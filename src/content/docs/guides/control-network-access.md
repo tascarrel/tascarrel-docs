@@ -91,7 +91,7 @@ podctl http list
 podctl http unpublish 3000
 ```
 
-The web UI provides the same actions under **HTTP Routes**. An internal route,
+The UI provides the same actions under **HTTP Routes**. An internal route,
 created with `--internal`, stays out of normal pod tabs.
 
 One route can be marked as the trusted Tascarrel frontend. Its exact origin then

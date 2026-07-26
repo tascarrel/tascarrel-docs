@@ -49,7 +49,7 @@ nix build .#tascarrel
 ```
 
 The complete distribution embeds the immutable NixOS store image, Linux kernel,
-initrd, guest services, pod tools, the bundled Tasci agent, and compiled web UI
+initrd, guest services, pod tools, the bundled Tasci agent, and compiled UI
 in the native host executable. `nix build .#tascarrel-cli` builds only the host
 CLI and daemon.
 

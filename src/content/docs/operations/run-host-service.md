@@ -5,7 +5,7 @@ description: Run Tascarrel as an installed service or foreground app and inspect
 
 # Run the Host Service
 
-Tascarrel's host service owns workspace VMs and serves the web-based UI. Run it
+Tascarrel's host service owns workspace VMs and serves the UI. Run it
 as an installed per-user daemon or as a foreground app.
 
 ## Use the Installed Service
@@ -15,7 +15,7 @@ tascarrel daemon start
 tascarrel daemon status
 ```
 
-The web UI is available at <http://127.0.0.1:8272> by default. The installed
+The UI is available at <http://127.0.0.1:8272> by default. The installed
 service uses a systemd user unit on Linux or a LaunchAgent on macOS.
 
 ```console
@@ -43,7 +43,7 @@ tascarrel daemon logs --follow
 ```
 
 Run `tascarrel doctor` when the service cannot start or a VM fails before the
-web UI becomes available. Use `tascarrel workspace info <name>` for the current
+UI becomes available. Use `tascarrel workspace info <name>` for the current
 VM state or startup failure.
 
 The CLI normally discovers the service through Tascarrel's control socket. Use

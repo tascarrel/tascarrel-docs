@@ -7,7 +7,7 @@ description: Look up the host CLI, environment overrides, and retained host data
 
 The host CLI covers installation, diagnostics, service management, and
 workspace VM lifecycle. Pod creation and development work happen in the
-web-based UI.
+UI.
 
 ## Global Option
 
@@ -22,7 +22,7 @@ supplied as `TASCARREL_SOCKET`.
 
 | Command                   | Behavior                                                                                        |
 | ------------------------- | ----------------------------------------------------------------------------------------------- |
-| `tascarrel app`           | Run a foreground daemon and open the web UI in a dedicated browser window                       |
+| `tascarrel app`           | Run a foreground daemon and open the UI in a dedicated browser window                           |
 | `tascarrel install`       | Check dependencies, install the executable and guest payload, and register the per-user service |
 | `tascarrel doctor`        | Check host architecture, QEMU, acceleration, Git, service management, and optional SOPS         |
 | `tascarrel doctor --json` | Emit the diagnostic report as JSON                                                              |
@@ -64,7 +64,7 @@ version.
 | `TASCARREL_GIT`            | Select the host Git executable                                                      |
 | `TASCARREL_SOPS`           | Select the host SOPS executable                                                     |
 | `TASCARREL_APP_BROWSER`    | Select the browser executable used by app mode                                      |
-| `TASCARREL_WEB_ADDRESS`    | Override the web UI address                                                         |
+| `TASCARREL_WEB_ADDRESS`    | Override the UI address                                                             |
 | `TASCARREL_HOST_PORT_HOST` | Select the outer host for configured workspace host-port mappings                   |
 
 A binary run without the installer defaults `TASCARREL_HOME` to `.tascarrel` in

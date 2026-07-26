@@ -6,7 +6,7 @@ description: Prepare a supported host, install Tascarrel, and verify its depende
 # Install Tascarrel
 
 Tascarrel is distributed as one architecture-specific executable containing the
-CLI, host daemon, web-based UI, bundled Tasci agent, Linux guest system, kernel,
+CLI, host daemon, UI, bundled Tasci agent, Linux guest system, kernel,
 and initrd.
 
 ## Supported Hosts

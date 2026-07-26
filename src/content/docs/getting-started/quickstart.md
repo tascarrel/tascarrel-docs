@@ -15,14 +15,14 @@ Start the installed per-user service:
 tascarrel daemon start
 ```
 
-Open the web UI at <http://127.0.0.1:8272>. If it does not load, check:
+Open the UI at <http://127.0.0.1:8272>. If it does not load, check:
 
 ```console
 tascarrel daemon status
 tascarrel daemon logs
 ```
 
-Alternatively, stop the daemon and run `tascarrel app` to open the web UI in a
+Alternatively, stop the daemon and run `tascarrel app` to open the UI in a
 dedicated browser window for a foreground session.
 
 ## Create and Start a Workspace

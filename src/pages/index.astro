@@ -3,36 +3,56 @@ import { BaseLayout, Button, Section } from "@silitics/astro-theme";
 import SiteFooter from "../layouts/SiteFooter.astro";
 import { brand, headerActions, nav } from "../site.ts";
 
-const benefits = [
+const delegationCapabilities = [
   {
-    label: "Clean Environments",
-    title: "Start every task from a known state",
-    body: "Pods begin with the workspace’s projects, tools, and configuration while keeping their own writable filesystem, processes, and network namespace.",
+    title: "Run Tasks in Parallel",
+    body: "Each task starts clean and keeps its own changes, processes, and network activity, so agents do not trip over one another.",
   },
   {
-    label: "Safe Autonomy",
-    title: "Constrain the environment, not every command",
-    body: "The workspace VM contains agent tools and processes, so agents can use broad permissions without stopping for command-by-command approvals.",
+    title: "Set the Boundary Once",
+    body: "Choose what a development context can reach, then let agents work inside that boundary without command-by-command approvals.",
   },
   {
-    label: "Existing Subscriptions",
-    title: "Bring the subscriptions you already use",
-    body: "Sign in to Codex with ChatGPT or connect Claude Code with a Claude setup token. Tasci can instead use an OpenAI-compatible endpoint.",
+    title: "Limit the Reach of Mistakes",
+    body: "A dedicated workspace VM separates agent activity from your machine and other development contexts.",
   },
 ];
 
-const controls = [
+const oversightSteps = [
   {
-    title: "Use secretless HTTP authentication",
-    body: "Keep request credentials on the host and add them only to requests for approved destinations, or opt into explicit environment interpolation.",
+    title: "Let Agents Keep Working",
+    body: "Run several agent tasks at once and switch between them as work progresses. Queue follow-up prompts for delivery when an agent finishes its current turn.",
   },
   {
-    title: "Network access stays visible",
-    body: "Control outbound destinations and expose only selected host services or pod ports.",
+    title: "See What Needs You",
+    body: "Workspace and task badges show where an agent needs a decision, where a turn failed, and which completed work you have not reviewed.",
   },
   {
-    title: "Real workloads still fit",
-    body: "Enable managed Docker, rootless Podman, Nix, nested virtualization, shared caches, or declared USB devices per workspace.",
+    title: "Inspect the Result",
+    body: "Inspect running applications alongside the agent session. Browse the resulting files, diffs, and commits before deciding whether the work is ready.",
+  },
+  {
+    title: "Publish Deliberately",
+    body: "Choose which branches agents may publish automatically and which require your approval. Review proposed Git updates before they reach the upstream repository.",
+  },
+];
+
+const existingSetupCapabilities = [
+  {
+    title: "Bring Your Agent Subscriptions",
+    body: "Sign in to Codex with ChatGPT, connect Claude Code with a setup token, or use Tasci with an OpenAI-compatible endpoint.",
+  },
+  {
+    title: "Declare the Development Context",
+    body: "Define repositories, tools, resources, and access policies once, then reuse that setup for every fresh task.",
+  },
+  {
+    title: "Run Real Development Workloads",
+    body: "Use containers, Nix, nested virtualization, shared caches, or declared USB devices when the project requires them.",
+  },
+  {
+    title: "Use Host-Injected Credentials",
+    body: "Tascarrel handles Git authentication and injects eligible HTTP credentials on the host. Neither type of credential enters the workspace VM or task environment.",
   },
 ];
 ---
@@ -44,154 +64,170 @@ const controls = [
   nav={nav}
   actions={headerActions}
 >
-  <Section background="hero" padding="hero">
+  <Section
+    background="hero"
+    padding="none"
+    class="overflow-hidden pt-20 pb-20 md:pt-28 md:pb-24 lg:pt-32 lg:pb-28"
+  >
     <div
       slot="decoration"
       class="bg-grid-fade absolute inset-0"
       aria-hidden="true"
     >
     </div>
-    <div class="relative mx-auto max-w-4xl text-center">
-      <div class="badge badge-primary">Agentic Development Workbench</div>
+    <div class="relative mx-auto max-w-7xl text-center">
+      <div class="badge hero-badge">
+        <span class="text-primary">Open-Source</span>
+        <span>Agentic Development Workbench</span>
+      </div>
       <h1
-        class="font-display mt-5 text-balance text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl"
+        class="font-display mx-auto mt-5 max-w-4xl text-balance text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl"
       >
         Let Agents Work Safely{" "}
         <span class="text-gradient">Without Babysitting</span>
       </h1>
-      <p
-        class="text-content mx-auto mt-6 max-w-2xl text-lg leading-relaxed md:text-xl"
+      <figure class="product-shot mt-10">
+        <div class="product-shot-frame">
+          <img
+            src="/img/tascarrel-workbench.png"
+            alt="Tascarrel showing workspace and task navigation, a Codex agent session, and a live application preview side by side"
+            width="3837"
+            height="2160"
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
+            class="block h-auto w-full"
+          />
+        </div>
+      </figure>
+      <ul
+        class="hero-capabilities mx-auto mt-7 max-w-5xl"
+        aria-label="Core capabilities"
       >
-        Define each development context—repositories, tools, resources, and
-        access policies. Tascarrel isolates it in a workspace VM, so agents can
-        use broad permissions inside disposable task pods without stopping for
-        command-by-command approvals.
-      </p>
-      <div class="mt-10 flex flex-wrap items-center justify-center gap-3">
+        <li>Bring Your Subscriptions</li>
+        <li>Layered VM and Task Isolation</li>
+        <li>Controlled Network Access</li>
+        <li>Host-Injected Credentials</li>
+      </ul>
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
         <Button href="/docs/getting-started/installation">
           Install Tascarrel
         </Button>
-        <Button variant="secondary" href="/docs">Read the Documentation</Button>
+        <Button variant="secondary" href="/docs">Read the Docs</Button>
       </div>
     </div>
   </Section>
 
   <Section background="section" padding="default">
-    <div class="mx-auto max-w-2xl text-center">
-      <p class="text-primary text-xs font-semibold tracking-widest uppercase">
-        The Isolation Model
-      </p>
-      <h2 class="font-display mt-3 text-3xl font-bold md:text-4xl">
-        Isolation Makes Autonomy Practical
-      </h2>
-      <p class="text-content-muted mt-4 text-lg">
-        Each development context gets a VM safety boundary; lightweight pods
-        make clean, parallel agent tasks practical without a VM per prompt.
-      </p>
-    </div>
-
     <div
-      class="architecture-flow mx-auto mt-12 max-w-6xl"
-      aria-label="Tascarrel isolation architecture"
-    >
-      <div class="architecture-step">
-        <p class="architecture-label">Your Machine</p>
-        <h3>Tascarrel Host</h3>
-        <p>
-          Owns repository credentials, secret providers, and the local control
-          plane.
-        </p>
-      </div>
-      <p class="architecture-connector">starts</p>
-      <div class="architecture-step">
-        <p class="architecture-label">Persistent Context</p>
-        <h3>Workspace VM</h3>
-        <p>
-          Isolates the development context from your host and other workspaces.
-        </p>
-      </div>
-      <p class="architecture-connector">creates</p>
-      <div class="architecture-step">
-        <p class="architecture-label">One Task</p>
-        <h3>Disposable Pod</h3>
-        <p>
-          Runs one agent task with separate writable files, processes, and
-          networking.
-        </p>
-      </div>
-    </div>
-
-    <p class="text-content-subtle mx-auto mt-8 max-w-3xl text-center text-sm">
-      The workspace VM is the main safety boundary between agent activity, your
-      host, and other workspaces. Pods provide lightweight task isolation inside
-      a VM, not security boundaries from other pods in that workspace.
-    </p>
-  </Section>
-
-  <Section background="none" padding="default">
-    <div class="mx-auto max-w-2xl text-center">
-      <p class="text-primary text-xs font-semibold tracking-widest uppercase">
-        Built for the Development Loop
-      </p>
-      <h2 class="font-display mt-3 text-3xl font-bold md:text-4xl">
-        Move From Prompt to Reviewed Change
-      </h2>
-      <p class="text-content-muted mt-4 text-lg">
-        Start agents from the web UI, then return when work needs your
-        attention.
-      </p>
-    </div>
-    <div class="mx-auto mt-12 grid max-w-6xl gap-6 md:grid-cols-3">
-      {
-        benefits.map((benefit) => (
-          <div class="card flex flex-col gap-4 p-6">
-            <p class="text-primary text-xs font-semibold tracking-wide uppercase">
-              {benefit.label}
-            </p>
-            <h3 class="font-display text-xl font-semibold">{benefit.title}</h3>
-            <p class="text-content-muted text-sm leading-relaxed">
-              {benefit.body}
-            </p>
-          </div>
-        ))
-      }
-    </div>
-  </Section>
-
-  <Section background="section" padding="default">
-    <div
-      class="mx-auto grid max-w-6xl items-start gap-12 lg:grid-cols-[1fr_1.2fr]"
+      class="mx-auto grid max-w-6xl items-start gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-20"
     >
       <div>
         <p class="text-primary text-xs font-semibold tracking-widest uppercase">
-          Host-Mediated Access
+          Autonomy through Isolation
         </p>
-        <h2 class="font-display mt-3 text-3xl font-bold md:text-4xl">
-          Cross the Boundary Deliberately
+        <h2
+          class="font-display mt-3 text-balance text-3xl font-bold md:text-4xl"
+        >
+          Delegate More Work with Confidence
         </h2>
         <p class="text-content-muted mt-5 text-lg leading-relaxed">
-          Safety also depends on controlling what can cross an isolated
-          workspace boundary. Tascarrel makes access to your machine and network
-          explicit and configurable.
+          Tascarrel makes unattended agent work practical by isolating each
+          development context in its own VM. Agents get broad permissions inside
+          the boundary you define, while clean task environments make parallel
+          work predictable.
+        </p>
+        <p class="text-content-subtle mt-5 text-sm leading-relaxed">
+          The workspace VM is the safety boundary. Task environments provide
+          lightweight separation within it.
         </p>
         <div class="mt-8">
           <Button
             variant="secondary"
             href="/docs/getting-started/isolation-model"
           >
-            Read the Isolation Model
+            Understand the Isolation Model
           </Button>
         </div>
       </div>
       <div class="divide-divider border-divider divide-y border-y">
         {
-          controls.map((control) => (
-            <div class="py-6 first:pt-0 last:pb-0">
+          delegationCapabilities.map((capability) => (
+            <div class="py-6">
               <h3 class="font-display text-lg font-semibold">
-                {control.title}
+                {capability.title}
               </h3>
               <p class="text-content-muted mt-2 leading-relaxed">
-                {control.body}
+                {capability.body}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </Section>
+
+  <Section background="none" padding="default">
+    <div class="mx-auto max-w-3xl text-center">
+      <p class="text-primary text-xs font-semibold tracking-widest uppercase">
+        Oversight When It Matters
+      </p>
+      <h2 class="font-display mt-3 text-balance text-3xl font-bold md:text-4xl">
+        Stay on Top without Staying Glued to It
+      </h2>
+      <p class="text-content-muted mt-4 text-lg leading-relaxed">
+        The UI keeps active work, results, and publication decisions in one
+        place. You can move on while agents work, then return with the context
+        needed to review what they produced.
+      </p>
+    </div>
+    <ol class="oversight-flow mx-auto mt-12 max-w-6xl">
+      {
+        oversightSteps.map((step, index) => (
+          <li>
+            <p class="text-primary font-mono text-xs font-semibold">
+              {String(index + 1).padStart(2, "0")}
+            </p>
+            <h3 class="font-display mt-3 text-lg font-semibold">
+              {step.title}
+            </h3>
+            <p class="text-content-muted mt-2 text-sm leading-relaxed">
+              {step.body}
+            </p>
+          </li>
+        ))
+      }
+    </ol>
+  </Section>
+
+  <Section background="section" padding="default">
+    <div
+      class="mx-auto grid max-w-6xl items-start gap-12 lg:grid-cols-[1fr_1.25fr] lg:gap-20"
+    >
+      <div>
+        <p class="text-primary text-xs font-semibold tracking-widest uppercase">
+          Your Existing Development Setup
+        </p>
+        <h2
+          class="font-display mt-3 text-balance text-3xl font-bold md:text-4xl"
+        >
+          Add the Workbench, Not Another Stack
+        </h2>
+        <p class="text-content-muted mt-5 text-lg leading-relaxed">
+          Keep the agents, subscriptions, repositories, and development tools
+          you already use. Tascarrel gives them a reusable context and one place
+          to work together.
+        </p>
+      </div>
+      <div class="value-grid">
+        {
+          existingSetupCapabilities.map((capability) => (
+            <div>
+              <h3 class="font-display text-lg font-semibold">
+                {capability.title}
+              </h3>
+              <p class="text-content-muted mt-2 leading-relaxed">
+                {capability.body}
               </p>
             </div>
           ))
@@ -209,7 +245,8 @@ const controls = [
         Install Tascarrel on Your Machine
       </h2>
       <p class="text-content-muted mt-4 text-lg">
-        Install the latest release, then start the app or persistent daemon.
+        Create your first isolated workspace and give an agent a task in
+        minutes.
       </p>
       <pre
         class="install-command mx-auto mt-8 max-w-2xl text-left"><code>curl --proto '=https' --tlsv1.2 -fsSL \
@@ -236,47 +273,77 @@ const controls = [
 </BaseLayout>
 
 <style>
-  .architecture-flow {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(
-        0,
-        1fr
-      );
-    align-items: stretch;
-    gap: 1rem;
+  .product-shot {
+    position: relative;
+    isolation: isolate;
   }
 
-  .architecture-step {
-    border-top: 2px solid var(--theme-primary);
-    padding: 1.5rem 0;
+  .hero-badge {
+    justify-content: center;
   }
 
-  .architecture-step h3 {
-    margin-top: 0.5rem;
-    font-family: var(--font-display);
-    font-size: 1.25rem;
-    font-weight: 600;
-  }
-
-  .architecture-step > p:last-child {
-    margin-top: 0.75rem;
+  .hero-capabilities li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
     color: var(--theme-content-muted);
     font-size: 0.875rem;
-    line-height: 1.6;
-  }
-
-  .architecture-label,
-  .architecture-connector {
-    color: var(--theme-content-subtle);
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
     font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    letter-spacing: 0.01em;
   }
 
-  .architecture-connector {
-    align-self: center;
+  .hero-capabilities {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    column-gap: 0.75rem;
+    row-gap: 0.5rem;
+  }
+
+  .hero-capabilities li + li::before {
+    color: var(--theme-primary);
+    font-size: 1rem;
+    content: "·";
+  }
+
+  .product-shot::before {
+    position: absolute;
+    z-index: -1;
+    inset: 8% 4% 2%;
+    border-radius: 2rem;
+    background: color-mix(in srgb, var(--theme-primary) 24%, transparent);
+    filter: blur(4rem);
+    content: "";
+  }
+
+  .product-shot-frame {
+    overflow: hidden;
+    border: 1px solid
+      color-mix(in srgb, var(--theme-primary) 45%, var(--theme-divider));
+    border-radius: 0.85rem;
+    background: black;
+    box-shadow:
+      0 2rem 5rem -2.5rem
+        color-mix(in srgb, var(--theme-primary) 55%, transparent),
+      0 1.5rem 3rem -2rem rgb(0 0 0 / 80%),
+      inset 0 1px rgb(255 255 255 / 10%);
+  }
+
+  .oversight-flow {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .oversight-flow li,
+  .value-grid > div {
+    border-top: 1px solid var(--theme-divider);
+    padding-top: 1.25rem;
+  }
+
+  .value-grid {
+    display: grid;
+    gap: 2rem;
   }
 
   .install-command {
@@ -291,13 +358,27 @@ const controls = [
   }
 
   @media (max-width: 767px) {
-    .architecture-flow {
-      grid-template-columns: 1fr;
-      gap: 0;
+    .hero-badge {
+      max-width: 17rem;
+      flex-wrap: wrap;
+      row-gap: 0.25rem;
+      line-height: 1.35;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .oversight-flow {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .architecture-connector {
-      padding: 0.25rem 0 1rem;
+    .value-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .oversight-flow {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
 </style>

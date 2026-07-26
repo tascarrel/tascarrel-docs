@@ -9,7 +9,7 @@ Tascarrel divides runtime responsibilities across the host, each workspace
 virtual machine, and each pod:
 
 ```text
-Web UI or tascarrel CLI
+Tascarrel UI or tascarrel CLI
           │
           ▼
         hostd
@@ -31,7 +31,7 @@ and caches, SOPS providers, network enforcement, the web API, and upstream Git
 publication. It is the only component that should need host-side project
 credentials.
 
-The web UI uses local HTTP and WebSocket endpoints. The `tascarrel` CLI uses a
+The UI uses local HTTP and WebSocket endpoints. The `tascarrel` CLI uses a
 private Unix socket.
 
 ## Workspace Guest
@@ -65,4 +65,4 @@ Sidex schemas define actions, outputs, errors, identifiers, and subscriptions,
 then generate Rust and TypeScript bindings. Most subscriptions begin with a
 snapshot and emit ordered changes. Large chats bootstrap their turns, timeline,
 attachments, and prompt queue in bounded chunks before live changes begin.
-Resumable stores let the web UI rebuild state after a connection is interrupted.
+Resumable stores let the UI rebuild state after a connection is interrupted.

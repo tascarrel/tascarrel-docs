@@ -42,5 +42,5 @@ Start with the practical path:
 - [Maintain Workspace State](/docs/operations/maintain-workspace-state)
 - [Troubleshoot Tascarrel](/docs/operations/troubleshooting)
 
-Use the [`tascarrel` CLI](/docs/reference/tascarrel-cli) for host maintenance
+Use [`tascarrelctl`](/docs/reference/tascarrel-cli) for host maintenance
 and [`podctl`](/docs/reference/podctl-cli) for pod-scoped automation.

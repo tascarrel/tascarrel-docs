@@ -30,7 +30,7 @@ Destroying a pod permanently removes its private state. Deleting a workspace
 removes all of its pods and retained workspace state:
 
 ```console
-tascarrel workspace delete demo
+tascarrelctl workspace delete demo
 ```
 
 The CLI requests confirmation. `--force` skips it but does not make the data

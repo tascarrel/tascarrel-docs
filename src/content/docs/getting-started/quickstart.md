@@ -9,33 +9,36 @@ This guide uses the default configuration to run one reviewed agent task.
 
 ## Start Tascarrel
 
-Start the installed per-user service:
+Open **Tascarrel** from the macOS or Linux application launcher. The startup
+window reports host checks and payload extraction, then loads the application
+when the server is ready.
+
+For a server-only installation, start the per-user service:
 
 ```console
-tascarrel daemon start
+tascarrelctl daemon start
 ```
 
 Open the UI at <http://127.0.0.1:8272>. If it does not load, check:
 
 ```console
-tascarrel daemon status
-tascarrel daemon logs
+tascarrelctl daemon status
+tascarrelctl daemon logs
 ```
 
-Alternatively, stop the daemon and run `tascarrel app` to open the UI in a
-dedicated browser window for a foreground session.
+Run `tascarrel` directly to keep the server in the foreground.
 
 ## Create and Start a Workspace
 
 Create a workspace named `demo`:
 
 ```console
-tascarrel workspace create demo
-tascarrel workspace start demo
+tascarrelctl workspace create demo
+tascarrelctl workspace start demo
 ```
 
 The `create` command writes a default Debian development configuration. The
-`start` command starts the workspace virtual machine and waits for its guest
+workspace `start` command starts the virtual machine and waits for its guest
 service to become ready.
 
 ## Choose a Coding Harness
@@ -89,7 +92,7 @@ its private files and processes.
 Stop the workspace virtual machine:
 
 ```console
-tascarrel workspace stop demo
+tascarrelctl workspace stop demo
 ```
 
 Stopping retains the workspace configuration, persistent disk, images, pods,

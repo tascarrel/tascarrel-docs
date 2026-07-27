@@ -12,14 +12,16 @@ Start with the smallest check that identifies the failing layer.
 Run:
 
 ```console
-tascarrel doctor
-tascarrel daemon status
-tascarrel daemon logs
+tascarrelctl doctor
+tascarrelctl daemon status
+tascarrelctl daemon logs
 ```
 
 On Linux, confirm that the user can access `/dev/kvm`. On macOS, confirm that
-the installed QEMU supports the Hypervisor Framework. If `tascarrel app` reports
-an occupied runtime, stop the installed daemon first.
+the installed QEMU supports the Hypervisor Framework. Tascarrel Desktop and the
+browser startup page show these checks before the application loads. If a
+foreground server reports an occupied runtime, stop the installed service
+first.
 
 ## A Workspace VM Does Not Start
 

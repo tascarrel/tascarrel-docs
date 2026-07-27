@@ -6,7 +6,8 @@ REPOSITORY=${TASCARREL_GITHUB_REPOSITORY:-tascarrel/tascarrel}
 RELEASE=${TASCARREL_VERSION:-latest}
 INSTALL_DIRECTORY=${HOME:-}/.local/bin
 TEMPORARY_DIRECTORY=
-STAGED_BINARY=
+STAGED_SERVER=
+STAGED_CLIENT=
 
 say() {
   printf '%s\n' "$*"
@@ -18,9 +19,8 @@ fail() {
 }
 
 cleanup() {
-  if [ -n "$STAGED_BINARY" ]; then
-    rm -f "$STAGED_BINARY"
-  fi
+  [ -z "$STAGED_SERVER" ] || rm -f "$STAGED_SERVER"
+  [ -z "$STAGED_CLIENT" ] || rm -f "$STAGED_CLIENT"
   if [ -n "$TEMPORARY_DIRECTORY" ]; then
     rm -rf "$TEMPORARY_DIRECTORY"
   fi
@@ -89,11 +89,13 @@ require_command awk
 require_command curl
 require_command install
 require_command mktemp
+require_command sed
+require_command sort
 require_command tar
 require_command uname
 
 TARGET=$(detect_target)
-ASSET="tascarrel-$TARGET.tar.gz"
+ASSET="tascarrel-server-$TARGET.tar.gz"
 if [ -n "${TASCARREL_RELEASE_BASE_URL:-}" ]; then
   RELEASE_BASE_URL=${TASCARREL_RELEASE_BASE_URL%/}
 elif [ "$RELEASE" = "latest" ]; then
@@ -121,21 +123,27 @@ esac
 ACTUAL_SHA256=$(sha256_file "$ARCHIVE")
 [ "$ACTUAL_SHA256" = "$EXPECTED_SHA256" ] || fail "release checksum does not match"
 
-ARCHIVE_CONTENTS=$(tar -tzf "$ARCHIVE")
-case "$ARCHIVE_CONTENTS" in
-  tascarrel | ./tascarrel) ;;
-  *) fail "release archive must contain only the tascarrel executable" ;;
-esac
+ARCHIVE_CONTENTS=$(tar -tzf "$ARCHIVE" | sed 's|^\./||' | sort)
+EXPECTED_CONTENTS=$(printf '%s\n' tascarrel tascarrelctl)
+[ "$ARCHIVE_CONTENTS" = "$EXPECTED_CONTENTS" ] ||
+  fail "release archive must contain only tascarrel and tascarrelctl"
 tar -xzf "$ARCHIVE" -C "$TEMPORARY_DIRECTORY"
-DOWNLOADED_BINARY="$TEMPORARY_DIRECTORY/tascarrel"
-[ -f "$DOWNLOADED_BINARY" ] && [ ! -L "$DOWNLOADED_BINARY" ] ||
-  fail "release archive does not contain a regular tascarrel executable"
+DOWNLOADED_SERVER="$TEMPORARY_DIRECTORY/tascarrel"
+DOWNLOADED_CLIENT="$TEMPORARY_DIRECTORY/tascarrelctl"
+[ -f "$DOWNLOADED_SERVER" ] && [ ! -L "$DOWNLOADED_SERVER" ] ||
+  fail "release archive does not contain a regular tascarrel server"
+[ -f "$DOWNLOADED_CLIENT" ] && [ ! -L "$DOWNLOADED_CLIENT" ] ||
+  fail "release archive does not contain a regular tascarrelctl executable"
 
 mkdir -p "$INSTALL_DIRECTORY"
-STAGED_BINARY=$(mktemp "$INSTALL_DIRECTORY/.tascarrel.XXXXXX")
-install -m 0755 "$DOWNLOADED_BINARY" "$STAGED_BINARY"
-mv -f "$STAGED_BINARY" "$INSTALL_DIRECTORY/tascarrel"
-STAGED_BINARY=
+STAGED_SERVER=$(mktemp "$INSTALL_DIRECTORY/.tascarrel.XXXXXX")
+STAGED_CLIENT=$(mktemp "$INSTALL_DIRECTORY/.tascarrelctl.XXXXXX")
+install -m 0755 "$DOWNLOADED_SERVER" "$STAGED_SERVER"
+install -m 0755 "$DOWNLOADED_CLIENT" "$STAGED_CLIENT"
+mv -f "$STAGED_SERVER" "$INSTALL_DIRECTORY/tascarrel"
+STAGED_SERVER=
+mv -f "$STAGED_CLIENT" "$INSTALL_DIRECTORY/tascarrelctl"
+STAGED_CLIENT=
 
 if [ -z "${TASCARREL_HOME:-}" ]; then
   TASCARREL_HOME="$HOME/.tascarrel"
@@ -147,5 +155,5 @@ esac
 TASCARREL_INSTALL_BIN_DIR=$INSTALL_DIRECTORY
 export TASCARREL_HOME TASCARREL_INSTALL_BIN_DIR
 
-say "Installing Tascarrel from $INSTALL_DIRECTORY/tascarrel..."
-"$INSTALL_DIRECTORY/tascarrel" install
+say "Installing the Tascarrel service..."
+"$INSTALL_DIRECTORY/tascarrelctl" install --server "$INSTALL_DIRECTORY/tascarrel"

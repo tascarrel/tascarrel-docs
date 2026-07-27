@@ -3,56 +3,65 @@ order: 2
 description: Look up the host CLI, environment overrides, and retained host data.
 ---
 
-# `tascarrel` CLI
+# Tascarrel Executables
 
-The host CLI covers installation, diagnostics, service management, and
-workspace VM lifecycle. Pod creation and development work happen in the
-UI.
+The `tascarrel` executable runs the server. The `tascarrelctl` executable
+covers installation, diagnostics, service management, and workspace VM
+lifecycle. Pod creation and development work happen in the UI.
 
-## Global Option
+## Run the Server
 
 ```text
-tascarrel [--socket <PATH>] <COMMAND>
+tascarrel [SERVER OPTIONS]
 ```
 
-The `--socket` option selects a non-default host control socket and can also be
-supplied as `TASCARREL_SOCKET`.
+The server binds its startup and application UI to
+<http://127.0.0.1:8272>. It publishes host checks, payload extraction progress,
+and actionable startup failures before initializing workspace services.
+
+## Administrative CLI
+
+```text
+tascarrelctl [--socket <PATH>] <COMMAND>
+```
+
+The global `--socket` option selects a non-default host control socket and can
+also be supplied as `TASCARREL_SOCKET`.
 
 ## Maintain Tascarrel
 
-| Command                   | Behavior                                                                                        |
-| ------------------------- | ----------------------------------------------------------------------------------------------- |
-| `tascarrel app`           | Run a foreground daemon and open the UI in a dedicated browser window                           |
-| `tascarrel install`       | Check dependencies, install the executable and guest payload, and register the per-user service |
-| `tascarrel doctor`        | Check host architecture, QEMU, acceleration, Git, service management, and optional SOPS         |
-| `tascarrel doctor --json` | Emit the diagnostic report as JSON                                                              |
+| Command                                  | Behavior                                                                                |
+| ---------------------------------------- | --------------------------------------------------------------------------------------- |
+| `tascarrelctl install [--server <PATH>]` | Install a server executable and register the per-user service                           |
+| `tascarrelctl doctor`                    | Check host architecture, QEMU, acceleration, Git, service management, and optional SOPS |
+| `tascarrelctl doctor --json`             | Emit the diagnostic report as JSON                                                      |
 
 ## Workspaces
 
-| Command                                     | Behavior                                                                  |
-| ------------------------------------------- | ------------------------------------------------------------------------- |
-| `tascarrel workspace list`                  | Print configured workspace names                                          |
-| `tascarrel workspace create <NAME>`         | Create a workspace with the default Debian development image              |
-| `tascarrel workspace start <NAME>`          | Start its VM and wait until it is ready                                   |
-| `tascarrel workspace stop <NAME>`           | Stop its VM while preserving pods and configuration                       |
-| `tascarrel workspace info <NAME>`           | Show current VM state or startup failure                                  |
-| `tascarrel workspace info <NAME> --json`    | Emit the complete workspace record as JSON                                |
-| `tascarrel workspace delete <NAME>`         | Stop and permanently delete the workspace and all pods after confirmation |
-| `tascarrel workspace delete <NAME> --force` | Delete without interactive confirmation                                   |
+| Command                                        | Behavior                                                                  |
+| ---------------------------------------------- | ------------------------------------------------------------------------- |
+| `tascarrelctl workspace list`                  | Print configured workspace names                                          |
+| `tascarrelctl workspace create <NAME>`         | Create a workspace with the default Debian development image              |
+| `tascarrelctl workspace start <NAME>`          | Start its VM and wait until it is ready                                   |
+| `tascarrelctl workspace stop <NAME>`           | Stop its VM while preserving pods and configuration                       |
+| `tascarrelctl workspace info <NAME>`           | Show current VM state or startup failure                                  |
+| `tascarrelctl workspace info <NAME> --json`    | Emit the complete workspace record as JSON                                |
+| `tascarrelctl workspace delete <NAME>`         | Stop and permanently delete the workspace and all pods after confirmation |
+| `tascarrelctl workspace delete <NAME> --force` | Delete without interactive confirmation                                   |
 
 ## Daemon
 
-| Command                          | Behavior                                           |
-| -------------------------------- | -------------------------------------------------- |
-| `tascarrel daemon start`         | Start the installed per-user service               |
-| `tascarrel daemon stop`          | Stop it                                            |
-| `tascarrel daemon restart`       | Restart it                                         |
-| `tascarrel daemon status`        | Show service-manager status and fail when inactive |
-| `tascarrel daemon logs`          | Show recent service logs                           |
-| `tascarrel daemon logs --follow` | Continue displaying new log messages               |
+| Command                             | Behavior                                           |
+| ----------------------------------- | -------------------------------------------------- |
+| `tascarrelctl daemon start`         | Start the installed per-user service               |
+| `tascarrelctl daemon stop`          | Stop it                                            |
+| `tascarrelctl daemon restart`       | Restart it                                         |
+| `tascarrelctl daemon status`        | Show service-manager status and fail when inactive |
+| `tascarrelctl daemon logs`          | Show recent service logs                           |
+| `tascarrelctl daemon logs --follow` | Continue displaying new log messages               |
 
-Run `tascarrel <COMMAND> --help` for the exact syntax supported by the installed
-version.
+Run `tascarrelctl <COMMAND> --help` for the exact syntax supported by the
+installed version.
 
 ## Host Environment
 
@@ -63,16 +72,15 @@ version.
 | `TASCARREL_QEMU`           | Select the QEMU system executable                                                   |
 | `TASCARREL_GIT`            | Select the host Git executable                                                      |
 | `TASCARREL_SOPS`           | Select the host SOPS executable                                                     |
-| `TASCARREL_APP_BROWSER`    | Select the browser executable used by app mode                                      |
 | `TASCARREL_WEB_ADDRESS`    | Override the UI address                                                             |
 | `TASCARREL_HOST_PORT_HOST` | Select the outer host for configured workspace host-port mappings                   |
 
 A binary run without the installer defaults `TASCARREL_HOME` to `.tascarrel` in
 the current directory.
 
-The installer also accepts `TASCARREL_VERSION`,
+The server installer also accepts `TASCARREL_VERSION`,
 `TASCARREL_GITHUB_REPOSITORY`, and `TASCARREL_RELEASE_BASE_URL`. It places the
-executable in `$HOME/.local/bin`.
+server and CLI executables in `$HOME/.local/bin`.
 
 ## Host Data
 
@@ -87,6 +95,7 @@ $TASCARREL_HOME/
 │   └── workspaces/<name>/
 ```
 
-`config` contains editable inputs. `state/payloads` contains verified embedded
-assets, `state/runtime` contains transient sockets, and `state/workspaces`
-contains persistent VM state. Do not edit state while the service is running.
+The `config` directory contains editable inputs. The `state/payloads` directory
+contains verified embedded assets, `state/runtime` contains transient sockets,
+and `state/workspaces` contains persistent VM state. Do not edit state while the
+service is running.

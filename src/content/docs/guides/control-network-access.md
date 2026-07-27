@@ -57,12 +57,12 @@ Other ports on that synthetic address remain denied. The **Pod → Host** tab ca
 add a runtime mapping for one pod; it overrides a configured mapping with the
 same pod-visible port.
 
-When `hostd` itself runs inside another isolated environment, use
-`tascarrel host --host-port-host <HOST>` or `TASCARREL_HOST_PORT_HOST` to change
+When the server itself runs inside another isolated environment, use
+`tascarrel --host-port-host <HOST>` or `TASCARREL_HOST_PORT_HOST` to change
 the outer destination for configured mappings:
 
 ```console
-tascarrel host --host-port-host host.tascarrel.internal
+tascarrel --host-port-host host.tascarrel.internal
 ```
 
 This affects static workspace mappings only. Dynamic pod-scoped mappings still

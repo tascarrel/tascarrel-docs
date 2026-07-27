@@ -1,50 +1,62 @@
 ---
 order: 1
-description: Run Tascarrel as an installed service or foreground app and inspect its logs.
+description: Run Tascarrel from the desktop app, as an installed service, or in the foreground.
 ---
 
 # Run the Host Service
 
-Tascarrel's host service owns workspace VMs and serves the UI. Run it
-as an installed per-user daemon or as a foreground app.
+Tascarrel's server owns workspace VMs and serves both the startup page and
+application UI. Tascarrel Desktop starts the same server on demand.
+
+## Use Tascarrel Desktop
+
+Open **Tascarrel** from the application launcher. Opening it again focuses the
+existing window. Closing the window leaves the server and workspace VMs
+running, so reopening the app reconnects to the same state.
+
+The startup page appears immediately after the server begins listening. It
+reports host capability checks, payload validation and extraction, service
+initialization, and actionable failures such as missing QEMU. A failed
+retryable check can be repeated from the page.
 
 ## Use the Installed Service
 
 ```console
-tascarrel daemon start
-tascarrel daemon status
+tascarrelctl daemon start
+tascarrelctl daemon status
 ```
 
 The UI is available at <http://127.0.0.1:8272> by default. The installed
 service uses a systemd user unit on Linux or a LaunchAgent on macOS.
 
 ```console
-tascarrel daemon restart
-tascarrel daemon stop
+tascarrelctl daemon restart
+tascarrelctl daemon stop
 ```
 
-Use the daemon when work should continue after closing the web browser.
+Use the installed service when the server should start independently of the
+desktop app or browser.
 
-## Use the Foreground App
+## Run the Server in the Foreground
 
 ```console
-tascarrel app
+tascarrel
 ```
 
-App mode starts the service in the foreground and opens a dedicated browser
-window. Stop the installed daemon first because the two modes cannot share a
-runtime. Closing the app stops its workspace VMs.
+Open <http://127.0.0.1:8272> in a browser. The same server-hosted startup page
+appears before the application is ready. Stop the installed service first
+because two server processes cannot share the same runtime or web address.
 
 ## Inspect Service Logs
 
 ```console
-tascarrel daemon logs
-tascarrel daemon logs --follow
+tascarrelctl daemon logs
+tascarrelctl daemon logs --follow
 ```
 
-Run `tascarrel doctor` when the service cannot start or a VM fails before the
-UI becomes available. Use `tascarrel workspace info <name>` for the current
-VM state or startup failure.
+Run `tascarrelctl doctor` when the server cannot create its startup listener.
+Use `tascarrelctl workspace info <name>` for the current VM state or startup
+failure.
 
 The CLI normally discovers the service through Tascarrel's control socket. Use
 the global `--socket <path>` option, or `TASCARREL_SOCKET`, only for an

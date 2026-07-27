@@ -5,9 +5,15 @@ description: Prepare a supported host, install Tascarrel, and verify its depende
 
 # Install Tascarrel
 
-Tascarrel is distributed as one architecture-specific executable containing the
-CLI, host daemon, UI, bundled Tasci agent, Linux guest system, kernel,
-and initrd.
+Tascarrel has two distribution forms:
+
+- **Tascarrel Desktop** is a native macOS or Linux application. It contains the
+  matching server and opens the server-hosted UI in one application window.
+- **Tascarrel Server** is an architecture-specific executable containing the
+  UI, bundled Tasci agent, Linux guest system, kernel, and initrd. Its
+  `tascarrelctl` companion installs and maintains the per-user service.
+
+Both forms use the same state under `~/.tascarrel`.
 
 ## Supported Hosts
 
@@ -26,7 +32,6 @@ Install these dependencies before Tascarrel:
 
 - QEMU with the accelerator required by the host platform.
 - Git.
-- A Chromium-family web browser.
 - `systemd` user services on Linux or LaunchAgents on macOS when using the
   installed background service.
 
@@ -36,19 +41,39 @@ providers.
 On Linux, the current user must be able to access `/dev/kvm`. On macOS, QEMU
 must report Hypervisor Framework support.
 
-## Install the Latest Release
+## Install Tascarrel Desktop
 
-Run the same installer on macOS or Linux:
+Download the package for your host from the
+[latest GitHub release](https://github.com/tascarrel/tascarrel/releases/latest):
+
+- `tascarrel-desktop-aarch64-darwin.dmg` for Apple Silicon macOS.
+- `tascarrel-desktop-x86_64-linux.deb` or `.rpm` for x86-64 Linux.
+- `tascarrel-desktop-aarch64-linux.deb` or `.rpm` for AArch64 Linux.
+
+On macOS, open the disk image and drag **Tascarrel** to Applications. The
+release is ad-hoc signed because release signing and notarization require an
+Apple Developer account. On first launch, macOS may require approval under
+**System Settings → Privacy & Security**.
+
+On Linux, install the package with the normal package manager. It creates a
+Tascarrel launcher entry for the desktop environment.
+
+Opening Tascarrel Desktop starts its bundled server when necessary. Opening the
+app again focuses its existing window. Closing the window does not stop the
+server or workspace VMs.
+
+## Install the Server and CLI
+
+For a browser-based or background-service installation, run:
 
 ```console
 curl --proto '=https' --tlsv1.2 -fsSL \
   https://tascarrel.dev/install.sh | sh
 ```
 
-The installer detects the host and architecture, downloads the matching archive
-and SHA-256 checksum from the latest GitHub release, verifies the archive,
-installs the executable at `~/.local/bin/tascarrel`, and runs
-`tascarrel install`.
+The installer detects the host and architecture, verifies the matching release
+archive, installs `tascarrel` and `tascarrelctl` under `~/.local/bin`, and
+registers the server as a per-user service.
 
 Ensure `~/.local/bin` is on your `PATH`, or use the complete executable path in
 the examples that follow.
@@ -67,7 +92,7 @@ Replace `v0.1.0` with an available release identifier.
 Run the built-in diagnostics:
 
 ```console
-tascarrel doctor
+tascarrelctl doctor
 ```
 
 The command checks the host architecture, QEMU executable and capabilities,
@@ -77,7 +102,7 @@ support. It exits unsuccessfully when a required check fails.
 Use JSON output in scripts:
 
 ```console
-tascarrel doctor --json
+tascarrelctl doctor --json
 ```
 
 Executable paths can be overridden with `TASCARREL_QEMU`, `TASCARREL_GIT`, and

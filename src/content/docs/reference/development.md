@@ -50,8 +50,26 @@ nix build .#tascarrel
 
 The complete distribution embeds the immutable NixOS store image, Linux kernel,
 initrd, guest services, pod tools, the bundled Tasci agent, and compiled UI
-in the native host executable. `nix build .#tascarrel-cli` builds only the host
-CLI and daemon.
+in the native server executable. `nix build .#tascarrel-cli` builds the
+unembedded development server and administrative client.
+
+Build the Linux desktop launcher and its bundled server for Nix with:
+
+```console
+nix build .#tascarrel-desktop
+```
+
+Build a self-contained AppImage for Debian, Ubuntu, and other Linux
+distributions without Nix:
+
+```console
+nix build .#tascarrel-desktop-appimage
+```
+
+The AppImage embeds the Nix store closure needed by the desktop launcher and
+server. The target machine does not need a Nix installation or matching
+`/nix/store` paths. It does need FUSE 3, which Debian and Ubuntu provide in the
+`fuse3` package, and enabled user namespaces.
 
 At startup, Tascarrel verifies and extracts the payload below
 `$TASCARREL_HOME/state/payloads/<sha256>/`.

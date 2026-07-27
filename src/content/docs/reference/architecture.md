@@ -9,10 +9,10 @@ Tascarrel divides runtime responsibilities across the host, each workspace
 virtual machine, and each pod:
 
 ```text
-Tascarrel UI or tascarrel CLI
+Tascarrel UI or tascarrelctl
           │
           ▼
-        hostd
+tascarrel server (hostd)
           │  private virtio-serial connection
           ▼
         guestd
@@ -26,12 +26,12 @@ Tascarrel UI or tascarrel CLI
 
 ## Host Daemon
 
-The `hostd` process owns configuration, QEMU processes, repository credentials
-and caches, SOPS providers, network enforcement, the web API, and upstream Git
-publication. It is the only component that should need host-side project
-credentials.
+The `tascarrel` server runs the host daemon (`hostd`). That daemon owns
+configuration, QEMU processes, repository credentials and caches, SOPS
+providers, network enforcement, the web API, and upstream Git publication. It
+is the only component that should need host-side project credentials.
 
-The UI uses local HTTP and WebSocket endpoints. The `tascarrel` CLI uses a
+The UI uses local HTTP and WebSocket endpoints. `tascarrelctl` uses a
 private Unix socket.
 
 ## Workspace Guest

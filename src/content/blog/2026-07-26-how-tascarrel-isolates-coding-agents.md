@@ -7,6 +7,9 @@ description: |
   layered isolation, reusable environment definitions, network controls,
   credential mediation, and Git publication form one coherent isolation model,
   along with its trust assumptions and limits.
+summary: One VM per trust domain, a container pod per task, and every network,
+  credential, and Git path out mediated by the host. Including what it does not
+  protect.
 date: 2026-07-26
 tags: [tascarrel, coding agents, isolation, architecture]
 author:
@@ -35,8 +38,6 @@ and where the model's limits lie.
 
 Tascarrel is under active development. Things may break, and its security
 properties have not been independently audited.
-
-<!-- truncate -->
 
 ## The Isolation Boundary
 

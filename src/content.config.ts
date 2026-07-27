@@ -22,7 +22,11 @@ const blog = defineCollection({
     pattern: "**/*.{md,mdx}",
     base: "./src/content/blog",
   }),
-  schema: articleSchema(),
+  // `description` renders in full on the blog index, tag pages, RSS, and as the
+  // article standfirst. `summary` holds a short form for the meta description,
+  // but nothing consumes it yet: `ArticleLayout` derives both the standfirst
+  // and the meta tag from `description` and exposes no way to separate them.
+  schema: articleSchema().extend({ summary: z.string().optional() }),
 });
 
 export const collections = { blog, docs };

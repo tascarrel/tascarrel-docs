@@ -1,6 +1,6 @@
 ---
 import { Image } from "astro:assets";
-import { Admonition, BaseLayout, Button, Section } from "@silitics/astro-theme";
+import { BaseLayout, Button, Section } from "@silitics/astro-theme";
 import tascarrelWorkbench from "../assets/tascarrel-workbench.png";
 import SiteFooter from "../layouts/SiteFooter.astro";
 import { brand, headerActions, nav } from "../site.ts";
@@ -8,15 +8,15 @@ import { brand, headerActions, nav } from "../site.ts";
 const delegationCapabilities = [
   {
     title: "Run Tasks in Parallel",
-    body: "Each task starts clean and keeps its own changes, processes, and network activity, so agents do not trip over one another.",
+    body: "Every task gets its own pod: a fresh copy of the workspace with private files, processes, and network. Run as many at once as your hardware allows, without them stepping on each other.",
   },
   {
-    title: "Set the Boundary Once",
-    body: "Choose what a development context can reach, then let agents work inside that boundary without command-by-command approvals.",
+    title: "Declare the Boundary Once",
+    body: "Say what a workspace may reach. After that, agents build, test, and install inside it without asking you to approve each command.",
   },
   {
-    title: "Limit the Reach of Mistakes",
-    body: "A dedicated workspace VM separates agent activity from your machine and other development contexts.",
+    title: "Contain Untrusted Code",
+    body: "Each workspace VM runs its own kernel behind a hardware-virtualized boundary, separate from your machine and every other workspace. It is built to hold against code that actively tries to escape.",
   },
 ];
 
@@ -40,9 +40,9 @@ const multiRepositoryChanges = [
 
 const gitMediationSteps = [
   {
-    scope: "Agent Task",
+    scope: "Agent Pod",
     title: "Prepare the Change",
-    body: "Edit, test, and commit with normal Git tooling inside the isolated task.",
+    body: "Edit, test, commit, fetch, and push inside the pod with normal Git tooling.",
   },
   {
     scope: "Tascarrel Host",
@@ -58,46 +58,46 @@ const gitMediationSteps = [
 
 const oversightSteps = [
   {
-    title: "Let Agents Keep Working",
-    body: "Run several agent tasks at once and switch between them as work progresses. Queue follow-up prompts for delivery when an agent finishes its current turn.",
+    title: "Queue Work and Walk Away",
+    body: "Send a follow-up prompt while an agent is mid-turn and it arrives when the turn ends. Switch between pods without interrupting any of them.",
   },
   {
     title: "See What Needs You",
-    body: "Workspace and task badges show where an agent needs a decision, where a turn failed, and which completed work you have not reviewed.",
+    body: "The workbench shows you whatever needs a decision, from a finished task to a push held for approval. You never have to go looking.",
   },
   {
-    title: "Inspect the Result",
-    body: "Inspect running applications alongside the agent session. Browse the resulting files, diffs, and commits before deciding whether the work is ready.",
+    title: "Take Over When You Need To",
+    body: "Open a terminal, an editor, or the running application inside the pod. Reproduce a failure, fix something by hand, then hand the task back to the agent.",
   },
   {
-    title: "Publish Deliberately",
-    body: "Every push passes through Tascarrel's host-mediated transport. Choose which branches may publish automatically and which require your approval.",
+    title: "Read the Diff",
+    body: "Browse the files, diffs, and commits a task produced, then decide whether the work is ready.",
   },
 ];
 
 const existingSetupCapabilities = [
   {
     title: "Bring Your Agent Subscriptions",
-    body: "Sign in to Codex with ChatGPT, connect Claude Code with a setup token, or use Tasci with an OpenAI-compatible endpoint.",
+    body: "Use Codex or Claude Code with the subscription you already pay for, or Tascarrel's agent with any OpenAI-compatible endpoint. Point it at a local model and no prompt leaves your hardware.",
   },
   {
-    title: "Declare the Development Context",
-    body: "Define repositories, tools, resources, and access policies once, then reuse that setup for every fresh task.",
+    title: "Keep the Setup in Version Control",
+    body: "Repositories, tools, caches, and access rules live in a Dockerfile and a config.toml your team can review like any other file. Every fresh pod starts from them.",
   },
   {
     title: "Run Real Development Workloads",
-    body: "Use containers, Nix, nested virtualization, shared caches, or declared USB devices when the project requires them.",
+    body: "Use containers, Nix, nested virtualization, shared caches, or forward a USB device from a Linux host when the project requires it.",
   },
   {
     title: "Use Host-Injected Credentials",
-    body: "Tascarrel handles Git authentication and injects eligible HTTP credentials on the host. Neither type of credential enters the workspace VM or task environment.",
+    body: "Git authentication happens on the host. For HTTP APIs, the workload sends a placeholder and the host swaps in the real secret once the request has left the VM.",
   },
 ];
 ---
 
 <BaseLayout
   title="Tascarrel: Real Isolation for Coding Agents, on Your Hardware"
-  description="Tascarrel isolates declaratively defined development contexts in VMs, so coding agents can work safely with broad permissions without command-by-command approvals."
+  description="Tascarrel runs each project in its own VM on your own hardware, so coding agents can build, test, and install without command-by-command approvals."
   brand={brand}
   nav={nav}
   actions={headerActions}
@@ -124,35 +124,44 @@ const existingSetupCapabilities = [
         Real Isolation for Coding Agents,{" "}
         <span class="text-gradient">on Your Hardware</span>
       </h1>
-      <figure class="product-shot mt-10">
-        <div class="product-shot-frame">
-          <Image
-            src={tascarrelWorkbench}
-            alt="Tascarrel showing workspace and task navigation, a Codex agent session, and a live application preview side by side"
-            loading="eager"
-            decoding="async"
-            fetchpriority="high"
-            class="block h-auto w-full"
-          />
-        </div>
-      </figure>
-      <ul
-        class="hero-capabilities mx-auto mt-7 max-w-5xl"
-        aria-label="Core capabilities"
+      <p
+        class="font-display mx-auto mt-6 max-w-3xl text-balance text-xl font-semibold md:text-2xl"
       >
-        <li>Bring Your Subscriptions</li>
-        <li>Multi-Repository Workspaces</li>
-        <li>Layered VM and Task Isolation</li>
-        <li>Controlled Network Access</li>
-        <li>Host-Mediated Git</li>
-        <li>Host-Injected Credentials</li>
-      </ul>
+        No command approvals. Every task starts clean.
+      </p>
+      <p
+        class="text-content-muted mx-auto mt-4 max-w-2xl text-lg leading-relaxed"
+      >
+        Each workspace gets its own VM, and each task a disposable pod within
+        it. Inside that pod, an agent can install, build, and run anything. Git
+        operations and HTTP APIs are mediated through the host. The required
+        secrets never enter the VM.
+      </p>
       <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
         <Button href="/docs/getting-started/installation">
           Install Tascarrel
         </Button>
-        <Button variant="secondary" href="/docs">Read the Docs</Button>
+        <Button variant="secondary" href="/docs/getting-started/quickstart">
+          Run Your First Task
+        </Button>
       </div>
+      <figure class="product-shot mt-12">
+        <div class="product-shot-frame">
+          <Image
+            src={tascarrelWorkbench}
+            alt="Tascarrel showing workspace and pod navigation, a Codex agent session, and a live application preview side by side"
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
+            widths={[640, 960, 1280, 1920, 2560]}
+            sizes="(min-width: 1280px) 1152px, (min-width: 768px) 92vw, 100vw"
+            class="block h-auto w-full"
+          />
+        </div>
+      </figure>
+      <p class="hero-specs mx-auto mt-8 max-w-3xl">
+        Apple Silicon macOS · x86-64 and AArch64 Linux · Apache-2.0 or MIT
+      </p>
     </div>
   </Section>
 
@@ -170,21 +179,20 @@ const existingSetupCapabilities = [
           Delegate More Work with Confidence
         </h2>
         <p class="text-content-muted mt-5 text-lg leading-relaxed">
-          Tascarrel makes unattended agent work practical by isolating each
-          development context in its own VM. Agents get broad permissions inside
-          the boundary you define, while clean task environments make parallel
-          work predictable.
+          An agent on your machine runs with all your access, so you approve its
+          commands one by one. In a workspace VM it gets only what you granted
+          that workspace, so you can leave it alone.
         </p>
         <p class="text-content-subtle mt-5 text-sm leading-relaxed">
-          The workspace VM is the safety boundary. Task environments provide
-          lightweight separation within it.
+          The workspace VM is the safety boundary. Pods provide lightweight
+          separation within it.
         </p>
         <div class="mt-8">
           <Button
             variant="secondary"
-            href="/docs/getting-started/isolation-model"
+            href="/blog/how-tascarrel-isolates-coding-agents"
           >
-            Understand the Isolation Model
+            Read the Architecture Write-Up
           </Button>
         </div>
       </div>
@@ -219,13 +227,13 @@ const existingSetupCapabilities = [
           One Task Can Cross the Whole Product
         </h2>
         <p class="text-content-muted mt-5 text-lg leading-relaxed">
-          Give an agent every related repository in one development context. It
-          can trace contracts across codebases, make coordinated changes, and
-          run the complete system without losing the thread between them.
+          Give an agent every related repository in one workspace. It can trace
+          contracts across codebases, make coordinated changes, and run the
+          complete system without losing the thread between them.
         </p>
-        <p class="text-content-subtle mt-5 leading-relaxed">
-          Each repository keeps its own Git history and publication policy, so
-          you can inspect and publish the result repository by repository.
+        <p class="text-content-subtle mt-5 text-sm leading-relaxed">
+          Each repository keeps its own history and publication policy, so you
+          can review and publish them one at a time.
         </p>
         <div class="mt-8">
           <Button variant="secondary" href="/docs/guides/configure-a-workspace">
@@ -289,8 +297,7 @@ const existingSetupCapabilities = [
         <p class="text-content-muted mt-4 text-lg leading-relaxed">
           The Tascarrel host is the only component that contacts upstream Git.
           Agents work with familiar Git commands, while fetches and pushes cross
-          a mediated boundary that keeps credentials and publication decisions
-          outside the workspace VM.
+          a mediated boundary.
         </p>
       </div>
 
@@ -322,9 +329,9 @@ const existingSetupCapabilities = [
         </p>
         <Button
           variant="secondary"
-          href="/blog/how-tascarrel-isolates-coding-agents#proxied-git-operations"
+          href="/docs/guides/review-and-publish-changes"
         >
-          Read How Git Mediation Works
+          Review and Publish Changes
         </Button>
       </div>
     </div>
@@ -339,9 +346,9 @@ const existingSetupCapabilities = [
         Stay on Top without Staying Glued to It
       </h2>
       <p class="text-content-muted mt-4 text-lg leading-relaxed">
-        The UI keeps active work, results, and publication decisions in one
-        place. You can move on while agents work, then return with the context
-        needed to review what they produced.
+        Agents keep working whether or not you are watching. The workbench is
+        what you come back to: what finished, what needs a decision, and what
+        the code now looks like.
       </p>
     </div>
     <ul class="oversight-flow mx-auto mt-12 max-w-6xl">
@@ -396,19 +403,25 @@ const existingSetupCapabilities = [
 
   <Section background="cta" padding="default">
     <div class="mx-auto max-w-3xl text-center">
-      <p class="text-primary text-xs font-semibold tracking-widest uppercase">
-        Apple Silicon macOS · x86-64 and AArch64 Linux
-      </p>
-      <h2 class="font-display mt-3 text-3xl font-bold md:text-4xl">
+      <h2 class="font-display text-balance text-3xl font-bold md:text-4xl">
         Install Tascarrel on Your Machine
       </h2>
-      <p class="text-content-muted mt-4 text-lg">
+      <p class="text-content-muted mt-4 text-lg leading-relaxed">
         Create your first isolated workspace and give an agent a task in
         minutes.
       </p>
       <pre
         class="install-command mx-auto mt-8 max-w-2xl text-left"><code>curl --proto '=https' --tlsv1.2 -fsSL \
   https://tascarrel.dev/install.sh | sh</code></pre>
+      <p
+        class="text-content-subtle mx-auto mt-4 max-w-2xl text-sm leading-relaxed"
+      >
+        You will need QEMU and Git on the host. The installer itself needs no
+        root: it verifies the release checksum, puts <code>tascarrel</code> and
+        <code>tascarrelctl</code> in <code>~/.local/bin</code>, and registers a
+        per-user service. Rather read it first? Fetch
+        <a href="/install.sh">install.sh</a>, check it, then run it.
+      </p>
       <div class="mt-8 flex flex-wrap justify-center gap-3">
         <Button href="/docs/getting-started/installation">
           Installation Guide
@@ -420,16 +433,6 @@ const existingSetupCapabilities = [
           View on GitHub
         </Button>
       </div>
-      <Admonition
-        kind="warning"
-        title="Active Development"
-        class="mx-auto mt-8 max-w-xl text-left"
-      >
-        <p>
-          Tascarrel is under active development. Things may break, and its
-          security properties have not been independently audited.
-        </p>
-      </Admonition>
     </div>
   </Section>
 
@@ -441,17 +444,10 @@ const existingSetupCapabilities = [
     justify-content: center;
   }
 
-  .hero-capabilities li {
-    color: var(--theme-content-muted);
-    font-size: 0.875rem;
-    font-weight: 600;
-    letter-spacing: 0.01em;
-    text-align: center;
-  }
-
-  .hero-capabilities {
-    display: grid;
-    gap: 0.65rem 1.5rem;
+  .hero-specs {
+    color: var(--theme-content-subtle);
+    font-size: 0.8125rem;
+    line-height: 1.7;
   }
 
   .product-shot-frame {
@@ -705,10 +701,6 @@ const existingSetupCapabilities = [
   }
 
   @media (min-width: 768px) {
-    .hero-capabilities {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
     .git-mediation-flow {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
@@ -728,10 +720,6 @@ const existingSetupCapabilities = [
   }
 
   @media (min-width: 1024px) {
-    .hero-capabilities {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
     .oversight-flow {
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }

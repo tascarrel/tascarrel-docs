@@ -67,6 +67,10 @@ export const footerColumns: FooterColumn[] = [
         href: "/blog",
       },
       {
+        label: "RSS Feed",
+        href: "/rss.xml",
+      },
+      {
         label: "GitHub",
         href: "https://github.com/tascarrel/tascarrel",
         external: true,

@@ -9,14 +9,16 @@ description: |
   user-space kernels, virtual machines, and dedicated machines, and examines
   the network, credential, publication, state, environment, and hosting
   decisions needed to make isolation effective in practice.
-date: 2026-07-26
+summary:
+  A command approval is an execution gate, not an isolation boundary. What
+  sandboxes, containers, user-space kernels, VMs, and dedicated machines
+  actually contain.
+date: 2026-07-25
 tags: [coding agents, isolation, security, development environments]
 author:
   name: Maximilian Köhl
   href: https://silitics.com/
 ---
-
-<!-- New introduction -->
 
 A coding agent is useful precisely because it can act without waiting for you.
 Give it a prompt and it can inspect the repository, edit files, install
@@ -38,11 +40,9 @@ any complete design must get right beyond the isolation mechanism itself.
 workbench. We cover its architecture separately in
 [Tascarrel's Isolation Model](/blog/how-tascarrel-isolates-coding-agents).
 
-<!-- truncate -->
-
 ## The Isolation Problem
 
-Developing on a trusted machine has always been a risky endeavour. Even before
+Developing on a trusted machine has always been a risky endeavor. Even before
 coding agents, software supply chain attacks have been commonplace and developer
 machines are valuable targets. One small typo in `cargo add` or `pip install` is
 all it takes to find yourself running a malicious build script exfiltrating your
@@ -128,7 +128,8 @@ existing development environment, but they share the workstation's kernel and
 usually expose parts of its filesystem. A reachable flaw in the sandbox or host
 kernel may therefore expose the workstation directly.
 
-Current harnesses apply this approach differently:
+Current harnesses apply this approach differently. The defaults below are the
+ones each project documented in July 2026, and they change often:
 
 - [Codex](https://learn.chatgpt.com/docs/agent-approvals-security#sandbox-and-approvals)
   enables a workspace profile by default. It permits workspace writes and
@@ -140,9 +141,10 @@ Current harnesses apply this approach differently:
   includes the entire computer, including common credential files, unless those
   paths are explicitly denied. Docker is incompatible with the sandbox and
   must be excluded, causing it to run outside the boundary.
-- [Gemini CLI](https://geminicli.com/docs/cli/cli-reference/) leaves sandboxing
-  disabled by default. On macOS, its native sandbox uses Seatbelt and allows
-  broad file reads and network access under the default profile.
+- [Gemini CLI](https://google-gemini.github.io/gemini-cli/docs/cli/sandbox.html)
+  leaves sandboxing disabled by default. On macOS, its native sandbox uses
+  Seatbelt and allows broad file reads and network access under the default
+  `permissive-open` profile.
 
 These sandboxes are meaningful improvements over approval prompts. They are
 well suited to limiting accidental writes and routine network access in a
@@ -163,7 +165,7 @@ servers, and agent normally see the same filesystem and dependencies.
 
 Some harnesses offer container-based environments directly.
 [Claude Code documents a development container](https://code.claude.com/docs/en/devcontainer),
-and [Gemini CLI can use Docker or Podman](https://geminicli.com/docs/cli/sandbox/)
+and [Gemini CLI can use Docker or Podman](https://google-gemini.github.io/gemini-cli/docs/cli/sandbox.html)
 for its sandbox. The security properties come from the container configuration,
 not from the agent that runs inside it.
 

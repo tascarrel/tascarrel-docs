@@ -10,7 +10,9 @@
   <title id="title">Tascarrel social card</title>
   <desc id="description">
     Tascarrel workbench with the headline Real Isolation for Coding Agents, on
-    Your Hardware and four product highlights.
+    Your Hardware and four proof points: dedicated workspace VMs, disposable
+    pods per task, host-mediated Git and HTTP, and credentials that stay outside
+    the VM.
   </desc>
 
   <defs>
@@ -71,7 +73,7 @@
     opacity="0.28"
   />
 
-  <g transform="translate(38 84) scale(1.6315789474)">
+  <g transform="translate(28 84) scale(1.6315789474)">
     <path
       d="M19.007 0 38.015 10.981v21.961L19.007 43.923 0 32.942V10.981L19.007 0Z"
       fill="#0ea5e9"
@@ -89,58 +91,58 @@
   </g>
 
   <g class="display">
-    <text x="114" y="131" fill="#f8fafc" font-size="36" font-weight="700">
+    <text x="104" y="131" fill="#f8fafc" font-size="36" font-weight="700">
       Tascarrel
     </text>
 
     <g transform="translate(0 -10)">
       <g font-size="42" font-weight="700" letter-spacing="-0.6">
-        <text x="38" y="229" fill="#f8fafc">Real Isolation</text>
-        <text x="38" y="279" fill="#f8fafc">for Coding Agents,</text>
-        <text x="38" y="329" fill="url(#cyan-text)">on Your</text>
-        <text x="38" y="379" fill="url(#cyan-text)">Hardware</text>
+        <text x="28" y="229" fill="#f8fafc">Real Isolation</text>
+        <text x="28" y="279" fill="#f8fafc">for Coding Agents,</text>
+        <text x="28" y="329" fill="url(#cyan-text)">on Your</text>
+        <text x="28" y="379" fill="url(#cyan-text)">Hardware</text>
       </g>
 
       <g fill="#e2e8f0" font-size="18" font-weight="400">
         <g transform="translate(0 419)">
           <path
-            d="M40 0h15"
+            d="M30 0h15"
             fill="none"
             stroke="#0ea5e9"
             stroke-width="3"
             stroke-linecap="round"
           />
-          <text x="72" y="6">Bring Your Subscriptions</text>
+          <text x="62" y="6">Dedicated Workspace VMs</text>
         </g>
         <g transform="translate(0 459)">
           <path
-            d="M40 0h15"
+            d="M30 0h15"
             fill="none"
             stroke="#0ea5e9"
             stroke-width="3"
             stroke-linecap="round"
           />
-          <text x="72" y="6">Layered VM and Task Isolation</text>
+          <text x="62" y="6">Disposable Pods per Task</text>
         </g>
         <g transform="translate(0 499)">
           <path
-            d="M40 0h15"
+            d="M30 0h15"
             fill="none"
             stroke="#0ea5e9"
             stroke-width="3"
             stroke-linecap="round"
           />
-          <text x="72" y="6">Controlled Network Access</text>
+          <text x="62" y="6">Host-Mediated Git and HTTP</text>
         </g>
         <g transform="translate(0 539)">
           <path
-            d="M40 0h15"
+            d="M30 0h15"
             fill="none"
             stroke="#0ea5e9"
             stroke-width="3"
             stroke-linecap="round"
           />
-          <text x="72" y="6">Host-Injected Credentials</text>
+          <text x="62" y="6">Credentials Stay Outside the VM</text>
         </g>
       </g>
     </g>
@@ -148,10 +150,10 @@
 
   <g filter="url(#frame-glow)">
     <rect
-      x="400"
-      y="95"
-      width="780"
-      height="440"
+      x="415"
+      y="102"
+      width="755"
+      height="426"
       rx="3"
       fill="#02070c"
       stroke="#0ea5e9"
@@ -161,10 +163,10 @@
 
   <!-- render:screenshot:start -->
   <image
-    x="401"
-    y="96"
-    width="778"
-    height="438"
+    x="416"
+    y="103"
+    width="753"
+    height="424"
     preserveAspectRatio="xMidYMid meet"
     href="tascarrel-workbench.png"
     xlink:href="tascarrel-workbench.png"

@@ -20,10 +20,10 @@ const workbenchScreenshotPath = new URL(
   import.meta.url,
 );
 const screenshotPlacement = {
-  left: 401,
-  top: 96,
-  width: 778,
-  height: 438,
+  left: 416,
+  top: 103,
+  width: 753,
+  height: 424,
 };
 
 await renderSocialCard();

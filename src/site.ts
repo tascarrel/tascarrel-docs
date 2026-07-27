@@ -21,7 +21,7 @@ export const brand: Brand = {
     src: "/img/tascarrel-social-card.png",
     width: 1200,
     height: 630,
-    alt: "Tascarrel workbench with the headline “Real Isolation for Coding Agents, on Your Hardware”",
+    alt: "Tascarrel workbench with the headline “Real Isolation for Coding Agents, on Your Hardware” and proof points about workspace VMs, disposable task pods, host-mediated Git and HTTP, and credentials staying outside the VM",
   },
   locale: "en",
   themeColor: { dark: "#0b0d12", light: "#fafafa" },

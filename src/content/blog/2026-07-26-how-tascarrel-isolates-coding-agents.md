@@ -270,6 +270,7 @@ sends a placeholder instead of the credential:
 ```toml
 [[network.secret-injection]]
 host = "api.example.com"
+methods = ["GET", "HEAD"]
 header = "authorization"
 placeholder = "replace-with-api-token"
 secret = "project.API_TOKEN"
@@ -278,6 +279,9 @@ secret = "project.API_TOKEN"
 For HTTPS, Tascarrel installs a per-workspace certificate authority and
 terminates TLS at the host boundary. The current secret-injection path supports
 HTTP/1.1, including upgrades, but not HTTP/2, QUIC, or `CONNECT`.
+Each rule must list its admitted HTTP methods. The host proxy rejects other
+methods for a matching host, so a credential can be limited to read-oriented
+requests when the upstream API treats `GET` and `HEAD` as non-mutating.
 
 Unlike a token stored in an environment variable, the injected value is not
 available to every process in the task. The workload still sees the remote

@@ -90,7 +90,7 @@ const existingSetupCapabilities = [
   },
   {
     title: "Use Host-Injected Credentials",
-    body: "Git authentication happens on the host. For HTTP APIs, the workload sends a placeholder and the host swaps in the real secret once the request has left the VM.",
+    body: "Git authentication happens on the host. For HTTP APIs, the workload sends a placeholder and the host swaps in the real secret once the request has left the VM, only for explicitly admitted HTTP methods.",
   },
 ];
 ---

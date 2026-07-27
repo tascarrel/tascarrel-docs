@@ -36,19 +36,24 @@ Keep the credential value on the host by sending a placeholder:
 ```toml
 [[network.secret-injection]]
 host = "api.example.com"
+methods = ["GET", "HEAD"]
 header = "authorization"
 placeholder = "replace-with-api-token"
 secret = "project.API_TOKEN"
 ```
 
-Tascarrel replaces the placeholder in matching HTTP/1.1 requests after they
-leave the workspace, so the credential never enters the workspace VM. HTTPS
-uses a per-workspace CA installed into common certificate bundles.
+Tascarrel replaces the placeholder in matching `GET` and `HEAD` HTTP/1.1
+requests after they leave the workspace, so the credential never enters the
+workspace VM. It rejects other methods for `api.example.com` at the host proxy.
+HTTPS uses a per-workspace CA installed into common certificate bundles.
 
 Set `header` whenever possible; otherwise, Tascarrel checks every eligible
-non-routing header. Host rules accept an exact name or `*.example.com` pattern.
-Updating a value in an existing provider takes effect on the next matching
-request without restarting the VM.
+non-routing header. Every injection rule must list at least one syntactically
+valid, case-sensitive HTTP method. Host rules accept an exact name or
+`*.example.com` pattern. When several rules match a host, a method is admitted
+if at least one of those rules lists it, and only rules listing that method can
+inject. Updating a value in an existing provider takes effect on the next
+matching request without restarting the VM.
 
 ## Authenticate a Tasci Endpoint
 

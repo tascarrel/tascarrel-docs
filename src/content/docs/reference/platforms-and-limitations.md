@@ -35,6 +35,8 @@ can exhaust resources or make its own workspace unusable.
 - External IPv6 TCP and UDP are not implemented.
 - HTTP policy and secret injection support HTTP/1.1, including upgrades, but
   not HTTP/2, QUIC, or `CONNECT`.
+- Every secret-injection rule must explicitly list its admitted HTTP methods;
+  methods not admitted by any rule matching the request host are rejected.
 - Nix builds currently perform egress as the workspace VM daemon, so network
   events are not attributed to the requesting pod.
 

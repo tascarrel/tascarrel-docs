@@ -1,12 +1,16 @@
 ---
 order: 5
-description: Understand the project's experimental security posture and report a vulnerability privately.
+description: Understand the project's security posture and report a vulnerability privately.
 ---
 
 # Security Policy
 
-Tascarrel is experimental and does not currently promise a security support
-window, stable hardening guarantees, or backward-compatible state.
+:::warning[Active Development]
+
+Tascarrel is under active development. Things may break, and its security
+properties have not been independently audited.
+
+:::
 
 Read the [Isolation Model](/docs/getting-started/isolation-model) for the
 intended boundaries and residual risks.

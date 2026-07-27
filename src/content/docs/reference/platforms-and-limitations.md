@@ -5,7 +5,14 @@ description: Check supported hosts and current product limitations.
 
 # Platform Support
 
-Tascarrel is experimental software. The initial release supports:
+:::warning[Active Development]
+
+Tascarrel is under active development. Things may break, and its security
+properties have not been independently audited.
+
+:::
+
+The initial release supports:
 
 - Apple Silicon macOS with QEMU's Hypervisor Framework.
 - x86-64 Linux with KVM.

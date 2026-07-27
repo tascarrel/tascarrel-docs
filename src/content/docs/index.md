@@ -16,11 +16,10 @@ so agents working in parallel do not trip over one another. The UI keeps you
 on top of their sessions, shows what needs your attention, and lets you review
 changes before publishing them through Git.
 
-:::caution[Experimental Software]
+:::warning[Active Development]
 
-**Tascarrel is still experimental.** It may change or break without notice. Do
-not entrust it with important or confidential data. Use it only with data you
-can afford to lose or leak.
+Tascarrel is under active development. Things may break, and its security
+properties have not been independently audited.
 
 :::
 

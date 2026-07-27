@@ -33,8 +33,8 @@ can proceed without command approvals, while access outside the development
 environment remains mediated. This article explains how the pieces fit together
 and where the model's limits lie.
 
-Tascarrel is experimental. The boundaries described here are design goals, not
-audited production security guarantees.
+Tascarrel is under active development. Things may break, and its security
+properties have not been independently audited.
 
 <!-- truncate -->
 
@@ -328,10 +328,10 @@ than the pod's internal permissions.
 
 Tascarrel does not currently provide availability isolation. A workload may
 exhaust CPU, memory, storage, or other resources available to its workspace or
-the trusted machine. Tascarrel also remains experimental and has not received
-an independent security audit. Its architecture defines strong boundaries and
-small external interfaces. Deployment decisions should also account for its
-current maturity and availability limits.
+the trusted machine. Tascarrel's security properties have not been independently
+audited. Its architecture defines strong boundaries and small external
+interfaces. Deployment decisions should also account for its availability
+limits.
 
 ## Conclusion
 

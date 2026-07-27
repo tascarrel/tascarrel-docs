@@ -1,6 +1,6 @@
 ---
 import { Image } from "astro:assets";
-import { BaseLayout, Button, Section } from "@silitics/astro-theme";
+import { Admonition, BaseLayout, Button, Section } from "@silitics/astro-theme";
 import tascarrelWorkbench from "../assets/tascarrel-workbench.png";
 import SiteFooter from "../layouts/SiteFooter.astro";
 import { brand, headerActions, nav } from "../site.ts";
@@ -420,10 +420,16 @@ const existingSetupCapabilities = [
           View on GitHub
         </Button>
       </div>
-      <p class="text-content-subtle mx-auto mt-8 max-w-xl text-sm">
-        <strong>Tascarrel is still experimental.</strong> Do not entrust it with important
-        or confidential data. Use it only with data you can afford to lose or leak.
-      </p>
+      <Admonition
+        kind="warning"
+        title="Active Development"
+        class="mx-auto mt-8 max-w-xl text-left"
+      >
+        <p>
+          Tascarrel is under active development. Things may break, and its
+          security properties have not been independently audited.
+        </p>
+      </Admonition>
     </div>
   </Section>
 

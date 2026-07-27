@@ -14,10 +14,10 @@ agent's actions correct.
 Virtual machines and Linux namespaces serve different purposes. Understanding
 the distinction is essential before running unfamiliar code or agents.
 
-:::caution[Experimental Security]
+:::warning[Active Development]
 
-These are design goals, not production security guarantees. Tascarrel is
-experimental and receives no guaranteed security updates.
+Tascarrel is under active development. Things may break, and its security
+properties have not been independently audited.
 
 :::
 

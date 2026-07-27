@@ -47,4 +47,4 @@ workspace-level subvolumes shared by all pods.
 
 Tascarrel currently does not migrate incompatible state formats. Read
 [Maintain Workspace State](/docs/operations/maintain-workspace-state) before
-resetting or upgrading an experimental installation.
+resetting or upgrading an installation.

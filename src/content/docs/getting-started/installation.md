@@ -50,10 +50,28 @@ Download the package for your host from the
 - `tascarrel-desktop-x86_64-linux.deb` or `.rpm` for x86-64 Linux.
 - `tascarrel-desktop-aarch64-linux.deb` or `.rpm` for AArch64 Linux.
 
-On macOS, open the disk image and drag **Tascarrel** to Applications. The
-release is ad-hoc signed because release signing and notarization require an
-Apple Developer account. On first launch, macOS may require approval under
-**System Settings → Privacy & Security**.
+On macOS, download both the disk image and its `.sha256` file. Verify the disk
+image before opening it:
+
+```console
+cd ~/Downloads
+shasum -a 256 -c tascarrel-desktop-aarch64-darwin.dmg.sha256
+```
+
+Open the disk image and drag **Tascarrel** to Applications. The release is
+ad-hoc signed because the project does not use Apple Developer Program
+credentials. Before the first launch, remove the quarantine attribute from the
+installed app:
+
+```console
+xattr -dr com.apple.quarantine /Applications/Tascarrel.app
+open /Applications/Tascarrel.app
+```
+
+Only remove the quarantine attribute after the checksum succeeds and only for
+an app downloaded from the official Tascarrel GitHub release. Replace
+`/Applications/Tascarrel.app` with the installation path if Tascarrel was
+copied elsewhere.
 
 On Linux, install the package with the normal package manager. It creates a
 Tascarrel launcher entry for the desktop environment.

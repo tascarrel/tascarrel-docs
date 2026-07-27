@@ -23,6 +23,15 @@ browser startup page show these checks before the application loads. If a
 foreground server reports an occupied runtime, stop the installed service
 first.
 
+## macOS Reports That Tascarrel Is Damaged
+
+Tascarrel Desktop is ad-hoc signed, so Gatekeeper may reject the downloaded app
+even when the disk image is intact. Follow the checksum verification and
+quarantine removal steps under
+[Install Tascarrel Desktop](/docs/getting-started/installation/#install-tascarrel-desktop).
+Do not remove quarantine from an app whose checksum does not match the official
+release.
+
 ## A Workspace VM Does Not Start
 
 Inspect daemon logs for QEMU or disk errors. Recheck configured memory and disk

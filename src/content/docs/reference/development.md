@@ -32,6 +32,21 @@ nix flake check
 The `frontend/` package scripts provide its type checks, linting, and production
 build.
 
+## Develop the Frontend in a Pod
+
+Start Vite in the Tascarrel pod and publish its port:
+
+```console
+pnpm run dev
+podctl http publish --title "Tascarrel frontend" 5174
+```
+
+In the packaged frontend, trust the published route as the Tascarrel frontend,
+then open it from the Network view. Tascarrel's host daemon (`hostd`) installs a
+route-scoped `HttpOnly` cookie and exposes the same-origin API bridge below
+`/.tascarrel/api/v1`. The development frontend discovers that bridge without an
+API-root environment override.
+
 ## Build Guest Images
 
 ```console

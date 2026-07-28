@@ -20,6 +20,16 @@ The UI is available at <http://tascarrel.localhost:8272> by default. The install
 service uses a systemd user unit on Linux or a LaunchAgent on macOS and starts
 automatically when the user logs in.
 
+Pair each new browser with a single-use key created through the private control
+socket:
+
+```console
+tascarrelctl auth pair --label "Local browser"
+```
+
+Enter the printed key in the browser. Existing browser sessions reconnect
+without another key until they expire or are revoked.
+
 ```console
 tascarrelctl daemon restart
 tascarrelctl daemon stop
@@ -42,7 +52,8 @@ running, so reopening the app reconnects to the same state.
 The startup page appears immediately after the server begins listening. It
 reports host capability checks, payload validation and extraction, service
 initialization, and actionable failures such as missing QEMU. A failed
-retryable check can be repeated from the page.
+retryable check can be repeated from the page. The desktop application creates
+its browser session automatically through the private control socket.
 
 ## Run the Server in the Foreground
 
@@ -50,9 +61,10 @@ retryable check can be repeated from the page.
 tascarrel
 ```
 
-Open <http://tascarrel.localhost:8272> in a browser. The same server-hosted startup page
-appears before the application is ready. Stop the installed service first
-because two server processes cannot share the same runtime or web address.
+Create a pairing key, then open <http://tascarrel.localhost:8272> in a browser.
+The same server-hosted startup page appears before the application is ready.
+Stop the installed service first because two server processes cannot share the
+same runtime or web address.
 
 ## Inspect Service Logs
 

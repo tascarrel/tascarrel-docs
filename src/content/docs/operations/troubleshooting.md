@@ -1,5 +1,5 @@
 ---
-order: 3
+order: 4
 description: Resolve common installation, VM, network, image, agent, and editor failures.
 ---
 

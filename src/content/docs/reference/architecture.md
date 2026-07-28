@@ -31,8 +31,10 @@ configuration, QEMU processes, repository credentials and caches, SOPS
 providers, network enforcement, the web API, and upstream Git publication. It
 is the only component that should need host-side project credentials.
 
-The UI uses local HTTP and WebSocket endpoints. `tascarrelctl` uses a
-private Unix socket.
+The UI uses HTTP and WebSocket endpoints authenticated by a host-owned browser
+session. A pairing key created through `tascarrelctl` delegates that session
+from hostd's private Unix control socket. Published HTTP routes receive
+separate, route-scoped credentials derived from the browser session.
 
 ## Workspace Guest
 

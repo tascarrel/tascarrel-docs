@@ -1,5 +1,5 @@
 ---
-order: 2
+order: 3
 description: Understand retained state before replacing images or removing pods, caches, and workspaces.
 ---
 

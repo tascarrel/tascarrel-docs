@@ -1,13 +1,36 @@
 ---
 order: 1
-description: Look up every supported config.toml and settings.json field.
+description: Look up every supported server.toml, config.toml, and settings.json field.
 ---
 
 # Configuration Reference
 
-Tascarrel reads a workspace's declarative settings from `config.toml`. Field
-names use `kebab-case`, unknown fields are rejected, and the file is limited to
-4 MiB.
+Tascarrel reads host-wide settings from
+`$TASCARREL_HOME/config/server.toml` and workspace settings from each
+workspace's `config.toml` and `settings.json`. Unknown fields are rejected.
+
+## Server Configuration
+
+The optional `server.toml` file uses `kebab-case` fields and is limited to
+64 KiB. Hostd reads it at startup.
+
+```toml
+[remote-access]
+public-origin = "https://tascarrel.example.com"
+
+[authentication]
+secret-file = "/run/secrets/tascarrel-auth"
+```
+
+| Field                         | Type and Default                | Purpose                                                  |
+| ----------------------------- | ------------------------------- | -------------------------------------------------------- |
+| `remote-access.public-origin` | HTTPS origin; unset             | Public UI origin and source of the HTTP-route DNS suffix |
+| `authentication.secret-file`  | Path; generated key when absent | External private 32-byte browser-authentication key      |
+
+Relative authentication key paths resolve beside `server.toml`. Restart hostd
+after changing this file.
+
+Workspace `config.toml` files use `kebab-case` fields and are limited to 4 MiB.
 
 ## Virtual Machine and Features
 

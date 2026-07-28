@@ -16,7 +16,15 @@ installation, start it again with:
 tascarrelctl daemon start
 ```
 
-Open the UI at <http://tascarrel.localhost:8272>. If it does not load, check:
+Create a key for the first browser:
+
+```console
+tascarrelctl auth pair --label "Local browser"
+```
+
+Open the UI at <http://tascarrel.localhost:8272> and enter the printed key.
+Tascarrel retains the resulting browser session. If the UI does not load,
+check:
 
 ```console
 tascarrelctl daemon status
@@ -27,8 +35,8 @@ Run `tascarrel` directly to keep the server in the foreground.
 
 If you installed the experimental desktop application, open **Tascarrel** from
 the macOS or Linux application launcher instead. Its startup window reports host
-checks and payload extraction, then loads the application when the server is
-ready.
+checks and payload extraction, pairs its browser session through the private
+control socket, and loads the application when the server is ready.
 
 ## Create and Start a Workspace
 

@@ -1,6 +1,6 @@
 ---
 order: 2
-description: Look up the host CLI, environment overrides, and retained host data.
+description: Look up the host CLI, environment overrides, server configuration, and retained host data.
 ---
 
 # Tascarrel Executables
@@ -17,7 +17,8 @@ tascarrel [SERVER OPTIONS]
 
 The server serves its startup and application UI at
 <http://tascarrel.localhost:8272>. It publishes host checks, payload extraction progress,
-and actionable startup failures before initializing workspace services.
+and actionable startup failures before initializing workspace services. Browser
+API access requires a paired session.
 
 ## Administrative CLI
 
@@ -48,6 +49,15 @@ also be supplied as `TASCARREL_SOCKET`.
 | `tascarrelctl workspace info <NAME> --json`    | Emit the complete workspace record as JSON                                |
 | `tascarrelctl workspace delete <NAME>`         | Stop and permanently delete the workspace and all pods after confirmation |
 | `tascarrelctl workspace delete <NAME> --force` | Delete without interactive confirmation                                   |
+
+## Browser Authentication
+
+| Command                                         | Behavior                                                     |
+| ----------------------------------------------- | ------------------------------------------------------------ |
+| `tascarrelctl auth pair [--label <LABEL>]`      | Create a ten-minute, single-use browser pairing key          |
+| `tascarrelctl auth sessions`                    | List active browser sessions                                 |
+| `tascarrelctl auth sessions --json`             | Emit active browser sessions as JSON                         |
+| `tascarrelctl auth revoke <BROWSER_SESSION_ID>` | Revoke one browser session and its derived HTTP route grants |
 
 ## Daemon
 
@@ -88,15 +98,21 @@ The server installer also accepts `TASCARREL_VERSION`,
 ```text
 $TASCARREL_HOME/
 ├── config/
+│   ├── server.toml
 │   └── workspaces/<name>/
 ├── state/
 │   ├── payloads/<sha256>/
+│   ├── auth/
+│   │   ├── key
+│   │   └── sessions.sqlite3
 │   ├── runtime/
 │   │   └── control.sock
 │   └── workspaces/<name>/
 ```
 
-The `config` directory contains editable inputs. The `state/payloads` directory
+The optional `config/server.toml` file contains host-wide settings. The
+remaining `config` directory contains workspace inputs. The `state/auth`
+directory contains persistent browser authentication state, `state/payloads`
 contains verified embedded assets, `state/runtime` contains transient sockets,
-and `state/workspaces` contains persistent VM state. Do not edit state while the
-service is running.
+and `state/workspaces` contains persistent VM state. Restart the service after
+editing `server.toml`. Do not edit state while the service is running.

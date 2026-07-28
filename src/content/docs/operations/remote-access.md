@@ -119,6 +119,13 @@ tascarrelctl auth revoke browser_session_...
 Revocation closes the browser control connection and invalidates every HTTP
 route grant derived from that session.
 
+## Add Tascarrel to an iPhone Home Screen
+
+Pair the iPhone and open the Tascarrel UI in Safari. Tap **Share**, choose
+**Add to Home Screen**, enable **Open as Web App**, and tap **Add**. The Home
+Screen app uses Tascarrel's icon and opens the mobile task client in a
+standalone window.
+
 ## Understand Route Authentication
 
 Every published HTTP route requires authentication. The UI issues a 60-second,

@@ -64,6 +64,11 @@ precedence.
 | `secrets.providers.<name>.kind` | `"sops"`                        | Select the current provider implementation  |
 | `secrets.providers.<name>.file` | Relative path; `"secrets.json"` | SOPS-encrypted, string-valued JSON document |
 
+Initial secrets supplied by the workspace creation page are encrypted before
+the workspace is published. Hostd uses the user's default `id_ed25519` or
+`id_rsa` SSH key pair and requires its private-key file to work
+non-interactively.
+
 ## Setup and Initialization
 
 | Field                  | Type and Default | Purpose                                                        |
@@ -79,6 +84,7 @@ precedence.
 | `caches[].name`         | String                        | Stable backing-subvolume name                                      |
 | `caches[].path`         | Absolute or `~`-relative path | Read-write mount destination in every pod                          |
 | `repos."<path>".source` | String                        | Upstream URL for the host-owned checkout below `/workspace/<path>` |
+| `repos."<path>".branch` | Optional short branch name    | Branch checked out instead of the upstream default                 |
 | `repos."<path>".git`    | Git policy table              | Complete repository-specific replacement for the workspace policy  |
 
 Runtime-owned paths and overlapping cache destinations are rejected.

@@ -42,7 +42,7 @@ also be supplied as `TASCARREL_SOCKET`.
 | Command                                        | Behavior                                                                  |
 | ---------------------------------------------- | ------------------------------------------------------------------------- |
 | `tascarrelctl workspace list`                  | Print configured workspace names                                          |
-| `tascarrelctl workspace create <NAME>`         | Create a workspace with the default Debian development image              |
+| `tascarrelctl workspace create <NAME>`         | Create a workspace with the minimal Debian development image              |
 | `tascarrelctl workspace start <NAME>`          | Start its VM and wait until it is ready                                   |
 | `tascarrelctl workspace stop <NAME>`           | Stop its VM while preserving pods and configuration                       |
 | `tascarrelctl workspace info <NAME>`           | Show current VM state or startup failure                                  |

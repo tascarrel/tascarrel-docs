@@ -11,7 +11,10 @@ Configured repositories appear at their declared paths below `/workspace`:
 ```toml
 [repos."product/api"]
 source = "git@github.com:example/api.git"
+branch = "release/next"
 ```
+
+Omit `branch` to check out the upstream's advertised default branch.
 
 ## Review the Pod
 

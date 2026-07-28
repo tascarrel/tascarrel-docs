@@ -94,6 +94,9 @@ Put Codex guidance that applies to every task in `agents/AGENTS.md`. Place
 compatible reusable skills below `agents/skills/`; Tascarrel mounts workspace
 skills read-only and pins them to the pod's input generation. Tasci currently
 reads `/workspace/AGENTS.md` when starting a new model conversation.
+New workspaces also contain `agents/CLAUDE.md` as a relative symlink to
+`AGENTS.md`, so Claude Code and Codex receive the same workspace-level
+instructions.
 
 Define prompt shortcuts in `config.toml`:
 

@@ -1,11 +1,12 @@
 ---
 order: 3
-description: Start Tascarrel, create a workspace, connect an agent harness, and review one task.
+description: Start Tascarrel, create a workspace, configure an agent harness, and review one task.
 ---
 
 # Run Your First Task
 
-This guide uses the default configuration to run one reviewed agent task.
+This guide creates a workspace through the UI, configures one coding harness,
+and runs one reviewed agent task.
 
 ## Start Tascarrel
 
@@ -40,31 +41,34 @@ control socket, and loads the application when the server is ready.
 
 ## Create and Start a Workspace
 
-Create a workspace named `demo`:
+Use the workspace creation page in the UI:
 
-```console
-tascarrelctl workspace create demo
-tascarrelctl workspace start demo
-```
+1. Select **Create workspace**.
+2. Enter `demo` as the workspace name.
+3. Add the Git repositories for the first task and select their branches when
+   needed.
+4. Select the languages, tools, and workspace capabilities the project needs.
+   Leave optional settings at their defaults when unsure.
+5. Review the generated `Dockerfile`, `config.toml`, and `AGENTS.md`, then
+   select **Create workspace**.
 
-The `create` command writes a default Debian development configuration. The
-workspace `start` command starts the virtual machine and waits for its guest
-service to become ready.
+Tascarrel creates the workspace and starts its virtual machine. The first start
+may take a moment while the guest becomes ready.
 
-## Choose a Coding Harness
+## Configure a Coding Harness
 
-Choose one of the available harnesses:
+Before starting a task, open **Settings** in the workspace sidebar and configure
+at least one coding harness:
 
-- For Tasci, open **Workspace → Settings → Tasci**, add an OpenAI-compatible
-  endpoint and model, and select a default model. Tasci itself is bundled.
-- For Codex, install the pinned harness and choose **Sign in with ChatGPT**.
-  Complete the device-code flow under **Settings → Harnesses**.
-- For Claude Code, run `claude setup-token` separately and enter the resulting
-  setup token under **Settings → Harnesses**.
+- For Codex, open **Settings → Harnesses**, select **Install harness**, and then
+  select **Sign in with ChatGPT**. Complete the displayed device-code flow.
+- For Claude Code, open **Settings → Harnesses**, select **Install harness**,
+  run `claude setup-token` separately, and enter the resulting setup token.
+- For Tasci, open **Settings → Tasci**, add an OpenAI-compatible endpoint and
+  model, and select a default model. Tasci is bundled with Tascarrel.
 
-Harness configuration and credentials belong to the workspace rather than each
-pod. If a Tasci endpoint requires authentication, configure a secret provider
-before adding its authorization header.
+Harness credentials are shared by every pod in the workspace. Use separate
+workspaces when projects should not share agent credentials.
 
 ## Start a Task
 

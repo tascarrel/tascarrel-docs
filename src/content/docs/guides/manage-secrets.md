@@ -18,6 +18,27 @@ The path is relative to the workspace configuration directory and defaults to
 `secrets.json`. The decrypted document must be an object with string values.
 Use **Workspace → Settings → Secrets** to reveal, set, or delete values.
 
+## Initialize Developer-Service Tokens
+
+The workspace creation page can install GitHub CLI (`gh`) or GitLab CLI
+(`glab`) and initialize its token. Use a GitHub token with read-only
+permissions or a GitLab token with the `read_api` scope. Tascarrel cannot
+validate the token's authority without contacting the provider, so the selected
+permissions remain your responsibility.
+
+Hostd selects `$HOME/.ssh/id_ed25519.pub`, falling back to
+`$HOME/.ssh/id_rsa.pub`, and writes the corresponding SSH recipient into
+`.sops.yaml`. It encrypts the values into `secrets.json` and verifies a
+decrypting round trip before atomically publishing the workspace. The matching
+private-key file must therefore be usable non-interactively by hostd. SOPS's
+SSH-key support cannot decrypt through `ssh-agent` alone.
+
+The generated `GH_TOKEN` or `GITLAB_TOKEN` environment value is only a
+placeholder. Explicit HTTP rules replace that placeholder after a matching
+request leaves the VM. GitHub's rule admits `POST` because `gh` uses GraphQL
+for read operations; the token's provider permissions enforce the read-only
+boundary.
+
 ## Expose a Process Variable
 
 ```toml

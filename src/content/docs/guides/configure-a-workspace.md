@@ -16,7 +16,10 @@ $TASCARREL_HOME/config/workspaces/<name>/
 │   └── Dockerfile
 ├── agents/
 │   ├── AGENTS.md
+│   ├── CLAUDE.md -> AGENTS.md
 │   └── skills/
+├── .sops.yaml            # Optional SOPS policy
+├── secrets.json          # Optional SOPS-encrypted values
 ├── overlay/             # Optional
 ├── hooks/
 │   ├── setup/           # Optional
@@ -28,6 +31,20 @@ The installer defaults `TASCARREL_HOME` to `$HOME/.tascarrel`.
 `config.toml` is limited to 4 MiB and rejects unknown or malformed fields.
 See the [configuration reference](/docs/reference/configuration-reference) for
 the complete schema.
+
+When a workspace is created through the UI, the setup page generates
+`config.toml`, `image/Dockerfile`, and `agents/AGENTS.md` from the selected
+repositories, runtimes, capabilities, developer services, resources, and
+network policy. It creates `agents/CLAUDE.md` as a relative symlink to
+`AGENTS.md`, giving Claude Code the same workspace guidance.
+These files remain ordinary workspace configuration and can be edited here
+afterward. The generated agent guidance explains repository instruction
+precedence and how to publish HTTP development servers. It recommends Nix for
+ad-hoc tools only when the Nix daemon is selected. Initial developer-service
+tokens are supplied separately and encrypted before the workspace is
+published; they never appear in the generated files. Tascarrel supplies its
+interactive shell separately, so the generated image does not install or
+configure a shell.
 
 ## Size the Workspace VM
 

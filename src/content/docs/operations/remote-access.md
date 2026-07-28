@@ -16,7 +16,8 @@ Tascarrel automatically presents its mobile task client on phones and touch-orie
 mobile client supports starting tasks, interacting with chats, resolving requests, approving
 repository publications, starting and stopping task pods, and reviewing individual changed-file
 diffs. Use the desktop workbench for code editing, terminals, full file browsing, and workspace
-administration.
+administration. Within a workspace, the mobile client lists only running task pods; open a pod to
+choose or start a chat.
 
 ## Configure the Public Origin
 

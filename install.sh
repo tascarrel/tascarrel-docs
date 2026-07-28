@@ -446,4 +446,4 @@ else
 fi
 "$INSTALL_DIRECTORY/tascarrelctl" daemon status >/dev/null 2>&1 ||
   fail "the Tascarrel service is not active; inspect it with $INSTALL_DIRECTORY/tascarrelctl daemon logs"
-say "Tascarrel is running at http://127.0.0.1:8272"
+say "Tascarrel is running at http://tascarrel.localhost:8272"

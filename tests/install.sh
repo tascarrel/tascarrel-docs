@@ -141,7 +141,7 @@ assert_contains "$INSTALLER_TEST_LOG" "sudo apt-get install -y qemu-system-x86"
 assert_contains "$INSTALLER_TEST_LOG" "sops_3.13.3_amd64.deb"
 assert_contains "$INSTALLER_TEST_LOG" "install"
 assert_contains "$INSTALLER_TEST_LOG" "start"
-assert_contains "$first_output" "Tascarrel is running at http://127.0.0.1:8272"
+assert_contains "$first_output" "Tascarrel is running at http://tascarrel.localhost:8272"
 test -x "$TEST_HOME/.local/bin/tascarrel"
 test -x "$TEST_HOME/.local/bin/tascarrelctl"
 

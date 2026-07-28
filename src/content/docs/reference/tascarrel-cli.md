@@ -15,8 +15,8 @@ lifecycle. Pod creation and development work happen in the UI.
 tascarrel [SERVER OPTIONS]
 ```
 
-The server binds its startup and application UI to
-<http://127.0.0.1:8272>. It publishes host checks, payload extraction progress,
+The server serves its startup and application UI at
+<http://tascarrel.localhost:8272>. It publishes host checks, payload extraction progress,
 and actionable startup failures before initializing workspace services.
 
 ## Administrative CLI

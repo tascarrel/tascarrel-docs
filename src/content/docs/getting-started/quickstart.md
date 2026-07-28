@@ -16,7 +16,7 @@ installation, start it again with:
 tascarrelctl daemon start
 ```
 
-Open the UI at <http://127.0.0.1:8272>. If it does not load, check:
+Open the UI at <http://tascarrel.localhost:8272>. If it does not load, check:
 
 ```console
 tascarrelctl daemon status

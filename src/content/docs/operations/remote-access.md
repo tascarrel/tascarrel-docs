@@ -12,6 +12,12 @@ requires a persistent session created with a short-lived pairing key.
 This guide uses `tascarrel.example.com` for the UI and
 `<route>.tascarrel.example.com` for published HTTP routes.
 
+Tascarrel automatically presents its mobile task client on phones and touch-oriented tablets. The
+mobile client supports starting tasks, interacting with chats, resolving requests, approving
+repository publications, starting and stopping task pods, and reviewing individual changed-file
+diffs. Use the desktop workbench for code editing, terminals, full file browsing, and workspace
+administration.
+
 ## Configure the Public Origin
 
 Create `$TASCARREL_HOME/config/server.toml` with the externally visible HTTPS

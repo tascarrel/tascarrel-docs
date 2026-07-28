@@ -40,7 +40,8 @@ The installer:
    or APT (uses `sudo`).
 3. Downloads and verifies the matching Tascarrel release archive.
 4. Installs `tascarrel` and `tascarrelctl` under `~/.local/bin`.
-5. Registers and starts the per-user service, or restarts an existing service.
+5. Enables the per-user service at login and starts it, or restarts an existing
+   service.
 
 Ensure `~/.local/bin` is on your `PATH`, or use the complete executable path in
 the examples that follow.

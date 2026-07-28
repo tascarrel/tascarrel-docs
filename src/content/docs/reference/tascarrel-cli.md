@@ -32,7 +32,7 @@ also be supplied as `TASCARREL_SOCKET`.
 
 | Command                                  | Behavior                                                                       |
 | ---------------------------------------- | ------------------------------------------------------------------------------ |
-| `tascarrelctl install [--server <PATH>]` | Install a server executable and register the per-user service                  |
+| `tascarrelctl install [--server <PATH>]` | Install a server executable and enable the per-user service                    |
 | `tascarrelctl doctor`                    | Check host architecture, QEMU, acceleration, Git, SOPS, and service management |
 | `tascarrelctl doctor --json`             | Emit the diagnostic report as JSON                                             |
 

@@ -17,7 +17,8 @@ tascarrelctl daemon status
 ```
 
 The UI is available at <http://tascarrel.localhost:8272> by default. The installed
-service uses a systemd user unit on Linux or a LaunchAgent on macOS.
+service uses a systemd user unit on Linux or a LaunchAgent on macOS and starts
+automatically when the user logs in.
 
 ```console
 tascarrelctl daemon restart
@@ -25,7 +26,12 @@ tascarrelctl daemon stop
 ```
 
 Use the installed service when the server should start independently of the
-desktop app or browser.
+desktop app or browser. A Linux user service starts at boot without an
+interactive login only when lingering is enabled for that user:
+
+```console
+sudo loginctl enable-linger "$USER"
+```
 
 ## Use the Experimental Desktop Application
 

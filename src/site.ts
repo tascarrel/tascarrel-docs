@@ -27,6 +27,13 @@ export const brand: Brand = {
   themeColor: { dark: "#0b0d12", light: "#fafafa" },
   titleTemplate: "%s — Tascarrel",
   plausible: { domain: "tascarrel.dev" },
+  banner: {
+    id: "tascarrel-alpha-feedback",
+    messageHtml:
+      'Tascarrel is alpha software and may break. We’re looking for your feedback — <a href="https://github.com/tascarrel/tascarrel/issues">share it on GitHub</a>.',
+    tone: "primary",
+    dismissible: true,
+  },
 };
 
 export const nav: NavItem[] = [

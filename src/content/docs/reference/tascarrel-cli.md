@@ -30,11 +30,11 @@ also be supplied as `TASCARREL_SOCKET`.
 
 ## Maintain Tascarrel
 
-| Command                                  | Behavior                                                                                |
-| ---------------------------------------- | --------------------------------------------------------------------------------------- |
-| `tascarrelctl install [--server <PATH>]` | Install a server executable and register the per-user service                           |
-| `tascarrelctl doctor`                    | Check host architecture, QEMU, acceleration, Git, service management, and optional SOPS |
-| `tascarrelctl doctor --json`             | Emit the diagnostic report as JSON                                                      |
+| Command                                  | Behavior                                                                       |
+| ---------------------------------------- | ------------------------------------------------------------------------------ |
+| `tascarrelctl install [--server <PATH>]` | Install a server executable and register the per-user service                  |
+| `tascarrelctl doctor`                    | Check host architecture, QEMU, acceleration, Git, SOPS, and service management |
+| `tascarrelctl doctor --json`             | Emit the diagnostic report as JSON                                             |
 
 ## Workspaces
 
@@ -79,8 +79,9 @@ A binary run without the installer defaults `TASCARREL_HOME` to `.tascarrel` in
 the current directory.
 
 The server installer also accepts `TASCARREL_VERSION`,
-`TASCARREL_GITHUB_REPOSITORY`, and `TASCARREL_RELEASE_BASE_URL`. It places the
-server and CLI executables in `$HOME/.local/bin`.
+`TASCARREL_SOPS_VERSION`, `TASCARREL_GITHUB_REPOSITORY`, and
+`TASCARREL_RELEASE_BASE_URL`. It places the server and CLI executables in
+`$HOME/.local/bin`.
 
 ## Host Data
 

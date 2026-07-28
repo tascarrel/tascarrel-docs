@@ -9,11 +9,8 @@ This guide uses the default configuration to run one reviewed agent task.
 
 ## Start Tascarrel
 
-Open **Tascarrel** from the macOS or Linux application launcher. The startup
-window reports host checks and payload extraction, then loads the application
-when the server is ready.
-
-For a server-only installation, start the per-user service:
+The server installer starts the per-user service. If you stopped it after
+installation, start it again with:
 
 ```console
 tascarrelctl daemon start
@@ -27,6 +24,11 @@ tascarrelctl daemon logs
 ```
 
 Run `tascarrel` directly to keep the server in the foreground.
+
+If you installed the experimental desktop application, open **Tascarrel** from
+the macOS or Linux application launcher instead. Its startup window reports host
+checks and payload extraction, then loads the application when the server is
+ready.
 
 ## Create and Start a Workspace
 

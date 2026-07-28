@@ -18,17 +18,17 @@ tascarrelctl daemon logs
 ```
 
 On Linux, confirm that the user can access `/dev/kvm`. On macOS, confirm that
-the installed QEMU supports the Hypervisor Framework. Tascarrel Desktop and the
-browser startup page show these checks before the application loads. If a
-foreground server reports an occupied runtime, stop the installed service
-first.
+the installed QEMU supports the Hypervisor Framework. The browser startup page
+and experimental desktop application show these checks before the application
+loads. If a foreground server reports an occupied runtime, stop the installed
+service first.
 
-## macOS Reports That Tascarrel Is Damaged
+## macOS Rejects the Experimental Desktop Application
 
 Tascarrel Desktop is ad-hoc signed, so Gatekeeper may reject the downloaded app
 even when the disk image is intact. Follow the checksum verification and
 quarantine removal steps under
-[Install Tascarrel Desktop](/docs/getting-started/installation/#install-tascarrel-desktop).
+[Install the Experimental Desktop Application](/docs/getting-started/installation/#install-the-experimental-desktop-application).
 Do not remove quarantine from an app whose checksum does not match the official
 release.
 

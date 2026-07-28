@@ -416,10 +416,11 @@ const existingSetupCapabilities = [
       <p
         class="text-content-subtle mx-auto mt-4 max-w-2xl text-sm leading-relaxed"
       >
-        You will need QEMU and Git on the host. The installer itself needs no
-        root: it verifies the release checksum, puts <code>tascarrel</code> and
-        <code>tascarrelctl</code> in <code>~/.local/bin</code>, and registers a
-        per-user service. Rather read it first? Fetch
+        The installer checks host virtualization, installs missing QEMU, Git,
+        and SOPS packages, verifies the release checksum, and starts a per-user
+        service. Missing Linux packages are installed with <code>sudo</code>;
+        macOS package installation requires Homebrew. Rather read it first?
+        Fetch
         <a href="/install.sh">install.sh</a>, check it, then run it.
       </p>
       <div class="mt-8 flex flex-wrap justify-center gap-3">

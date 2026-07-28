@@ -21,6 +21,13 @@ The initial release supports:
 Intel macOS, 32-bit systems, and hosts without the required virtualization
 accelerator are unsupported. USB forwarding is Linux-host-only.
 
+## Distribution Status
+
+The server and CLI installed through `install.sh` are the recommended
+distribution. Tascarrel Desktop is experimental on every host and does not have
+an integrated update mechanism. Its macOS package is ad-hoc signed and not
+notarized.
+
 ## Isolation and Availability
 
 One QEMU VM separates each workspace from the host and other workspaces. Pods

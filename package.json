@@ -10,6 +10,7 @@
     "build": "astro build",
     "preview": "astro preview --host 127.0.0.1 --port 4325",
     "check": "astro check",
+    "test:installer": "sh tests/install.sh",
     "fmt": "prettier --write \"**/*.{ts,md,mdx,js,mjs,json,css,astro}\"",
     "render:social-card": "node scripts/render-social-card.mjs"
   },

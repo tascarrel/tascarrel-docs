@@ -1,23 +1,13 @@
 ---
 order: 1
-description: Run Tascarrel from the desktop app, as an installed service, or in the foreground.
+description: Run Tascarrel as an installed service, in the foreground, or through the experimental desktop app.
 ---
 
 # Run the Host Service
 
 Tascarrel's server owns workspace VMs and serves both the startup page and
-application UI. Tascarrel Desktop starts the same server on demand.
-
-## Use Tascarrel Desktop
-
-Open **Tascarrel** from the application launcher. Opening it again focuses the
-existing window. Closing the window leaves the server and workspace VMs
-running, so reopening the app reconnects to the same state.
-
-The startup page appears immediately after the server begins listening. It
-reports host capability checks, payload validation and extraction, service
-initialization, and actionable failures such as missing QEMU. A failed
-retryable check can be repeated from the page.
+application UI. The recommended installation runs it as a per-user service.
+The experimental desktop application starts the same server on demand.
 
 ## Use the Installed Service
 
@@ -36,6 +26,17 @@ tascarrelctl daemon stop
 
 Use the installed service when the server should start independently of the
 desktop app or browser.
+
+## Use the Experimental Desktop Application
+
+Open **Tascarrel** from the application launcher. Opening it again focuses the
+existing window. Closing the window leaves the server and workspace VMs
+running, so reopening the app reconnects to the same state.
+
+The startup page appears immediately after the server begins listening. It
+reports host capability checks, payload validation and extraction, service
+initialization, and actionable failures such as missing QEMU. A failed
+retryable check can be repeated from the page.
 
 ## Run the Server in the Foreground
 

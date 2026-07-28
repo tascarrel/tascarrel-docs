@@ -94,6 +94,11 @@ podctl http unpublish 3000
 The UI provides the same actions under **HTTP Routes**. An internal route,
 created with `--internal`, stays out of normal pod tabs.
 
+Hostd presents the route's service with a canonical loopback authority. The
+route's final hostname becomes `localhost`; any labels to the left become
+`<labels>.tascarrel.localhost`. This mapping is independent of whether the
+browser uses the local route suffix or a configured public suffix.
+
 One route can be marked as the trusted Tascarrel frontend. Its exact origin then
 receives full Tascarrel API access, replacing any previously trusted route.
 Grant this capability only to reviewed code; sibling and nested hostnames do

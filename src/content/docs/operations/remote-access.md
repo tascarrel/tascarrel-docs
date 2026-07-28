@@ -28,6 +28,13 @@ certificate can then cover `tascarrel.example.com` and
 recognize `<route>.tascarrel.localhost` for desktop and loopback development
 workflows.
 
+The public suffix identifies routes but is not exposed to routed services.
+Hostd presents `localhost` for `<route>.tascarrel.example.com` and
+`<prefix>.tascarrel.localhost` for
+`<prefix>.<route>.tascarrel.example.com`. It applies the same mapping to
+`Host`, same-origin `Origin`, and same-origin `Referer` values. This gives
+services the same loopback origin locally and through remote access.
+
 Hostd generates a private authentication key below
 `$TASCARREL_HOME/state/auth/`. Supply an externally managed 32-byte raw key
 with an optional server setting:
@@ -111,6 +118,10 @@ Every published HTTP route requires authentication. The UI issues a 60-second,
 single-use ticket in the URL fragment. Fragments do not reach Nginx, hostd's
 HTTP logs, or the routed application. The route exchanges the ticket for a
 host-only `HttpOnly` cookie and redirects to the clean target.
+
+Embedded previews use their ticket only to bootstrap the frame. Opening a route
+in a new tab from a preview or the network settings issues a fresh ticket
+instead of reusing the frame's consumed ticket.
 
 Hostd removes only its reserved route credential before proxying. Cookies owned
 by the routed application continue to work. A route trusted as a Tascarrel

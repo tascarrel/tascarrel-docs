@@ -45,6 +45,20 @@ Workspace `config.toml` files use `kebab-case` fields and are limited to 4 MiB.
 | `features.usb`            | Boolean; `false`                           | Dynamic Linux-host USB forwarding    |
 | `nix.daemon`              | Boolean; `false`                           | Persistent workspace-wide Nix daemon |
 
+## Host Shares
+
+| Field                    | Type and Default                         | Purpose                                             |
+| ------------------------ | ---------------------------------------- | --------------------------------------------------- |
+| `shares.<name>.path`     | Absolute or `~/`-relative path; required | Host directory exposed at `/mnt/<name>` in pods     |
+| `shares.<name>.writable` | Boolean; `false`                         | Permit the VM and pods to modify the host directory |
+
+Share names contain up to 64 ASCII letters, digits, `_`, or `-` and start with
+a letter or digit. Tascarrel resolves and pins at most 32 shares when the VM
+starts. Each directory appears at `/mnt/shares/<name>` in the VM and through an
+idmapped bind at `/mnt/<name>` in every pod. Duplicate directories and paths
+overlapping Tascarrel's configuration, state, or runtime trees are rejected.
+Share changes require a workspace restart.
+
 ## Configure Tools and Processes
 
 | Field                       | Type             | Purpose                                                                                 |

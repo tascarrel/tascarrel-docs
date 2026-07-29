@@ -58,6 +58,8 @@ can exhaust resources or make its own workspace unusable.
   does not yet support steering or atomic interrupt-and-send.
 - Existing pods do not receive a rebuilt image, refreshed seed, or updated
   workspace agent inputs.
+- Host-share changes require a VM restart. Linux hosts prefer virtiofs; macOS
+  and Linux fallback use virtio-9p with an ownership-normalizing bridge.
 - USB attachments last only for the current VM runtime.
 - Incompatible persistent state has no automatic migration or rollback layer.
 

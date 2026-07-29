@@ -29,9 +29,11 @@ protect:
 - The host from a compromised workspace.
 - Other workspace VMs from that workspace.
 
-The VM has no conventional network interface or host filesystem mount. It
-receives a private control connection, immutable system image, persistent state
-disk, and explicitly attached USB devices.
+The VM has no conventional network interface or implicit host filesystem mount.
+It receives a private control connection, immutable system image, persistent
+state disk, and explicitly attached USB devices. Named host shares are an
+explicit exception: configuring one exposes that host directory to every pod in
+the workspace, read-only by default or writable when requested.
 
 Crossing this boundary unexpectedly would require a vulnerability in a trusted
 component such as the host kernel, hypervisor, QEMU device emulation, host
@@ -48,6 +50,8 @@ root and has no relationship to host root.
 
 Optional Docker, Podman, Nix, nested-virtualization, and USB features deliberately
 expand a pod's interface to the guest. Enable only what a workspace needs.
+Host shares expand the interface through the VM to selected host directories;
+writable shares should be treated as direct authority to modify their contents.
 
 ## Pods Trust Their Workspace
 

@@ -60,6 +60,32 @@ host memory, and a 1 TiB sparse disk. Increasing `disk` grows existing state;
 decreasing it does not shrink the disk. Resource changes require a workspace
 restart.
 
+## Share a Host Directory
+
+Named shares explicitly expose host directories to the workspace VM and every
+pod:
+
+```toml
+[shares.source]
+path = "~/src/product"
+
+[shares.generated]
+path = "/srv/product/generated"
+writable = true
+```
+
+A share is read-only unless `writable = true` is set. Tascarrel presents an
+ownership-normalized view at `/mnt/shares/<name>` in the VM and exposes it
+through an idmapped bind at `/mnt/<name>` in each pod. It does not change the
+host directory's ownership.
+
+Paths must be absolute or begin with `~/`, must resolve to directories, and
+cannot overlap Tascarrel's configuration, state, or runtime directories.
+Changing shares requires a workspace restart because the host pins the resolved
+paths while it creates the VM. A writable share deliberately crosses the main
+VM isolation boundary; only share directories whose contents every pod in the
+workspace may modify.
+
 ## Set the Process Environment
 
 Declare non-sensitive values in `config.toml`:

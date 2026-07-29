@@ -28,13 +28,17 @@ Address and hostname deny rules take precedence. Hostname rules apply to
 inspected HTTP and HTTPS traffic. `*.example.com` matches subdomains, not the
 bare hostname. Network configuration changes require a workspace restart.
 
-Open **Workspace → Network → DNS Requests** and **TCP Flows** to see the
-requesting pod, destination, policy decision, and connection state. These
-diagnostic records are not packet captures.
+Open **Workspace → Network → DNS Requests**, **HTTP Requests**, and **TCP
+Flows** to see the requesting pod, destination, mediated request method and
+path, secret-injection state, policy decision, and connection state. Query
+strings and secret values are not retained. These diagnostic records are not
+packet captures.
 
 Current external network support is limited to TCP and captured DNS. Arbitrary
 UDP and external IPv6 are not implemented. HTTP inspection supports HTTP/1.1,
-including upgrades, but not HTTP/2, QUIC, or `CONNECT`.
+including upgrades, but not HTTP/2, QUIC, or `CONNECT`. HTTPS requests appear
+in the HTTP request log only when a matching secret-injection rule already
+requires `hostd` to terminate TLS. Other HTTPS traffic remains encrypted.
 
 ## Reach a Host Service
 

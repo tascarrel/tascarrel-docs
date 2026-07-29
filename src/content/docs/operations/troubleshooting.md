@@ -58,9 +58,10 @@ Inspect the supervised Docker process before assuming the socket is broken.
 
 ## A Network Request Is Denied
 
-Check **DNS Requests** and **TCP Flows**. Local destinations are blocked unless
-`allow-local = true`, even with the default allow action. Hostname policy
-applies only where Tascarrel can inspect HTTP or HTTPS.
+Check **DNS Requests**, **HTTP Requests**, and **TCP Flows**. Local destinations
+are blocked unless `allow-local = true`, even with the default allow action.
+Hostname policy applies only where Tascarrel can inspect HTTP or HTTPS. The
+HTTP request log excludes query strings and encrypted pass-through HTTPS.
 
 ## An Agent Cannot Start
 

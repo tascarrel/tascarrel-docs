@@ -55,7 +55,9 @@ can exhaust resources or make its own workspace unusable.
 - Archived chats cannot currently be restored through the interface.
 - Queued prompts do not survive an agent-engine restart.
 - Tasci cannot resume a model conversation after its harness process stops and
-  does not yet support steering or atomic interrupt-and-send.
+  does not yet support steering or atomic interrupt-and-send. Context
+  compaction works within the running harness, but its native append-only
+  session log is not durable yet.
 - Existing pods do not receive a rebuilt image, refreshed seed, or updated
   workspace agent inputs.
 - Host-share changes require a VM restart. Linux hosts prefer virtiofs; macOS

@@ -103,6 +103,24 @@ Token usage and cost estimates appear only when the harness reports enough
 data. Tasci can calculate costs from optional per-model pricing in
 `settings.json`. Provider billing remains authoritative.
 
+## Compact Long Tasci Chats
+
+Tasci compacts model context when a configured `contextWindow` approaches its
+limit. It asks the selected model for a structured checkpoint, retains a
+verbatim suffix at a complete user or assistant boundary, and uses the
+checkpoint plus that suffix for later requests. A provider context-overflow
+response triggers the same process followed by one retry.
+
+Compaction does not delete Tasci's native conversation data. User, assistant,
+tool-result, and compaction records remain in an append-only session log for
+the life of the harness process. Only the context projected into subsequent
+model requests changes. The timeline reports successful and failed compaction
+attempts.
+
+The chat compaction action can also request this process while Tasci is idle.
+There must be enough older context to summarize; a short chat has no useful
+compaction boundary.
+
 ## Provide Workspace Guidance
 
 Put Codex guidance that applies to every task in `agents/AGENTS.md`. Place

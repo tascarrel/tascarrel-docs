@@ -237,14 +237,17 @@ A model supports:
 | `endpoint`          | Alias of the endpoint that serves the model          |
 | `model`             | Provider-native model identifier                     |
 | `displayName`       | Optional interface label                             |
-| `contextWindow`     | Optional positive context-window metadata            |
-| `maxOutputTokens`   | Optional positive output-limit metadata              |
+| `contextWindow`     | Positive context limit used for automatic compaction |
+| `maxOutputTokens`   | Positive request output limit and compaction reserve |
 | `toolCalls`         | Whether the model supports structured tool calls     |
 | `parallelToolCalls` | Whether it supports parallel structured calls        |
 | `pricing`           | Optional versioned token prices for cost calculation |
 
 Tasci automatically projects streamed `reasoning_content` from compatible
-endpoints and retains it in assistant history.
+endpoints and retains it in assistant history. It requests streamed usage
+metadata from compatible endpoints. When `contextWindow` is configured, Tasci
+uses reported usage when available and a conservative text estimate otherwise
+to trigger context compaction before later requests overflow.
 
 Model selectors qualify each model name with its endpoint display name, such
 as `GLM 5.2 (Melious)`. The endpoint alias is used when no display name is

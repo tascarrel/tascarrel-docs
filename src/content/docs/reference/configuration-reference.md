@@ -152,9 +152,9 @@ the request method participate in secret injection.
 
 ## Portable Interface Settings
 
-The host-owned `settings.json` file contains portable interface preferences and
-Tasci's model and MCP server catalogs. It uses `camelCase` names and can be
-edited through **Workspace → Settings**.
+The host-owned `settings.json` file contains portable interface preferences,
+including Tasci's model preferences and its model and MCP server catalogs. It
+uses `camelCase` names and can be edited through **Workspace → Settings**.
 
 ### Harness Model Preferences
 
@@ -168,7 +168,7 @@ entry supports:
 | `hiddenModels`   | Models omitted from ordinary selection controls       |
 | `favoriteModels` | Models shown before other visible models              |
 
-### Tasci Endpoints, Models, and MCP Servers
+### Tasci Model Preferences, Endpoints, and MCP Servers
 
 Tasci is bundled with Tascarrel. Its `chat.tasci` settings map workspace-local
 model aliases to OpenAI-compatible Chat Completions endpoints:
@@ -178,6 +178,8 @@ model aliases to OpenAI-compatible Chat Completions endpoints:
   "chat": {
     "tasci": {
       "defaultModel": "development",
+      "modelOrder": ["development"],
+      "favoriteModels": ["development"],
       "endpoints": {
         "local": {
           "protocol": "OpenAiChatCompletions",
@@ -217,6 +219,18 @@ model aliases to OpenAI-compatible Chat Completions endpoints:
   }
 }
 ```
+
+The Tasci object supports:
+
+| Field            | Purpose                                                |
+| ---------------- | ------------------------------------------------------ |
+| `defaultModel`   | Model alias selected for new chats                     |
+| `modelOrder`     | Model aliases placed first in the specified order      |
+| `hiddenModels`   | Models omitted from ordinary selection controls        |
+| `favoriteModels` | Models shown before other visible models               |
+| `endpoints`      | Inference endpoints keyed by workspace-local aliases   |
+| `models`         | Selectable models keyed by workspace-local aliases     |
+| `mcpServers`     | Streamable HTTP MCP servers keyed by workspace aliases |
 
 An endpoint supports:
 

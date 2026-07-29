@@ -80,11 +80,33 @@ without restarting the VM.
 
 ## Authenticate a Tasci Endpoint
 
-Configure Tasci endpoint authorization under **Workspace → Settings → Tasci**.
-The endpoint refers to a host-owned provider and secret instead of storing the
-token in `settings.json`.
+Tasci sends a non-secret header template. The host network proxy replaces
+its placeholder, so the credential never enters the workspace VM or pod.
+HTTPS endpoints are verified through the workspace system trust store, which
+includes the Tascarrel workspace certificate authority.
 
-Tascarrel resolves the token when starting or changing a Tasci model and passes
-the complete authorization header only to that pod's private Tasci process.
-Unlike HTTP secret injection, the credential therefore enters the workspace VM
-and selected pod.
+Configure the endpoint under **Workspace → Settings → Tasci**:
+
+```json
+{
+  "authorization": {
+    "header": "Authorization",
+    "value": "Bearer tascarrel-secret:model-api-token"
+  }
+}
+```
+
+Then configure the same placeholder for the provider host in `config.toml`:
+
+```toml
+[[network.secret-injection]]
+host = "api.example.com"
+methods = ["POST"]
+header = "authorization"
+placeholder = "tascarrel-secret:model-api-token"
+secret = "project.MODEL_API_TOKEN"
+```
+
+The OpenAI-compatible Chat Completions protocol uses `POST`, so the rule must
+admit that method. A placeholder mismatch leaves the template unchanged and
+normally causes the provider to reject the request.

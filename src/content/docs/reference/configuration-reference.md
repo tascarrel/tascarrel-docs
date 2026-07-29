@@ -182,6 +182,14 @@ model aliases to OpenAI-compatible Chat Completions endpoints:
         "local": {
           "protocol": "OpenAiChatCompletions",
           "baseUrl": "http://host.tascarrel.internal:18080/v1"
+        },
+        "host-injected": {
+          "protocol": "OpenAiChatCompletions",
+          "baseUrl": "https://api.example.com/v1",
+          "authorization": {
+            "header": "Authorization",
+            "value": "Bearer tascarrel-secret:model-api-token"
+          }
         }
       },
       "models": {
@@ -204,24 +212,23 @@ An endpoint supports:
 | `displayName`   | Optional interface label                                                   |
 | `protocol`      | `OpenAiChatCompletions`; the only currently supported protocol             |
 | `baseUrl`       | Absolute HTTP or HTTPS API URL without credentials, a query, or a fragment |
-| `authorization` | Optional secret-backed authorization header                                |
+| `authorization` | Optional non-secret authorization header template                          |
 
-The token stays out of `settings.json`; authorization refers to a configured
-secret:
+An authorization template supplies the header and a placeholder-bearing value:
 
 ```json
 {
   "header": "Authorization",
-  "prefix": "Bearer ",
-  "credential": {
-    "provider": "project",
-    "secret": "MODEL_API_TOKEN"
-  }
+  "value": "Bearer tascarrel-secret:model-api-token"
 }
 ```
 
-Tascarrel resolves that secret only for a selected Tasci session and delivers
-the complete header to its private pod process.
+The template is not a credential. Configure a matching
+`network.secret-injection` rule in `config.toml`; the host proxy replaces the
+placeholder after the request leaves the workspace. Tasci never receives the
+secret. Older `prefix` and `credential` settings remain readable for migration,
+but Tascarrel converts them into the default `tascarrel-secret:<name>`
+placeholder instead of resolving the referenced secret.
 
 A model supports:
 
@@ -235,6 +242,13 @@ A model supports:
 | `toolCalls`         | Whether the model supports structured tool calls     |
 | `parallelToolCalls` | Whether it supports parallel structured calls        |
 | `pricing`           | Optional versioned token prices for cost calculation |
+
+Tasci automatically projects streamed `reasoning_content` from compatible
+endpoints and retains it in assistant history.
+
+Model selectors qualify each model name with its endpoint display name, such
+as `GLM 5.2 (Melious)`. The endpoint alias is used when no display name is
+configured.
 
 `pricing` contains `catalogVersion`, a positive `tokenCount`, required `input`
 and `output` monetary amounts, and optional `cacheReadInput` and

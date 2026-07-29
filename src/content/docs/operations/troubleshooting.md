@@ -70,8 +70,9 @@ the agent's supervised process output. Model availability and authentication
 errors can originate from the harness provider rather than Tascarrel.
 
 For Tasci, also check **Settings → Tasci**, the selected endpoint and model, its
-secret reference, and the workspace network policy. Tasci requires an
-OpenAI-compatible Chat Completions endpoint.
+authorization template, and the matching workspace network secret-injection
+rule. Tasci requires an OpenAI-compatible Chat Completions endpoint. Its
+supervised process log records harness startup, turns, and provider failures.
 
 ## The Web Editor or a Preview Does Not Open
 

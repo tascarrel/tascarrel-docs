@@ -23,6 +23,11 @@ or file approval prompts, and Tasci's built-in tools likewise run without
 per-action confirmation. The workspace VM and its declared access policies
 limit what an agent can reach on the host and network.
 
+Tasci resolves relative file-tool paths from `/workspace`. Its read, edit, and
+write tools also accept absolute paths and paths containing parent components,
+so they can access any UTF-8 file permitted to the Tasci process inside the
+task pod. The pod and workspace VM remain the isolation boundary.
+
 That safety boundary makes autonomy practical. Agents keep working without
 permission prompts while the UI tracks their activity and surfaces
 decisions, failures, and completed turns. You give up some moment-to-moment
@@ -42,10 +47,11 @@ Choose one of the supported harnesses:
 
 Use different workspaces when projects should not share agent credentials.
 
-Tasci endpoint authorization refers to a host-owned secret. The token stays out
-of `settings.json`, but Tascarrel passes the complete authorization header to
-the selected pod's private Tasci process. The endpoint must also be reachable
-under the workspace's [network policy](/docs/guides/control-network-access).
+Tasci endpoint authorization contains only a placeholder-bearing header
+template. Configure a matching host-side HTTP secret-injection rule so the
+credential is inserted after the request leaves the workspace. The endpoint
+must also be reachable under the workspace's
+[network policy](/docs/guides/control-network-access).
 
 ## Start and Resume Chats
 
@@ -83,6 +89,15 @@ Tasci models are aliases that map to provider-native model identifiers and
 endpoints under **Settings → Tasci**. One endpoint can serve several models, and
 the model can be changed between turns. Tascarrel stores both kinds of settings
 in `settings.json`.
+
+Tasci preserves model-step order in the chat timeline. Text emitted before a
+tool call, the tool activity, and the response after the tool appear as
+separate consecutive items.
+
+Reasoning-capable OpenAI-compatible endpoints may stream
+`reasoning_content`. Tasci presents that content as a reasoning item and
+retains it in assistant history across tool steps. The llama-server default
+reasoning mode is `auto`, allowing the model chat template to enable reasoning.
 
 Token usage and cost estimates appear only when the harness reports enough
 data. Tasci can calculate costs from optional per-model pricing in

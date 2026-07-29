@@ -131,6 +131,11 @@ components.
 | `network.http-ports`      | Array of ports; `[80]`                      | Ports interpreted as HTTP                                          |
 | `network.https-ports`     | Array of ports; `[443]`                     | Ports interpreted as HTTPS                                         |
 
+The host daemon reloads this table after a short debounce period. New TCP flows
+receive the latest valid snapshot, while active flows retain their original
+snapshot. An invalid edit leaves the last valid snapshot in effect. An
+initially invalid configuration uses deny-all until it becomes valid.
+
 Each `[[network.secret-injection]]` entry supports:
 
 | Field         | Type and Default                       | Purpose                                                 |

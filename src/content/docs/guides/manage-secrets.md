@@ -73,8 +73,10 @@ non-routing header. Every injection rule must list at least one syntactically
 valid, case-sensitive HTTP method. Host rules accept an exact name or
 `*.example.com` pattern. When several rules match a host, a method is admitted
 if at least one of those rules lists it, and only rules listing that method can
-inject. Updating a value in an existing provider takes effect on the next
-matching request without restarting the VM.
+inject. Rule and provider-configuration changes apply to new TCP flows after
+the network policy reloads; active flows retain their original rules. Updating
+a value in an existing provider takes effect on the next matching request
+without restarting the VM.
 
 ## Authenticate a Tasci Endpoint
 

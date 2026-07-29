@@ -26,7 +26,13 @@ deny-hosts = ["telemetry.example.com"]
 
 Address and hostname deny rules take precedence. Hostname rules apply to
 inspected HTTP and HTTPS traffic. `*.example.com` matches subdomains, not the
-bare hostname. Network configuration changes require a workspace restart.
+bare hostname.
+
+The host daemon reloads network configuration after a short debounce period.
+Each new TCP flow uses the latest valid policy snapshot; active flows continue
+with the snapshot they received when they started. An invalid edit retains the
+last valid snapshot. If the configuration is already invalid when the workspace
+starts, new flows use deny-all until the configuration becomes valid.
 
 Open **Workspace → Network → DNS Requests**, **HTTP Requests**, and **TCP
 Flows** to see the requesting pod, destination, mediated request method and

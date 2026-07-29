@@ -78,7 +78,7 @@ the network policy reloads; active flows retain their original rules. Updating
 a value in an existing provider takes effect on the next matching request
 without restarting the VM.
 
-## Authenticate a Tasci Endpoint
+## Authenticate Tasci Traffic
 
 Tasci sends a non-secret header template. The host network proxy replaces
 its placeholder, so the credential never enters the workspace VM or pod.
@@ -110,3 +110,22 @@ secret = "project.MODEL_API_TOKEN"
 The OpenAI-compatible Chat Completions protocol uses `POST`, so the rule must
 admit that method. A placeholder mismatch leaves the template unchanged and
 normally causes the provider to reject the request.
+
+MCP servers accept an arbitrary map of header templates under
+`chat.tasci.mcpServers`:
+
+```json
+{
+  "private-tools": {
+    "endpoint": "https://mcp.example.com/mcp",
+    "headers": {
+      "Authorization": "Bearer tascarrel-secret:mcp-api-token",
+      "X-Workspace": "development"
+    }
+  }
+}
+```
+
+Configure one secret-injection rule for each placeholder-bearing header.
+Streamable HTTP MCP connections use `POST` and may also use `GET` and `DELETE`,
+so authenticated servers commonly admit all three methods.

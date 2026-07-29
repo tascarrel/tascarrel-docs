@@ -153,8 +153,8 @@ the request method participate in secret injection.
 ## Portable Interface Settings
 
 The host-owned `settings.json` file contains portable interface preferences and
-the Tasci model catalog. It uses `camelCase` names and can be edited through
-**Workspace → Settings**.
+Tasci's model and MCP server catalogs. It uses `camelCase` names and can be
+edited through **Workspace → Settings**.
 
 ### Harness Model Preferences
 
@@ -168,7 +168,7 @@ entry supports:
 | `hiddenModels`   | Models omitted from ordinary selection controls       |
 | `favoriteModels` | Models shown before other visible models              |
 
-### Tasci Endpoints and Models
+### Tasci Endpoints, Models, and MCP Servers
 
 Tasci is bundled with Tascarrel. Its `chat.tasci` settings map workspace-local
 model aliases to OpenAI-compatible Chat Completions endpoints:
@@ -198,6 +198,19 @@ model aliases to OpenAI-compatible Chat Completions endpoints:
           "model": "provider-model-id",
           "displayName": "Development Model",
           "toolCalls": true
+        }
+      },
+      "mcpServers": {
+        "exa": {
+          "displayName": "Exa",
+          "endpoint": "https://mcp.exa.ai/mcp"
+        },
+        "private-tools": {
+          "endpoint": "https://mcp.example.com/mcp",
+          "headers": {
+            "Authorization": "Bearer tascarrel-secret:mcp-api-token",
+            "X-Workspace": "development"
+          }
         }
       }
     }
@@ -242,6 +255,19 @@ A model supports:
 | `toolCalls`         | Whether the model supports structured tool calls     |
 | `parallelToolCalls` | Whether it supports parallel structured calls        |
 | `pricing`           | Optional versioned token prices for cost calculation |
+
+An MCP server supports:
+
+| Field         | Purpose                                                                        |
+| ------------- | ------------------------------------------------------------------------------ |
+| `displayName` | Optional interface label                                                       |
+| `endpoint`    | Absolute Streamable HTTP URL without credentials, a query, or a fragment       |
+| `headers`     | Optional map of HTTP header names to non-secret, placeholder-bearing templates |
+
+Tasci discovers every tool advertised by each server. Model-visible tool names
+use the `mcp__<server>__<tool>` namespace. Configuring a server trusts all tools
+and descriptions it advertises. Header values may use any valid HTTP header
+text, including placeholders handled by `network.secret-injection`.
 
 Tasci automatically projects streamed `reasoning_content` from compatible
 endpoints and retains it in assistant history. It requests streamed usage

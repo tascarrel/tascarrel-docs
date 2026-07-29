@@ -53,6 +53,50 @@ credential is inserted after the request leaves the workspace. The endpoint
 must also be reachable under the workspace's
 [network policy](/docs/guides/control-network-access).
 
+## Add MCP Tools to Tasci
+
+The Model Context Protocol (MCP) lets an agent call tools provided by an
+external service. Add Streamable HTTP servers under Tasci's workspace settings:
+
+```json
+{
+  "chat": {
+    "tasci": {
+      "mcpServers": {
+        "exa": {
+          "displayName": "Exa",
+          "endpoint": "https://mcp.exa.ai/mcp"
+        }
+      }
+    }
+  }
+}
+```
+
+Tasci discovers every tool advertised by a configured server. It prefixes
+model-visible names with the server's settings name, so Exa's
+`web_search_exa` tool becomes `mcp__exa__web_search_exa`. Enabling a server
+therefore trusts all tools and tool descriptions that it advertises. Tool
+arguments, including search queries and URLs, leave the workspace and are sent
+to that server. Tasci accepts only text results and limits how much result text
+enters the model context.
+
+Each server may define arbitrary HTTP header templates:
+
+```json
+{
+  "headers": {
+    "Authorization": "Bearer tascarrel-secret:mcp-token",
+    "X-Workspace": "development"
+  }
+}
+```
+
+Configure matching host-side secret-injection rules for placeholder-bearing
+values. The workspace network policy must also permit access to the endpoint.
+If one server is unavailable, Tasci starts without its tools and reports a
+warning instead of failing the harness.
+
 ## Start and Resume Chats
 
 Open a pod's **Agent** view, choose a harness and model, and send a prompt.

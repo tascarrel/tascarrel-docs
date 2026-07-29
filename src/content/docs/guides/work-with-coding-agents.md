@@ -103,9 +103,14 @@ Open a pod's **Agent** view, choose a harness and model, and send a prompt.
 Chats retain messages, attachments, status, and harness metadata even when the
 harness process stops. Navigating away does not terminate an active turn.
 
-Codex and Claude Code can resume their provider sessions after a harness or
-workspace restart. Tasci retains the visible chat record but cannot yet resume
-its model conversation after the Tasci process stops.
+Each harness can resume its model conversation after a harness or workspace
+restart. Codex and Claude Code use their own session stores. Tasci keeps a
+versioned native session journal under `~/.tasci/sessions` in the associated
+pod. The shared chat database stores only an opaque Tasci resume cursor, not
+Tasci's messages or compaction records.
+
+The Tasci journal belongs to the pod that owns the chat. Removing the pod or
+its journal prevents that chat from resuming its native model context.
 
 A pod can have multiple chats. **Interrupt** asks an active harness to stop
 cooperatively. Archiving removes a completed chat from the active list; the web
@@ -156,10 +161,11 @@ checkpoint plus that suffix for later requests. A provider context-overflow
 response triggers the same process followed by one retry.
 
 Compaction does not delete Tasci's native conversation data. User, assistant,
-tool-result, and compaction records remain in an append-only session log for
-the life of the harness process. Only the context projected into subsequent
-model requests changes. The timeline reports successful and failed compaction
-attempts.
+tool-result, and compaction records remain in the durable append-only session
+journal. Tasci commits each successful turn or compaction as one recoverable
+transaction before reporting completion. Only the context projected into
+subsequent model requests changes. The timeline reports successful and failed
+compaction attempts.
 
 The chat compaction action can also request this process while Tasci is idle.
 There must be enough older context to summarize; a short chat has no useful

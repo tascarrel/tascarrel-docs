@@ -54,10 +54,9 @@ can exhaust resources or make its own workspace unusable.
 - Git ref deletion is not supported.
 - Archived chats cannot currently be restored through the interface.
 - Queued prompts do not survive an agent-engine restart.
-- Tasci cannot resume a model conversation after its harness process stops and
-  does not yet support steering or atomic interrupt-and-send. Context
-  compaction works within the running harness, but its native append-only
-  session log is not durable yet.
+- Tasci does not yet support steering or atomic interrupt-and-send. Its native
+  session journal belongs to the associated pod; deleting the pod or journal
+  prevents the stored chat from resuming its model context.
 - Tasci MCP support is limited to Streamable HTTP servers and text tool
   results. MCP prompts, resources, local standard-I/O servers, and rich result
   content are not supported.

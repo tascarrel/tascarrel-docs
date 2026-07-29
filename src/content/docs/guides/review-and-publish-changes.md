@@ -76,10 +76,12 @@ The remote transport carries the proposal through the workspace VM to the
 host. An allowed push publishes immediately, a denied push fails, and a push
 requiring approval waits for a decision in **Workspace → Repositories**.
 
-The approval shows exact old and new object IDs. Approve, reject, or postpone
-it after matching the refs to the commits you reviewed. Publication retains the
-old values as leases, so a concurrent upstream change fails closed. Multi-ref
-updates remain atomic.
+The approval shows exact old and new object IDs and the commits introduced by
+the updated refs. Select a commit to inspect its exact patch before approving,
+rejecting, or postponing the publication. The review reads immutable objects
+retained by the host, so it remains exact if the pod changes or disappears.
+Publication retains the old values as leases, so a concurrent upstream change
+fails closed. Multi-ref updates remain atomic.
 
 Ref deletion is not supported. Arbitrary remotes do not gain access to
 host-owned credentials.

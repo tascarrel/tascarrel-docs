@@ -16,6 +16,18 @@ branch = "release/next"
 
 Omit `branch` to check out the upstream's advertised default branch.
 
+## Add a Repository to an Existing Pod
+
+Repositories added to the workspace configuration are included in new pod
+workspace seeds. To add one to an existing pod, start the pod, open its
+**Repositories** tab, and select **Import** beside the absent checkout.
+
+Tascarrel imports one prepared host-cache version and configures the checkout
+for the same mediated fetch and push flow as a new pod. Import requires the
+configured path to be absent. If a file or directory already occupies that
+path, Tascarrel leaves it unchanged; move or remove the conflicting content
+yourself, or create a new pod.
+
 ## Review the Pod
 
 The **Changes** view shows modified, staged, deleted, and untracked files, along

@@ -94,7 +94,7 @@ repositories, images, network access, and settings. A selected pod provides:
 - **Code** for the embedded code editor.
 - **Changes** for Git status, commits, and diffs.
 - **Files** for quick previews below `/workspace`.
-- **Pod** for lifecycle details and supervised processes.
+- **Pod** for lifecycle details, supervised processes, and repository imports.
 
 Capabilities such as USB appear only when enabled.
 

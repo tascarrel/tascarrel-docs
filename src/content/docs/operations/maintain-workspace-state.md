@@ -21,6 +21,11 @@ Image and seed updates affect only new pods. Existing pods remain pinned to
 their original files, hooks, and agent inputs. Review and publish valuable
 changes before destroying an old pod.
 
+One explicit operation can extend a retained pod: a repository added to the
+workspace configuration can be imported from the running pod's
+**Repositories** tab. The import adds an absent checkout but never replaces
+existing pod files.
+
 See [Build Pod Images](/docs/guides/build-pod-images) for image and seed
 actions.
 

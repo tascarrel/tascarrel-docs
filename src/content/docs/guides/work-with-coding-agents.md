@@ -152,6 +152,18 @@ Token usage and cost estimates appear only when the harness reports enough
 data. Tasci can calculate costs from optional per-model pricing in
 `settings.json`. Provider billing remains authoritative.
 
+To track work for different clients or internal projects, add cost centers
+under **Workspace → Settings → Usage** and optionally select a default for new
+chats. The chat composer shows the assignment for a new chat, and an existing
+chat's assignment can be changed beside its status. Reassigning a chat moves
+its whole recorded history to the new cost center.
+
+The monthly report on the Usage settings page includes active and archived
+chats across all pods in the workspace. It keeps unassigned usage visible and
+shows when cost, provisional usage, or delegated-agent coverage is incomplete.
+Calculated costs use the pricing snapshot stored with each turn and are
+estimates rather than a replacement for provider billing.
+
 ## Compact Long Tasci Chats
 
 Tasci compacts model context when a configured `contextWindow` approaches its

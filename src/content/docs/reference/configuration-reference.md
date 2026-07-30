@@ -219,6 +219,39 @@ The host-owned `settings.json` file contains portable interface preferences,
 including Tasci's model preferences and its model and MCP server catalogs. It
 uses `camelCase` names and can be edited through **Workspace → Settings**.
 
+### Usage Cost Centers
+
+The optional `usage` object declares workspace-local cost centers for chat
+usage attribution:
+
+```json
+{
+  "usage": {
+    "defaultCostCenter": "client_alpha",
+    "costCenters": {
+      "client_alpha": {
+        "name": "Client Alpha"
+      },
+      "internal_research": {
+        "name": "Internal Research",
+        "archived": true
+      }
+    }
+  }
+}
+```
+
+Cost-center IDs are stable keys containing 1–64 ASCII letters, numbers,
+hyphens, or underscores. Their display names can be changed without changing
+chat assignments. An archived cost center remains available for historical
+attribution but cannot be the default for new chats.
+
+Manage declarations and the default under **Workspace → Settings → Usage**.
+The same page reports monthly token usage and locally calculated cost across
+all projects in the workspace. A chat's current assignment applies to its
+whole recorded history, including usage from archived chats; chats without an
+assignment appear under **Unassigned**.
+
 ### Harness Model Preferences
 
 The optional `chat.harnesses` object has `codex` and `claudeCode` entries. Each

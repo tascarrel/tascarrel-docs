@@ -93,9 +93,11 @@ Each server may define arbitrary HTTP header templates:
 ```
 
 Configure matching host-side secret-injection rules for placeholder-bearing
-values. The workspace network policy must also permit access to the endpoint.
-If one server is unavailable, Tasci starts without its tools and reports a
-warning instead of failing the harness.
+values. Set each rule's `paths` to the endpoint path, such as `["/mcp"]`, so
+the credential cannot be injected into another endpoint on the same host. The
+workspace network policy must also permit access to the endpoint. If one server
+is unavailable, Tasci starts without its tools and reports a warning instead of
+failing the harness.
 
 ## Start and Resume Chats
 

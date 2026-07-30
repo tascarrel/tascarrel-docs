@@ -45,7 +45,8 @@ can exhaust resources or make its own workspace unusable.
 - HTTP request activity is available for inspected HTTP and HTTPS traffic.
   HTTPS connections relayed without TLS termination remain opaque.
 - Every secret-injection rule must explicitly list its admitted HTTP methods;
-  methods not admitted by any rule matching the request host are rejected.
+  requests not admitted by any rule matching the host, optional path globs, and
+  method are rejected.
 - Nix builds currently perform egress as the workspace VM daemon, so network
   events are not attributed to the requesting pod.
 

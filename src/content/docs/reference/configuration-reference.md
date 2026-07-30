@@ -201,17 +201,24 @@ initially invalid configuration uses deny-all until it becomes valid.
 
 Each `[[network.secret-injection]]` entry supports:
 
-| Field         | Type and Default                       | Purpose                                                 |
-| ------------- | -------------------------------------- | ------------------------------------------------------- |
-| `host`        | Host pattern; required                 | Exact host or subdomain pattern to match                |
-| `methods`     | Non-empty array of strings; required   | Case-sensitive HTTP methods admitted for matching hosts |
-| `header`      | String; all eligible headers           | Limit placeholder lookup to one header                  |
-| `placeholder` | String; inferred from the secret name  | Value to replace                                        |
-| `secret`      | Provider-qualified reference; required | Host-owned value to insert                              |
+| Field         | Type and Default                       | Purpose                                                    |
+| ------------- | -------------------------------------- | ---------------------------------------------------------- |
+| `host`        | Host pattern; required                 | Exact host or subdomain pattern to match                   |
+| `paths`       | Non-empty array of globs; every path   | Absolute request path patterns to match                    |
+| `methods`     | Non-empty array of strings; required   | Case-sensitive methods admitted for matching host and path |
+| `header`      | String; all eligible headers           | Limit placeholder lookup to one header                     |
+| `placeholder` | String; inferred from the secret name  | Value to replace                                           |
+| `secret`      | Provider-qualified reference; required | Host-owned value to insert                                 |
 
 When a host matches one or more injection rules, the host proxy rejects a
-request unless at least one matching rule lists its method. Only rules listing
-the request method participate in secret injection.
+request unless at least one matching rule lists its method and matches its
+path. A rule without `paths` matches every path; an explicit array must contain
+between one and 64 patterns, each at most 2,048 bytes. Every pattern starts with
+`/`. Glob syntax supports `*`, `**`, `?`, character classes, and brace
+alternatives. A single `*` does not cross `/`, while `**` does. Query strings
+are ignored. A literal `/mcp` therefore admits only `/mcp`, while `/api/**`
+admits its descendants. Only rules admitting the complete request participate
+in secret injection.
 
 ## Portable Interface Settings
 

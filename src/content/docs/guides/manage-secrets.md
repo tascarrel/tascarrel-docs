@@ -57,6 +57,7 @@ Keep the credential value on the host by sending a placeholder:
 ```toml
 [[network.secret-injection]]
 host = "api.example.com"
+paths = ["/v1/models", "/v1/projects/*/models"]
 methods = ["GET", "HEAD"]
 header = "authorization"
 placeholder = "replace-with-api-token"
@@ -65,18 +66,24 @@ secret = "project.API_TOKEN"
 
 Tascarrel replaces the placeholder in matching `GET` and `HEAD` HTTP/1.1
 requests after they leave the workspace, so the credential never enters the
-workspace VM. It rejects other methods for `api.example.com` at the host proxy.
-HTTPS uses a per-workspace CA installed into common certificate bundles.
+workspace VM. It rejects other paths and methods for `api.example.com` at the
+host proxy. HTTPS uses a per-workspace CA installed into common certificate
+bundles.
 
 Set `header` whenever possible; otherwise, Tascarrel checks every eligible
 non-routing header. Every injection rule must list at least one syntactically
 valid, case-sensitive HTTP method. Host rules accept an exact name or
-`*.example.com` pattern. When several rules match a host, a method is admitted
-if at least one of those rules lists it, and only rules listing that method can
-inject. Rule and provider-configuration changes apply to new TCP flows after
-the network policy reloads; active flows retain their original rules. Updating
-a value in an existing provider takes effect on the next matching request
-without restarting the VM.
+`*.example.com` pattern. Optional `paths` is a non-empty array of absolute path
+glob patterns. The usual `*`, `**`, `?`, character-class, and brace-alternative
+forms are available. A single `*` does not cross `/`, while `**` does. Request
+query strings do not participate in matching. Omit `paths` to match every path;
+a literal `"/mcp"` remains an exact match. When several rules match a host, a
+request is admitted if at least one rule matches its path and method, and only
+rules admitting the complete request can inject. Rule and
+provider-configuration changes apply to new TCP flows after the network policy
+reloads; active flows retain their original rules. Updating a value in an
+existing provider takes effect on the next matching request without restarting
+the VM.
 
 ## Authenticate Tasci Traffic
 
@@ -101,6 +108,7 @@ Then configure the same placeholder for the provider host in `config.toml`:
 ```toml
 [[network.secret-injection]]
 host = "api.example.com"
+paths = ["/v1/chat/completions"]
 methods = ["POST"]
 header = "authorization"
 placeholder = "tascarrel-secret:model-api-token"
@@ -126,6 +134,17 @@ MCP servers accept an arbitrary map of header templates under
 }
 ```
 
-Configure one secret-injection rule for each placeholder-bearing header.
+Configure one secret-injection rule for each placeholder-bearing header:
+
+```toml
+[[network.secret-injection]]
+host = "mcp.example.com"
+paths = ["/mcp"]
+methods = ["GET", "POST", "DELETE"]
+header = "authorization"
+placeholder = "tascarrel-secret:mcp-api-token"
+secret = "project.MCP_API_TOKEN"
+```
+
 Streamable HTTP MCP connections use `POST` and may also use `GET` and `DELETE`,
 so authenticated servers commonly admit all three methods.

@@ -223,8 +223,9 @@ in secret injection.
 ## Portable Interface Settings
 
 The host-owned `settings.json` file contains portable interface preferences,
-including Tasci's model preferences and its model and MCP server catalogs. It
-uses `camelCase` names and can be edited through **Workspace → Settings**.
+including harness model preferences, a workspace Model Context Protocol (MCP)
+server catalog, and Tasci's model catalog. It uses `camelCase` names and can be
+edited through **Workspace → Settings**.
 
 ### Usage Cost Centers
 
@@ -271,7 +272,58 @@ entry supports:
 | `hiddenModels`   | Models omitted from ordinary selection controls       |
 | `favoriteModels` | Models shown before other visible models              |
 
-### Tasci Model Preferences, Endpoints, and MCP Servers
+### MCP Servers
+
+The optional `chat.mcpServers` object declares Streamable HTTP servers once for
+the workspace. Each server applies to every coding harness unless its
+`harnesses` array selects a subset:
+
+```json
+{
+  "chat": {
+    "mcpServers": {
+      "exa": {
+        "displayName": "Exa",
+        "endpoint": "https://mcp.exa.ai/mcp"
+      },
+      "private-tools": {
+        "endpoint": "https://mcp.example.com/mcp",
+        "headers": {
+          "Authorization": "Bearer tascarrel-secret:mcp-api-token",
+          "X-Workspace": "development"
+        },
+        "harnesses": ["Tasci", "ClaudeCode"]
+      }
+    }
+  }
+}
+```
+
+An MCP server supports:
+
+| Field         | Purpose                                                                        |
+| ------------- | ------------------------------------------------------------------------------ |
+| `displayName` | Optional interface label                                                       |
+| `endpoint`    | Absolute Streamable HTTP URL without credentials, a query, or a fragment       |
+| `headers`     | Optional map of HTTP header names to non-secret, placeholder-bearing templates |
+| `harnesses`   | Optional nonempty subset of `Tasci`, `Codex`, and `ClaudeCode`                 |
+
+Omitting `harnesses` selects all three harnesses. Tascarrel resolves the
+selection when it starts or attaches a harness session, so an existing session
+keeps its original MCP catalog.
+
+The map key becomes the native MCP server name. Tasci exposes model-visible tool
+names as `mcp__<server>__<tool>`; Codex and Claude Code retain their native tool
+naming. Configuring a server trusts all tools and descriptions it advertises.
+Header values may use any valid HTTP header text, including placeholders
+handled by `network.secret-injection`.
+
+This portable catalog deliberately covers the shared provider intersection:
+remote Streamable HTTP endpoints and static header templates. Configure local
+standard-I/O servers and provider-specific MCP features through the harness's
+native configuration when required.
+
+### Tasci Model Preferences and Endpoints
 
 Tasci is bundled with Tascarrel. Its `chat.tasci` settings map workspace-local
 model aliases to OpenAI-compatible Chat Completions endpoints:
@@ -304,19 +356,6 @@ model aliases to OpenAI-compatible Chat Completions endpoints:
           "displayName": "Development Model",
           "toolCalls": true
         }
-      },
-      "mcpServers": {
-        "exa": {
-          "displayName": "Exa",
-          "endpoint": "https://mcp.exa.ai/mcp"
-        },
-        "private-tools": {
-          "endpoint": "https://mcp.example.com/mcp",
-          "headers": {
-            "Authorization": "Bearer tascarrel-secret:mcp-api-token",
-            "X-Workspace": "development"
-          }
-        }
       }
     }
   }
@@ -325,15 +364,14 @@ model aliases to OpenAI-compatible Chat Completions endpoints:
 
 The Tasci object supports:
 
-| Field            | Purpose                                                |
-| ---------------- | ------------------------------------------------------ |
-| `defaultModel`   | Model alias selected for new chats                     |
-| `modelOrder`     | Model aliases placed first in the specified order      |
-| `hiddenModels`   | Models omitted from ordinary selection controls        |
-| `favoriteModels` | Models shown before other visible models               |
-| `endpoints`      | Inference endpoints keyed by workspace-local aliases   |
-| `models`         | Selectable models keyed by workspace-local aliases     |
-| `mcpServers`     | Streamable HTTP MCP servers keyed by workspace aliases |
+| Field            | Purpose                                              |
+| ---------------- | ---------------------------------------------------- |
+| `defaultModel`   | Model alias selected for new chats                   |
+| `modelOrder`     | Model aliases placed first in the specified order    |
+| `hiddenModels`   | Models omitted from ordinary selection controls      |
+| `favoriteModels` | Models shown before other visible models             |
+| `endpoints`      | Inference endpoints keyed by workspace-local aliases |
+| `models`         | Selectable models keyed by workspace-local aliases   |
 
 An endpoint supports:
 
@@ -372,19 +410,6 @@ A model supports:
 | `toolCalls`         | Whether the model supports structured tool calls     |
 | `parallelToolCalls` | Whether it supports parallel structured calls        |
 | `pricing`           | Optional versioned token prices for cost calculation |
-
-An MCP server supports:
-
-| Field         | Purpose                                                                        |
-| ------------- | ------------------------------------------------------------------------------ |
-| `displayName` | Optional interface label                                                       |
-| `endpoint`    | Absolute Streamable HTTP URL without credentials, a query, or a fragment       |
-| `headers`     | Optional map of HTTP header names to non-secret, placeholder-bearing templates |
-
-Tasci discovers every tool advertised by each server. Model-visible tool names
-use the `mcp__<server>__<tool>` namespace. Configuring a server trusts all tools
-and descriptions it advertises. Header values may use any valid HTTP header
-text, including placeholders handled by `network.secret-injection`.
 
 Tasci automatically projects streamed `reasoning_content` from compatible
 endpoints and retains it in assistant history. It requests streamed usage

@@ -140,8 +140,9 @@ extensions = [
 
 The Code view uses a workspace-level profile, so settings and extensions are
 reused across pods. Model preferences live in `settings.json`. Edit Codex and
-Claude Code preferences under **Settings → Harnesses** and Tasci endpoints,
-models, and MCP servers under **Settings → Tasci**.
+Claude Code preferences under **Settings → Harnesses**, shared Model Context
+Protocol (MCP) servers under **Settings → MCP**, and Tasci endpoints and models
+under **Settings → Tasci**.
 
 Configuration that changes the VM requires a restart. Image, seed, and
 initialization changes apply to newly created pods after their inputs are

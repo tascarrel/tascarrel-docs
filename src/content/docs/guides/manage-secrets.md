@@ -119,8 +119,10 @@ The OpenAI-compatible Chat Completions protocol uses `POST`, so the rule must
 admit that method. A placeholder mismatch leaves the template unchanged and
 normally causes the provider to reject the request.
 
-MCP servers accept an arbitrary map of header templates under
-`chat.tasci.mcpServers`:
+## Authenticate MCP Traffic
+
+Model Context Protocol (MCP) servers accept an arbitrary map of header
+templates under `chat.mcpServers`:
 
 ```json
 {

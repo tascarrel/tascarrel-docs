@@ -53,33 +53,41 @@ credential is inserted after the request leaves the workspace. The endpoint
 must also be reachable under the workspace's
 [network policy](/docs/guides/control-network-access).
 
-## Add MCP Tools to Tasci
+## Add MCP Tools to Coding Harnesses
 
 The Model Context Protocol (MCP) lets an agent call tools provided by an
-external service. Add Streamable HTTP servers under Tasci's workspace settings:
+external service. Add Streamable HTTP servers under **Workspace → Settings →
+MCP**. The catalog is shared by default, or a server can select only specific
+harnesses:
 
 ```json
 {
   "chat": {
-    "tasci": {
-      "mcpServers": {
-        "exa": {
-          "displayName": "Exa",
-          "endpoint": "https://mcp.exa.ai/mcp"
-        }
+    "mcpServers": {
+      "exa": {
+        "displayName": "Exa",
+        "endpoint": "https://mcp.exa.ai/mcp",
+        "harnesses": ["Tasci", "Codex", "ClaudeCode"]
       }
     }
   }
 }
 ```
 
-Tasci discovers every tool advertised by a configured server. It prefixes
-model-visible names with the server's settings name, so Exa's
-`web_search_exa` tool becomes `mcp__exa__web_search_exa`. Enabling a server
-therefore trusts all tools and tool descriptions that it advertises. Tool
-arguments, including search queries and URLs, leave the workspace and are sent
-to that server. Tasci accepts only text results and limits how much result text
-enters the model context.
+Omit `harnesses` to select all three harnesses. Tascarrel supplies the selected
+servers whenever it starts or attaches a new harness session. Tasci receives
+the servers in its native harness configuration, Codex receives
+`mcp_servers.<name>` process overrides, and Claude Code receives an additive
+`--mcp-config` without strict mode. Native MCP sources that Codex and Claude
+Code already load are not disabled.
+
+The harness discovers every tool advertised by a configured server. Tasci
+prefixes model-visible names with the server's settings name, so Exa's
+`web_search_exa` tool becomes `mcp__exa__web_search_exa`. Codex and Claude Code
+retain their native tool naming. Enabling a server therefore trusts all tools
+and tool descriptions that it advertises. Tool arguments, including search
+queries and URLs, leave the workspace and are sent to that server. Tasci accepts
+only text results and limits how much result text enters the model context.
 
 Each server may define arbitrary HTTP header templates:
 
@@ -96,8 +104,8 @@ Configure matching host-side secret-injection rules for placeholder-bearing
 values. Set each rule's `paths` to the endpoint path, such as `["/mcp"]`, so
 the credential cannot be injected into another endpoint on the same host. The
 workspace network policy must also permit access to the endpoint. If one server
-is unavailable, Tasci starts without its tools and reports a warning instead of
-failing the harness.
+is unavailable, startup and warning behavior follows the selected harness's
+native MCP client.
 
 ## Start and Resume Chats
 

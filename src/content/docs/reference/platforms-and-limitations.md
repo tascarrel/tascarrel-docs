@@ -58,9 +58,11 @@ can exhaust resources or make its own workspace unusable.
 - Tasci does not yet support steering or atomic interrupt-and-send. Its native
   session journal belongs to the associated pod; deleting the pod or journal
   prevents the stored chat from resuming its model context.
-- Tasci MCP support is limited to Streamable HTTP servers and text tool
-  results. MCP prompts, resources, local standard-I/O servers, and rich result
-  content are not supported.
+- The portable workspace Model Context Protocol (MCP) catalog supports
+  Streamable HTTP servers and static header templates. Local standard-I/O
+  servers and provider-specific MCP features require native harness
+  configuration. Tasci accepts only text tool results; it does not support MCP
+  prompts, resources, or rich result content.
 - Existing pods do not receive a rebuilt image, refreshed seed, or updated
   workspace agent inputs.
 - Host-share changes require a VM restart. Linux hosts prefer virtiofs; macOS

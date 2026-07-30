@@ -36,6 +36,7 @@ Start with the practical path:
 ## Common Tasks
 
 - [Configure a Workspace](/docs/guides/configure-a-workspace)
+- [Automate Workspace Workflows](/docs/guides/automate-workspace-workflows)
 - [Work with Coding Agents](/docs/guides/work-with-coding-agents)
 - [Review and Publish Changes](/docs/guides/review-and-publish-changes)
 - [Control Network Access](/docs/guides/control-network-access)

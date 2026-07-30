@@ -18,6 +18,8 @@ $TASCARREL_HOME/config/workspaces/<name>/
 │   ├── AGENTS.md
 │   ├── CLAUDE.md -> AGENTS.md
 │   └── skills/
+├── automations/         # Optional durable workflow definitions
+│   └── example.yaml
 ├── .sops.yaml            # Optional SOPS policy
 ├── secrets.json          # Optional SOPS-encrypted values
 ├── overlay/             # Optional
@@ -30,7 +32,9 @@ $TASCARREL_HOME/config/workspaces/<name>/
 The installer defaults `TASCARREL_HOME` to `$HOME/.tascarrel`.
 `config.toml` is limited to 4 MiB and rejects unknown or malformed fields.
 See the [configuration reference](/docs/reference/configuration-reference) for
-the complete schema.
+the complete `config.toml` schema. See
+[Automate Workspace Workflows](/docs/guides/automate-workspace-workflows) for
+the Automation YAML schema.
 
 When a workspace is created through the UI, the setup page generates
 `config.toml`, `image/Dockerfile`, and `agents/AGENTS.md` from the selected

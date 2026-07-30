@@ -116,6 +116,69 @@ Runtime-owned paths and overlapping cache destinations are rejected.
 A single `*` stays within one slash-delimited component; `**` crosses
 components.
 
+## Host Commands
+
+Host commands let authenticated workspace pods request narrowly configured
+processes on the physical host. Every request captures an immutable execution
+plan and requires host-side approval. The process runs as the Tascarrel host
+user without a separate container or virtual machine.
+
+```toml
+[host-commands.deploy]
+description = "Deploy one server from the captured infrastructure worktree"
+program = "nix"
+arguments = [
+  "develop",
+  "--command",
+  "bash",
+  "scripts/deploy.sh",
+  "${parameters.host}",
+]
+working-directory = "${inputs.infrastructure}"
+approval = "always"
+timeout-seconds = 7200
+
+[host-commands.deploy.parameters.host]
+required = true
+allowed-values = ["staging", "production"]
+
+[host-commands.deploy.inputs.infrastructure]
+repository = "infrastructure"
+capture = "working-tree"
+
+[host-commands.deploy.environment]
+inherit = ["HOME", "SSH_AUTH_SOCK"]
+```
+
+| Field                                                   | Type and Default                     | Purpose                                                                 |
+| ------------------------------------------------------- | ------------------------------------ | ----------------------------------------------------------------------- |
+| `host-commands.<name>.description`                      | String; unset                        | Purpose shown to callers and approvers                                  |
+| `host-commands.<name>.program`                          | String; required                     | Absolute executable or bare name resolved from hostd's `PATH`           |
+| `host-commands.<name>.arguments`                        | Array of strings; empty              | Trusted arguments and complete parameter or input placeholders          |
+| `host-commands.<name>.working-directory`                | String; private operation directory  | Absolute path, private relative path, or one complete input placeholder |
+| `host-commands.<name>.approval`                         | `"always"`                           | Require approval for every request                                      |
+| `host-commands.<name>.timeout-seconds`                  | Positive integer; unset              | Stop execution after the configured duration                            |
+| `host-commands.<name>.parameters.<name>.required`       | Boolean; `true` without a default    | Require the caller to supply the parameter                              |
+| `host-commands.<name>.parameters.<name>.default`        | String; unset                        | Value selected when the caller omits the parameter                      |
+| `host-commands.<name>.parameters.<name>.allowed-values` | Non-empty array; unset               | Complete finite set of accepted values                                  |
+| `host-commands.<name>.parameters.<name>.pattern`        | Rust regular expression; unset       | Pattern matched against the complete parameter value                    |
+| `host-commands.<name>.inputs.<name>.repository`         | Configured repository path; required | Repository captured from the requesting pod                             |
+| `host-commands.<name>.inputs.<name>.capture`            | Capture policy; `"working-tree"`     | Select `working-tree`, `clean-head`, `commit`, or `published-ref`       |
+| `host-commands.<name>.environment.inherit`              | Array of environment names; empty    | Resolve hostd environment values immediately before execution           |
+| `host-commands.<name>.environment.values`               | String map; empty                    | Add literal non-secret environment values                               |
+
+Placeholders must occupy an entire argument or the entire working-directory
+value. They use `${parameters.<name>}` or `${inputs.<name>}`. A
+`working-tree` input includes staged, unstaged, and non-ignored untracked
+files. A `published-ref` input accepts `HEAD` only when a remote-tracking ref
+can reach it.
+
+Hostd watches `config.toml`. Valid edits change the registered command catalog
+and apply to new requests after a short debounce without restarting hostd or
+the workspace VM. Existing operations retain the exact definition captured
+when they were requested. Invalid edits leave the preceding valid catalog
+active and expose a configuration error through command discovery.
+
 ## Network Policy
 
 | Field                     | Type and Default                            | Purpose                                                            |

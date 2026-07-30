@@ -30,6 +30,26 @@ different pod.
 
 Commands that return structured data emit JSON.
 
+## Host Operations
+
+Workspace configuration may register trusted commands which execute on the
+physical host after host-side approval.
+
+| Command                                                  | Behavior                                                    |
+| -------------------------------------------------------- | ----------------------------------------------------------- |
+| `podctl host operations commands`                        | Print the current caller-visible registered command catalog |
+| `podctl host operations run <COMMAND>`                   | Request a registered command and follow it to completion    |
+| `podctl host operations run <COMMAND> -p <NAME>=<VALUE>` | Supply one validated parameter; repeat `-p` as needed       |
+| `podctl host operations list`                            | Print durable operations initiated by this pod              |
+| `podctl host operations cancel <OPERATION_ID>`           | Withdraw an unapproved request or stop its active process   |
+
+`podctl host operations commands` reports each command's description, trusted
+program and argument templates, parameter validation, repository inputs,
+environment names without their values, and timeout. It also reports a
+configuration error when an invalid edit leaves the preceding valid catalog
+active. Valid `config.toml` edits appear after a short debounce without
+restarting the workspace.
+
 ## Host-Loopback Port Forwards
 
 | Command                                       | Behavior                                                                    |

@@ -92,7 +92,7 @@ repositories, images, network access, and settings. A selected pod provides:
 
 - **Agent** for chats and prompts.
 - **Code** for the embedded code editor.
-- **Changes** for Git status, commits, and diffs.
+- **Changes** for repository status and diffs, plus overlay-share approvals.
 - **Files** for quick previews below `/workspace`.
 - **Pod** for lifecycle details, supervised processes, and repository imports.
 

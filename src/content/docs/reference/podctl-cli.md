@@ -50,6 +50,27 @@ configuration error when an invalid edit leaves the preceding valid catalog
 active. Valid `config.toml` edits appear after a short debounce without
 restarting the workspace.
 
+## Overlay Share Approvals
+
+An `Overlay` host share retains filesystem changes in the current pod until a
+host client approves an exact revision. Submit the current revision after
+finishing the proposed changes:
+
+```console
+podctl shares submit source
+```
+
+| Command                              | Behavior                                                         |
+| ------------------------------------ | ---------------------------------------------------------------- |
+| `podctl shares submit <SHARE>`       | Create a durable approval request for the exact current revision |
+| `podctl shares list`                 | Print this pod's pending overlay approval requests               |
+| `podctl shares cancel <APPROVAL_ID>` | Withdraw a request while retaining every overlay change          |
+
+Submitting the same revision again returns its existing request. If the pod
+changes the overlay while that request is pending, cancel it before submitting
+the new revision. Approval applies only the submitted revision; a changed
+revision or a concurrent host edit leaves the complete overlay intact.
+
 ## Host-Loopback Port Forwards
 
 | Command                                       | Behavior                                                                    |

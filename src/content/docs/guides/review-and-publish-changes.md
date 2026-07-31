@@ -1,6 +1,6 @@
 ---
 order: 5
-description: Inspect repository changes and publish approved refs through host-mediated Git.
+description: Inspect repository and overlay changes, approve host-share updates, and publish Git refs.
 ---
 
 # Review and Publish Changes
@@ -34,8 +34,35 @@ The **Changes** view shows modified, staged, deleted, and untracked files, along
 with supported text diffs. It also reports commits ahead of or behind the local
 tracking ref; displaying that comparison does not fetch from the network.
 
+Pending overlay-share submissions appear in the same source list as changed
+repositories. Repository sources retain their Git-specific branch, commit, and
+history controls. Overlay sources instead show the submitted filesystem
+revision and its added, modified, deleted, or replaced paths.
+
 Run focused checks in a terminal and review the actual diff rather than relying
 only on an agent summary.
+
+## Review an Overlay Submission
+
+A pod submits the current revision of an `Overlay` share with:
+
+```console
+podctl shares submit <SHARE>
+```
+
+Select that pod and open **Changes** in the host UI. Select the `/mnt/<SHARE>`
+source to review its changed paths, existing and proposed entry types, and
+proposed file sizes. Tascarrel also shows a unified patch when the captured and
+proposed regular files are bounded UTF-8 text. Structural, binary, and large
+file changes use metadata-only review. Overlay submissions do not have commits
+or history.
+
+**Approve** applies only the exact submitted revision. Tascarrel first checks
+that the corresponding host entries have not changed independently, and it
+writes nothing if it finds a conflict. **Reject** closes the request without
+changing the host directory. If the pod changes its overlay after submitting,
+the stale request cannot be approved; reject it and have the pod submit the
+current revision.
 
 ## Set Publication Policy
 

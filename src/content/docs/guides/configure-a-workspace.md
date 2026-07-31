@@ -88,7 +88,15 @@ Every share requires an explicit access mode:
 - `ReadOnly` gives every pod an ownership-normalized, read-only view.
 - `Overlay` gives each pod an isolated copy-on-write view. Pod changes persist
   with that pod but do not modify the host directory. Tascarrel applies changes
-  only after an exact overlay revision has been inspected and approved.
+  only after an exact overlay revision has been submitted and approved:
+
+  ```console
+  podctl shares submit source
+  ```
+
+  The pending submission then appears alongside repository changes in the
+  selected pod's **Changes** view, where the host user can approve or reject it.
+
 - `ReadWrite` lets every pod modify the host directory directly.
 
 All modes expose the directory at `/mnt/<name>` in each pod without changing

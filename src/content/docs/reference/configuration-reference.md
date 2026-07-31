@@ -228,6 +228,13 @@ are ignored. A literal `/mcp` therefore admits only `/mcp`, while `/api/**`
 admits its descendants. Only rules admitting the complete request participate
 in secret injection.
 
+A host-port mapping enters the HTTP mediator when its pod-visible port appears
+in `network.http-ports` or `network.https-ports`. Secret-injection rules for
+these requests use `host.tascarrel.internal` as the logical request host. The
+proxy injects matching secrets, then forwards `Host` and a same-origin `Origin`
+as `localhost` to the loopback service. Mappings on other ports remain raw TCP
+connections and cannot use HTTP secret injection.
+
 ## Portable Interface Settings
 
 The host-owned `settings.json` file contains portable interface preferences,

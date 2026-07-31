@@ -43,8 +43,9 @@ packet captures.
 Current external network support is limited to TCP and captured DNS. Arbitrary
 UDP and external IPv6 are not implemented. HTTP inspection supports HTTP/1.1,
 including upgrades, but not HTTP/2, QUIC, or `CONNECT`. HTTPS requests appear
-in the HTTP request log only when a matching secret-injection rule already
-requires `hostd` to terminate TLS. Other HTTPS traffic remains encrypted.
+in the HTTP request log when a matching external secret-injection rule requires
+`hostd` to terminate TLS or when a host-port mapping classifies the pod-visible
+port as HTTPS. Other HTTPS traffic remains encrypted.
 
 ## Reach a Host Service
 
@@ -53,6 +54,7 @@ Expose selected host-loopback services to every pod:
 ```toml
 [network]
 host-ports = [3000, "5432:15432"]
+http-ports = [80, 3000]
 ```
 
 An integer maps the same port. The string form maps
@@ -62,6 +64,13 @@ An integer maps the same port. The string form maps
 host.tascarrel.internal:3000
 host.tascarrel.internal:15432
 ```
+
+The `http-ports` and `https-ports` lists classify pod-visible ports. Classified
+host-port connections pass through the HTTP mediator, so secret-injection rules
+can match `host.tascarrel.internal`. The mediator then forwards `Host` and a
+same-origin `Origin` as `localhost`, which presents the request as local to the
+host service. In this example, port 3000 is mediated while port 15432 remains a
+raw PostgreSQL connection.
 
 Other ports on that synthetic address remain denied. The **Pod → Host** tab can
 add a runtime mapping for one pod; it overrides a configured mapping with the

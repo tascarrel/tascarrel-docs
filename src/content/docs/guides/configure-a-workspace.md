@@ -72,23 +72,39 @@ pod:
 ```toml
 [shares.source]
 path = "~/src/product"
+mode = "Overlay"
+
+[shares.reference]
+path = "~/src/reference"
+mode = "ReadOnly"
 
 [shares.generated]
 path = "/srv/product/generated"
-writable = true
+mode = "ReadWrite"
 ```
 
-A share is read-only unless `writable = true` is set. Tascarrel presents an
-ownership-normalized view at `/mnt/shares/<name>` in the VM and exposes it
-through an idmapped bind at `/mnt/<name>` in each pod. It does not change the
-host directory's ownership.
+Every share requires an explicit access mode:
+
+- `ReadOnly` gives every pod an ownership-normalized, read-only view.
+- `Overlay` gives each pod an isolated copy-on-write view. Pod changes persist
+  with that pod but do not modify the host directory. Tascarrel applies changes
+  only after an exact overlay revision has been inspected and approved.
+- `ReadWrite` lets every pod modify the host directory directly.
+
+All modes expose the directory at `/mnt/<name>` in each pod without changing
+its host ownership. `ReadOnly` and `ReadWrite` shares also appear through an
+ownership-normalized view at `/mnt/shares/<name>` in the VM.
 
 Paths must be absolute or begin with `~/`, must resolve to directories, and
 cannot overlap Tascarrel's configuration, state, or runtime directories.
 Changing shares requires a workspace restart because the host pins the resolved
-paths while it creates the VM. A writable share deliberately crosses the main
-VM isolation boundary; only share directories whose contents every pod in the
-workspace may modify.
+paths while it creates the VM. `ReadWrite` deliberately grants every pod direct
+authority to modify the host directory. Prefer `Overlay` when pod changes
+should require a separate review.
+
+The legacy `writable` field is no longer accepted. Replace an omitted or false
+`writable` value with `mode = "ReadOnly"` and a true value with
+`mode = "ReadWrite"`.
 
 ## Set the Process Environment
 

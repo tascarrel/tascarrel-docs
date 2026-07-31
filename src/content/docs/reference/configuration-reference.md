@@ -47,17 +47,25 @@ Workspace `config.toml` files use `kebab-case` fields and are limited to 4 MiB.
 
 ## Host Shares
 
-| Field                    | Type and Default                         | Purpose                                             |
-| ------------------------ | ---------------------------------------- | --------------------------------------------------- |
-| `shares.<name>.path`     | Absolute or `~/`-relative path; required | Host directory exposed at `/mnt/<name>` in pods     |
-| `shares.<name>.writable` | Boolean; `false`                         | Permit the VM and pods to modify the host directory |
+| Field                | Type and Default                                | Purpose                                         |
+| -------------------- | ----------------------------------------------- | ----------------------------------------------- |
+| `shares.<name>.path` | Absolute or `~/`-relative path; required        | Host directory exposed at `/mnt/<name>` in pods |
+| `shares.<name>.mode` | `ReadOnly`, `ReadWrite`, or `Overlay`; required | Pod access policy                               |
+
+| Mode        | Behavior                                                                                              |
+| ----------- | ----------------------------------------------------------------------------------------------------- |
+| `ReadOnly`  | Every pod receives an ownership-normalized, read-only view                                            |
+| `ReadWrite` | Every pod reads and writes the host directory directly                                                |
+| `Overlay`   | Every pod receives an isolated copy-on-write view whose changes require explicit inspection and apply |
 
 Share names contain up to 64 ASCII letters, digits, `_`, or `-` and start with
 a letter or digit. Tascarrel resolves and pins at most 32 shares when the VM
-starts. Each directory appears at `/mnt/shares/<name>` in the VM and through an
-idmapped bind at `/mnt/<name>` in every pod. Duplicate directories and paths
-overlapping Tascarrel's configuration, state, or runtime trees are rejected.
-Share changes require a workspace restart.
+starts. Every mode exposes the share at `/mnt/<name>` in each pod.
+`ReadOnly` and `ReadWrite` shares also appear at `/mnt/shares/<name>` in the VM.
+Overlay changes are private to one pod and persist until they are applied or
+the pod is deleted. Duplicate directories and paths overlapping Tascarrel's
+configuration, state, or runtime trees are rejected. Share changes require a
+workspace restart.
 
 ## Configure Tools and Processes
 

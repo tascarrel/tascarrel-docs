@@ -33,7 +33,11 @@ The VM has no conventional network interface or implicit host filesystem mount.
 It receives a private control connection, immutable system image, persistent
 state disk, and explicitly attached USB devices. Named host shares are an
 explicit exception: configuring one exposes that host directory to every pod in
-the workspace, read-only by default or writable when requested.
+the workspace according to its required `ReadOnly`, `Overlay`, or `ReadWrite`
+mode. `ReadOnly` and `Overlay` keep the VM transport read-only. `Overlay`
+retains each pod's changes separately until an exact revision is inspected and
+explicitly applied on the host. `ReadWrite` lets every pod modify the host
+directory directly.
 
 Crossing this boundary unexpectedly would require a vulnerability in a trusted
 component such as the host kernel, hypervisor, QEMU device emulation, host
@@ -51,7 +55,10 @@ root and has no relationship to host root.
 Optional Docker, Podman, Nix, nested-virtualization, and USB features deliberately
 expand a pod's interface to the guest. Enable only what a workspace needs.
 Host shares expand the interface through the VM to selected host directories;
-writable shares should be treated as direct authority to modify their contents.
+`ReadWrite` shares should be treated as direct authority to modify their
+contents. An `Overlay` share grants read access and the ability to prepare
+changes for separate host-side approval, but not direct write access to the
+host directory.
 
 ## Pods Trust Their Workspace
 

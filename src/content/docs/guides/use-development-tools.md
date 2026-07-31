@@ -36,7 +36,11 @@ profile keeps settings and extensions available across pods.
 
 ## Inspect Files
 
-The **Files** view lazily browses `/workspace` and previews supported text and
-image files. It does not follow symbolic links, preventing traversal outside
-the workspace tree or through recursive links. Use Code or a terminal to edit
-files.
+The **Files** view lazily browses `/workspace`. Text previews use syntax
+highlighting, Markdown files offer rendered and source representations, and
+PDFs and images use dedicated viewers. The view does not follow symbolic links,
+preventing traversal outside the workspace tree or through recursive links.
+
+A link such as `[configuration](/workspace/project/config.toml)` in an agent
+message opens the same file viewer over the chat. Use Code or a terminal to
+edit files.

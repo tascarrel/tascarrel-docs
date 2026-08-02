@@ -426,6 +426,28 @@ A model supports:
 | `parallelToolCalls` | Whether it supports parallel structured calls        |
 | `pricing`           | Optional versioned token prices for cost calculation |
 
+Pricing associates a rate set with one model. Each monetary `amount` uses the
+currency's minor unit and applies to `tokenCount` tokens. For example, an
+`input` amount of `250` with currency `USD` and a token count of `1000000`
+means USD 2.50 per million input tokens:
+
+```json
+{
+  "catalogVersion": "provider:2026-08-01",
+  "tokenCount": 1000000,
+  "input": { "currency": "USD", "amount": 250 },
+  "cacheReadInput": { "currency": "USD", "amount": 25 },
+  "cacheWriteInput": { "currency": "USD", "amount": 300 },
+  "output": { "currency": "USD", "amount": 1000 }
+}
+```
+
+`catalogVersion`, `tokenCount`, `input`, and `output` are required.
+`cacheReadInput` and `cacheWriteInput` are optional; Tascarrel uses the ordinary
+input rate when either cache-specific rate is absent. Change the catalog version
+whenever any rate changes. Configure these values in the model editor under
+**Settings → Tasci** or in `settings.json`.
+
 Tasci automatically projects streamed `reasoning_content` from compatible
 endpoints and retains it in assistant history. It requests streamed usage
 metadata from compatible endpoints. When `contextWindow` is configured, Tasci

@@ -162,6 +162,15 @@ Token usage and cost estimates appear only when the harness reports enough
 data. Tasci can calculate costs from optional per-model pricing in
 `settings.json`. Provider billing remains authoritative.
 
+The chat status bar distinguishes cumulative **Tokens** from the model's
+current **Context**. Context appears as the occupied token count and, when
+known, the effective capacity, such as `42k / 200k`. A leading `~` marks a
+Tasci estimate. `N/A` means that the harness has not supplied a current
+observation, including after compaction and before the next model response.
+Codex reports context usage directly, Claude Code reports it with primary
+assistant usage, and Tasci estimates any context that its provider usage does
+not cover.
+
 To track work for different clients or internal projects, add cost centers
 under **Workspace → Settings → Usage** and optionally select a default for new
 chats. The chat composer shows the assignment for a new chat, and an existing
@@ -188,6 +197,10 @@ journal. Tasci commits each successful turn or compaction as one recoverable
 transaction before reporting completion. Only the context projected into
 subsequent model requests changes. The timeline reports successful and failed
 compaction attempts.
+
+After compaction, the status bar replaces the previous context count with
+Tasci's estimate for the compacted context. Other harnesses may briefly show
+`N/A` until they report their next context observation.
 
 The chat compaction action can also request this process while Tasci is idle.
 There must be enough older context to summarize; a short chat has no useful

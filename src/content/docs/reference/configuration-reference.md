@@ -430,7 +430,9 @@ Tasci automatically projects streamed `reasoning_content` from compatible
 endpoints and retains it in assistant history. It requests streamed usage
 metadata from compatible endpoints. When `contextWindow` is configured, Tasci
 uses reported usage when available and a conservative text estimate otherwise
-to trigger context compaction before later requests overflow.
+to trigger context compaction before later requests overflow. The same current
+observation appears in the chat status bar; estimated values have a leading
+`~`, while a missing observation appears as `N/A`.
 
 Model selectors qualify each model name with its endpoint display name, such
 as `GLM 5.2 (Melious)`. The endpoint alias is used when no display name is

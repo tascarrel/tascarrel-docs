@@ -63,7 +63,7 @@ are blocked unless `allow-local = true`, even with the default allow action.
 Hostname policy applies only where Tascarrel can inspect HTTP or HTTPS. The
 HTTP request log excludes query strings and encrypted pass-through HTTPS.
 
-## An Agent Cannot Start
+## An Agent Cannot Start or a Turn Fails
 
 Open **Workspace → Settings → Harnesses** and verify authentication. Then inspect
 the agent's supervised process output. Model availability and authentication
@@ -72,7 +72,9 @@ errors can originate from the harness provider rather than Tascarrel.
 For Tasci, also check **Settings → Tasci**, the selected endpoint and model, its
 authorization template, and the matching workspace network secret-injection
 rule. Tasci requires an OpenAI-compatible Chat Completions endpoint. Its
-supervised process log records harness startup, turns, and provider failures.
+failed turns include actionable provider diagnostics such as authentication,
+quota, and credit errors. Its supervised process log also records harness
+startup, turns, and provider failures.
 
 ## The Web Editor or a Preview Does Not Open
 

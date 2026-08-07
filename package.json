@@ -15,16 +15,16 @@
     "render:social-card": "node scripts/render-social-card.mjs"
   },
   "dependencies": {
-    "@astrojs/check": "0.9.9",
-    "@astrojs/mdx": "^5.0.4",
+    "@astrojs/check": "0.9.10",
+    "@astrojs/mdx": "^7.0.5",
     "@astrojs/rss": "^4.0.19",
-    "@astrojs/sitemap": "^3.7.2",
+    "@astrojs/sitemap": "^3.7.3",
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
     "@fortawesome/free-brands-svg-icons": "^6.7.2",
-    "@silitics/astro-docs": "^0.6.0",
-    "@silitics/astro-theme": "^0.6.0",
+    "@silitics/astro-docs": "^0.6.2",
+    "@silitics/astro-theme": "^0.6.4",
     "@tailwindcss/vite": "^4.1.4",
-    "astro": "^6.3.1",
+    "astro": "^7.2.0",
     "sharp": "^0.34.5",
     "tailwindcss": "^4.1.4",
     "typescript": "^5.8.3"
@@ -34,6 +34,6 @@
     "prettier-plugin-astro": "^0.14.1"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22.12.0"
   }
 }
